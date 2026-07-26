@@ -4,7 +4,7 @@ import path from "path";
 
 // Gemini build config
 export default defineConfig(({ mode }) => ({
-  base: mode === "production" ? "/MyMalaysiaCare/" : "/",
+  base: mode === "production" ? "/MyMalaysiaCare./" : "/",
   server: {
     host: "::",
     port: 8080,
