@@ -1,0 +1,258 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Hide editor/preview overlays */
+[id*="lov"][id*="ble"],
+[class*="lov"][class*="ble"],
+a[href*="lov"][href*="ble"],
+iframe[src*="lov"][src*="ble"] {
+  display: none !important;
+  visibility: hidden !important;
+  opacity: 0 !important;
+  pointer-events: none !important;
+}
+
+@layer base {
+  a, button, input, textarea, select, [role="button"] {
+    transition: color 150ms ease-out, background-color 150ms ease-out,
+      border-color 150ms ease-out, opacity 150ms ease-out,
+      transform 150ms ease-out, box-shadow 150ms ease-out;
+  }
+
+  html {
+    @apply scroll-smooth;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+      animation-duration: 0.01ms !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
+}
+
+
+/* Definition of the design system. All colors, gradients, fonts, etc should be defined here. 
+All colors MUST be HSL.
+*/
+
+@layer base {
+  :root {
+    /* Malaysian Environmental Theme - Tropical greens and ocean blues */
+    --background: 0 0% 100%;
+    --foreground: 158 64% 15%;
+
+    --card: 0 0% 100%;
+    --card-foreground: 158 64% 15%;
+
+    --popover: 0 0% 100%;
+    --popover-foreground: 158 64% 15%;
+
+    /* Vibrant Malaysian green - inspired by rainforests */
+    --primary: 158 64% 42%;
+    --primary-foreground: 0 0% 100%;
+    
+    /* Emerald accent */
+    --primary-light: 158 64% 52%;
+    
+    /* Ocean blue - Malaysian waters */
+    --secondary: 199 89% 48%;
+    --secondary-foreground: 0 0% 100%;
+    
+    /* Sky blue accent */
+    --secondary-light: 199 89% 58%;
+
+    --muted: 158 30% 96%;
+    --muted-foreground: 158 20% 45%;
+
+    --accent: 45 93% 47%;
+    --accent-foreground: 0 0% 100%;
+
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 0 0% 100%;
+
+    --border: 158 30% 90%;
+    --input: 158 30% 90%;
+    --ring: 158 64% 42%;
+
+    --radius: 0.75rem;
+    
+    /* Custom gradients */
+    --gradient-primary: linear-gradient(135deg, hsl(158, 64%, 42%) 0%, hsl(158, 64%, 52%) 100%);
+    --gradient-secondary: linear-gradient(135deg, hsl(199, 89%, 48%) 0%, hsl(199, 89%, 58%) 100%);
+    --gradient-hero: linear-gradient(135deg, hsl(158, 64%, 42%) 0%, hsl(199, 89%, 48%) 100%);
+    --gradient-warm: linear-gradient(135deg, hsl(45, 93%, 47%) 0%, hsl(25, 95%, 53%) 100%);
+    
+    /* Shadows */
+    --shadow-sm: 0 2px 8px hsl(158 64% 42% / 0.08);
+    --shadow-md: 0 4px 16px hsl(158 64% 42% / 0.12);
+    --shadow-lg: 0 8px 32px hsl(158 64% 42% / 0.16);
+    --shadow-xl: 0 12px 48px hsl(158 64% 42% / 0.2);
+  }
+
+  .dark {
+    --background: 158 30% 8%;
+    --foreground: 158 20% 95%;
+
+    --card: 158 25% 12%;
+    --card-foreground: 158 20% 95%;
+
+    --popover: 158 25% 12%;
+    --popover-foreground: 158 20% 95%;
+
+    --primary: 158 64% 48%;
+    --primary-foreground: 0 0% 100%;
+    
+    --primary-light: 158 64% 58%;
+
+    --secondary: 199 89% 52%;
+    --secondary-foreground: 0 0% 100%;
+    
+    --secondary-light: 199 89% 62%;
+
+    --muted: 158 25% 18%;
+    --muted-foreground: 158 20% 60%;
+
+    --accent: 45 93% 52%;
+    --accent-foreground: 0 0% 100%;
+
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 0 0% 100%;
+
+    --border: 158 25% 20%;
+    --input: 158 25% 20%;
+    --ring: 158 64% 48%;
+    
+    /* Dark mode gradients */
+    --gradient-primary: linear-gradient(135deg, hsl(158, 64%, 38%) 0%, hsl(158, 64%, 48%) 100%);
+    --gradient-secondary: linear-gradient(135deg, hsl(199, 89%, 44%) 0%, hsl(199, 89%, 54%) 100%);
+    --gradient-hero: linear-gradient(135deg, hsl(158, 64%, 38%) 0%, hsl(199, 89%, 44%) 100%);
+    --gradient-warm: linear-gradient(135deg, hsl(45, 93%, 43%) 0%, hsl(25, 95%, 49%) 100%);
+    
+    --shadow-sm: 0 2px 8px hsl(0 0% 0% / 0.3);
+    --shadow-md: 0 4px 16px hsl(0 0% 0% / 0.4);
+    --shadow-lg: 0 8px 32px hsl(0 0% 0% / 0.5);
+    --shadow-xl: 0 12px 48px hsl(0 0% 0% / 0.6);
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground;
+    font-family: 'Playfair Display', Georgia, 'Times New Roman', serif;
+    font-weight: 700;
+  }
+  
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-extrabold;
+  }
+}
+
+@layer utilities {
+  .gradient-primary {
+    background: var(--gradient-primary);
+  }
+  
+  .gradient-secondary {
+    background: var(--gradient-secondary);
+  }
+  
+  .gradient-hero {
+    background: var(--gradient-hero);
+  }
+  
+  .gradient-warm {
+    background: var(--gradient-warm);
+  }
+  
+  .shadow-custom-sm {
+    box-shadow: var(--shadow-sm);
+  }
+  
+  .shadow-custom-md {
+    box-shadow: var(--shadow-md);
+  }
+  
+  .shadow-custom-lg {
+    box-shadow: var(--shadow-lg);
+  }
+  
+  .shadow-custom-xl {
+    box-shadow: var(--shadow-xl);
+  }
+  
+  .animate-float {
+    animation: none;
+  }
+
+  .animate-glow {
+    animation: none;
+  }
+
+  .animate-slide-down {
+    animation: slideDown 0.2s ease-out forwards;
+  }
+
+  @keyframes slideDown {
+    from {
+      opacity: 0;
+      transform: translateY(-6px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .animate-bounce-in {
+    animation: bounceIn 0.25s ease-out;
+  }
+
+  @keyframes bounceIn {
+    from {
+      opacity: 0;
+      transform: scale(0.96);
+    }
+    to {
+      opacity: 1;
+      transform: scale(1);
+    }
+  }
+
+  /* Smooth accordion animations (scoped to radix accordion only) */
+  [data-radix-accordion-content][data-state="open"] {
+    animation: accordionSlideDown 0.2s ease-out;
+  }
+
+  [data-radix-accordion-content][data-state="closed"] {
+    animation: accordionSlideUp 0.15s ease-out;
+  }
+
+  
+  @keyframes accordionSlideDown {
+    from {
+      height: 0;
+      opacity: 0;
+    }
+    to {
+      height: var(--radix-accordion-content-height);
+      opacity: 1;
+    }
+  }
+  
+  @keyframes accordionSlideUp {
+    from {
+      height: var(--radix-accordion-content-height);
+      opacity: 1;
+    }
+    to {
+      height: 0;
+      opacity: 0;
+    }
+  }
+}

@@ -1,0 +1,250 @@
+[
+  {
+    "id": 13,
+    "name": "Kuala Lumpur Recycling Centre",
+    "type": "recycling",
+    "lat": 3.139,
+    "lng": 101.6869,
+    "address": "Jalan Ampang, Kuala Lumpur",
+    "hours": "Mon-Sat: 8AM-6PM",
+    "accepts": [
+      "plastic",
+      "paper",
+      "glass",
+      "metal",
+      "cardboard"
+    ]
+  },
+  {
+    "id": 14,
+    "name": "Petaling Jaya Recycling Hub",
+    "type": "recycling",
+    "lat": 3.1073,
+    "lng": 101.6067,
+    "address": "Section 14, Petaling Jaya, Selangor",
+    "hours": "Mon-Sat: 9AM-5PM",
+    "accepts": [
+      "plastic",
+      "paper",
+      "glass",
+      "metal"
+    ]
+  },
+  {
+    "id": 15,
+    "name": "Shah Alam Waste Collection",
+    "type": "recycling",
+    "lat": 3.0738,
+    "lng": 101.5183,
+    "address": "Section 13, Shah Alam, Selangor",
+    "hours": "Daily: 8AM-6PM",
+    "accepts": [
+      "plastic",
+      "paper",
+      "glass",
+      "metal",
+      "cardboard"
+    ]
+  },
+  {
+    "id": 16,
+    "name": "Subang Jaya Recycling Center",
+    "type": "recycling",
+    "lat": 3.0449,
+    "lng": 101.585,
+    "address": "SS15, Subang Jaya, Selangor",
+    "hours": "Mon-Sat: 8AM-6PM",
+    "accepts": [
+      "plastic",
+      "paper",
+      "glass",
+      "metal"
+    ]
+  },
+  {
+    "id": 17,
+    "name": "Penang Recycling Centre",
+    "type": "recycling",
+    "lat": 5.4164,
+    "lng": 100.3327,
+    "address": "Jalan Macalister, Georgetown, Penang",
+    "hours": "Mon-Sat: 9AM-5PM",
+    "accepts": [
+      "plastic",
+      "paper",
+      "glass",
+      "metal",
+      "cardboard"
+    ]
+  },
+  {
+    "id": 18,
+    "name": "Johor Bahru Recycling Hub",
+    "type": "recycling",
+    "lat": 1.4927,
+    "lng": 103.7414,
+    "address": "Taman Molek, Johor Bahru, Johor",
+    "hours": "Mon-Sat: 7AM-7PM",
+    "accepts": [
+      "plastic",
+      "paper",
+      "glass",
+      "metal",
+      "cardboard"
+    ]
+  },
+  {
+    "id": 19,
+    "name": "Ipoh Recycling Point",
+    "type": "recycling",
+    "lat": 4.5975,
+    "lng": 101.0901,
+    "address": "Greentown, Ipoh, Perak",
+    "hours": "Mon-Fri: 9AM-5PM",
+    "accepts": [
+      "plastic",
+      "paper",
+      "glass",
+      "metal"
+    ]
+  },
+  {
+    "id": 20,
+    "name": "Melaka Recycling Center",
+    "type": "recycling",
+    "lat": 2.1896,
+    "lng": 102.2501,
+    "address": "Batu Berendam, Melaka",
+    "hours": "Mon-Sat: 8AM-5PM",
+    "accepts": [
+      "plastic",
+      "paper",
+      "glass",
+      "metal",
+      "cardboard"
+    ]
+  },
+  {
+    "id": 21,
+    "name": "Kuching Recycling Hub",
+    "type": "recycling",
+    "lat": 1.5535,
+    "lng": 110.3593,
+    "address": "Pending, Kuching, Sarawak",
+    "hours": "Mon-Sat: 8AM-6PM",
+    "accepts": [
+      "plastic",
+      "paper",
+      "glass",
+      "metal"
+    ]
+  },
+  {
+    "id": 22,
+    "name": "Kota Kinabalu Recycling Point",
+    "type": "recycling",
+    "lat": 5.9804,
+    "lng": 116.0735,
+    "address": "Sembulan, Kota Kinabalu, Sabah",
+    "hours": "Mon-Fri: 9AM-5PM",
+    "accepts": [
+      "plastic",
+      "paper",
+      "glass",
+      "metal",
+      "cardboard"
+    ]
+  },
+  {
+    "id": 23,
+    "name": "KL E-Waste Collection Centre",
+    "type": "ewaste",
+    "lat": 3.1478,
+    "lng": 101.6953,
+    "address": "Jalan Raja Laut, Kuala Lumpur",
+    "hours": "Mon-Sat: 9AM-5PM",
+    "accepts": [
+      "computers",
+      "phones",
+      "tablets",
+      "batteries",
+      "appliances"
+    ]
+  },
+  {
+    "id": 24,
+    "name": "Penang E-Waste Drop-off",
+    "type": "ewaste",
+    "lat": 5.4164,
+    "lng": 100.3327,
+    "address": "Komtar, Georgetown, Penang",
+    "hours": "Daily: 9AM-5PM",
+    "accepts": [
+      "electronics",
+      "batteries",
+      "appliances",
+      "cables"
+    ]
+  },
+  {
+    "id": 25,
+    "name": "Ipoh E-Waste Collection",
+    "type": "ewaste",
+    "lat": 4.5975,
+    "lng": 101.0901,
+    "address": "Medan Kidd, Ipoh, Perak",
+    "hours": "Mon-Fri: 9AM-5PM",
+    "accepts": [
+      "computers",
+      "phones",
+      "batteries",
+      "monitors"
+    ]
+  },
+  {
+    "id": 26,
+    "name": "JB E-Waste Disposal",
+    "type": "ewaste",
+    "lat": 1.4927,
+    "lng": 103.7414,
+    "address": "Kota Raya, Johor Bahru, Johor",
+    "hours": "Mon-Sat: 8AM-6PM",
+    "accepts": [
+      "electronics",
+      "batteries",
+      "appliances",
+      "phones"
+    ]
+  },
+  {
+    "id": 27,
+    "name": "Selangor E-Waste Hub",
+    "type": "ewaste",
+    "lat": 3.0738,
+    "lng": 101.5183,
+    "address": "Section 2, Shah Alam, Selangor",
+    "hours": "Mon-Sat: 9AM-5PM",
+    "accepts": [
+      "computers",
+      "phones",
+      "tablets",
+      "batteries",
+      "appliances",
+      "monitors"
+    ]
+  },
+  {
+    "id": 28,
+    "name": "Melaka E-Waste Center",
+    "type": "ewaste",
+    "lat": 2.1896,
+    "lng": 102.2501,
+    "address": "Bukit Baru, Melaka",
+    "hours": "Mon-Fri: 9AM-5PM",
+    "accepts": [
+      "electronics",
+      "batteries",
+      "appliances"
+    ]
+  }
+]

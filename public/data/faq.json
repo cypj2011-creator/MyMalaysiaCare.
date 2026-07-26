@@ -1,0 +1,62 @@
+[
+  {
+    "question": "How do I recycle plastic bottles?",
+    "answer": "Rinse plastic bottles, remove caps and labels, and drop them at any recycling center. Look for recycling centers on our Map page.",
+    "keywords": ["plastic", "bottle", "recycle"],
+    "link": "/map"
+  },
+  {
+    "question": "Where can I dispose of batteries?",
+    "answer": "Batteries are e-waste and should be disposed at designated e-waste collection points. Never throw batteries in regular trash! Find e-waste centers on our Map.",
+    "keywords": ["battery", "batteries", "ewaste", "e-waste"],
+    "link": "/map"
+  },
+  {
+    "question": "What items can be recycled?",
+    "answer": "Common recyclable items include: plastic bottles, paper, cardboard, glass bottles, aluminum cans, and clean metal containers. Use our RecycAI Scanner to check specific items!",
+    "keywords": ["recycle", "recyclable", "items", "what"],
+    "link": "/recycle"
+  },
+  {
+    "question": "How does the AI scanner work?",
+    "answer": "Our RecycAI Scanner uses TensorFlow.js AI to identify items from photos. Simply upload or capture an image, and it will tell you if the item is recyclable and provide disposal tips.",
+    "keywords": ["scanner", "ai", "how", "work"],
+    "link": "/recycle"
+  },
+  {
+    "question": "What should I do during a flood?",
+    "answer": "During floods: Move to higher ground, avoid floodwater, keep emergency supplies ready, and go to the nearest flood shelter. Check our Safety Guide for detailed flood preparedness tips.",
+    "keywords": ["flood", "disaster", "emergency", "safety"],
+    "link": "/safety"
+  },
+  {
+    "question": "How can I reduce plastic waste?",
+    "answer": "Reduce plastic by: using reusable bags, bottles, and containers; avoiding single-use plastics; choosing products with minimal packaging. Learn more on our Protect the Environment page.",
+    "keywords": ["reduce", "plastic", "waste", "environment"],
+    "link": "/protect"
+  },
+  {
+    "question": "Where are recycling centers in Penang?",
+    "answer": "Check our interactive Map to find recycling centers in Penang. We have e-waste collection points in Georgetown and recycling hubs across the island.",
+    "keywords": ["penang", "center", "location", "where"],
+    "link": "/map"
+  },
+  {
+    "question": "Can I recycle pizza boxes?",
+    "answer": "Only recycle pizza boxes if they're clean and grease-free. Greasy boxes contaminate recycling and should go to compost or trash. Use our AI Scanner to check!",
+    "keywords": ["pizza", "box", "cardboard", "grease"],
+    "link": "/recycle"
+  },
+  {
+    "question": "What is e-waste?",
+    "answer": "E-waste includes electronic devices like phones, computers, batteries, appliances, and chargers. These contain hazardous materials and must be disposed at special e-waste centers.",
+    "keywords": ["ewaste", "e-waste", "electronic", "device"],
+    "link": "/learn"
+  },
+  {
+    "question": "How do I prepare for haze?",
+    "answer": "During haze: Stay indoors, use air purifiers, wear N95 masks outdoors, drink plenty of water, and monitor air quality index. See our Safety Guide for complete haze preparedness.",
+    "keywords": ["haze", "air", "pollution", "mask"],
+    "link": "/safety"
+  }
+]
