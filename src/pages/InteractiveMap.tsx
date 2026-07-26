@@ -122,7 +122,7 @@ const InteractiveMap = () => {
 
   useEffect(() => {
     const ensureRouteBase = () => {
-      if (window.location.pathname.startsWith("/MyMalaysiaCare/")) {
+      if (window.location.pathname.startsWith("/MyMalaysiaCare./")) {
         const target = `/${window.location.search}${window.location.hash}`;
         window.history.replaceState(null, "", target);
       }
