@@ -121,17 +121,6 @@ const InteractiveMap = () => {
   }, [t, fetchWithTimeout, mergeLocations]);
 
   useEffect(() => {
-    const ensureRouteBase = () => {
-      if (window.location.pathname.startsWith("/MyMalaysiaCare./")) {
-        const target = `/${window.location.search}${window.location.hash}`;
-        window.history.replaceState(null, "", target);
-      }
-    };
-
-    ensureRouteBase();
-  }, []);
-
-  useEffect(() => {
     if (!mapContainerRef.current || mapRef.current) return;
 
     // Initialize map
