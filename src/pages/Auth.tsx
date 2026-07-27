@@ -173,6 +173,9 @@ const Auth = () => {
                 <Button type="submit" className="w-full" disabled={loading}>
                   {loading ? "Signing in..." : t("signInButton")}
                 </Button>
+                  <p className="text-center text-xs text-muted-foreground pt-2">
+                  Protected And Secured By Supabase
+                </p>
               </form>
             </TabsContent>
             <TabsContent value="signup">
