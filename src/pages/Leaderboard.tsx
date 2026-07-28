@@ -27,25 +27,20 @@ const Leaderboard = () => {
   useEffect(() => {
     (async () => {
       setLoading(true);
-      const [{ data: profiles }, { data: scans }] = await Promise.all([
-        supabase.from("profiles").select("id, username, email"),
-        supabase.from("scan_history").select("user_id, recyclable"),
-      ]);
+      const { data, error } = await supabase.rpc("get_leaderboard");
 
-      const counts = new Map<string, number>();
-      (scans ?? []).forEach((s: any) => {
-        if (s.recyclable) counts.set(s.user_id, (counts.get(s.user_id) ?? 0) + 1);
-      });
-
-      const merged: Row[] = (profiles ?? []).map((p: any) => ({
-        user_id: p.id,
-        username: p.username,
-        email: p.email,
-        points: counts.get(p.id) ?? 0,
-      }));
-
-      merged.sort((a, b) => b.points - a.points);
-      setRows(merged);
+if (error) {
+  console.error("Leaderboard fetch error:", error);
+  setRows([]);
+} else {
+  const merged: Row[] = (data ?? []).map((r: any) => ({
+    user_id: r.user_id,
+    username: r.username,
+    email: null,
+    points: Number(r.points),
+  }));
+  setRows(merged);
+}
       setLoading(false);
     })();
   }, []);
