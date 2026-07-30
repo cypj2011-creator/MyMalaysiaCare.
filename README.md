@@ -6,6 +6,8 @@ Built for Coolest Projects Malaysia (Web category)
 🌏 Live Site
 https://cypj2011-creator.github.io/MyMalaysiaCare./
 
+Coded in VSC published in github for more tidy code and publishing.
+
 Features
 AI Recycling Scanner (/recycle)
 Upload or capture a photo of an item and get instant analysis: category, whether it's recyclable, disposal instructions, and a relevant eco fact. Powered by Google Gemini 2.5 Flash vision API.
