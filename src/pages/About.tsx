@@ -1,6 +1,7 @@
 import { Card } from "@/components/ui/card";
 import { Leaf, Lightbulb, Users, Target, Award, Code, Recycle, Trash2, BarChart3, Monitor } from "lucide-react";
 import { useTranslation } from "@/hooks/useTranslation";
+import { Link } from "react-router-dom";
 
 const About = () => {
   const { t } = useTranslation();
@@ -177,16 +178,16 @@ const About = () => {
           {t("everyAction")}
         </p>
         <div className="flex flex-col sm:flex-row gap-4 justify-center">
-          <a href="/recycle">
-            <button className="px-8 py-3 rounded-lg gradient-primary text-white font-semibold shadow-custom-lg hover:shadow-custom-xl transition-shadow">
-              {t("startScanning")}
-            </button>
-          </a>
-          <a href="/learn">
-            <button className="px-8 py-3 rounded-lg border-2 border-primary text-primary font-semibold hover:bg-primary/5 transition-colors">
-              {t("learnMore")}
-            </button>
-          </a>
+         <Link to="/recycle">
+  <button className="px-8 py-3 rounded-lg gradient-primary text-white font-semibold shadow-custom-lg hover:shadow-custom-xl transition-shadow">
+    {t("startScanning")}
+  </button>
+</Link>
+<Link to="/learn">
+  <button className="px-8 py-3 rounded-lg border-2 border-primary text-primary font-semibold hover:bg-primary/5 transition-colors">
+    {t("learnMore")}
+  </button>
+</Link>
         </div>
       </div>
     </div>
