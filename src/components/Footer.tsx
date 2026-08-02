@@ -14,7 +14,7 @@ const Footer = () => {
           <div className="space-y-3">
             <div className="flex items-center space-x-2">
               <div className="w-10 h-10 rounded-full gradient-hero flex items-center justify-center">
-                <Leaf className="w-6 h-6 text-white" />
+                <img src={`${import.meta.env.BASE_URL}logo.png`} alt="MyMalaysiaCare logo" className="w-full h-full object-cover" />
               </div>
               <span className="font-bold text-lg bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">
                 MyMalaysiaCare
