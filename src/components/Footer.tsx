@@ -64,24 +64,21 @@ const Footer = () => {
             <h3 className="font-semibold mb-3">Connect</h3>
             <div className="space-y-2">
               <a
-                href="mailto:info@mymalaysiacare.com"
+                href="cypj2011@gmail.com"
                 className="flex items-center space-x-2 text-sm text-muted-foreground hover:text-primary transition-colors"
               >
-               href="mailto:cypj2011@gmail.com"
-  className="flex items-center space-x-2 text-sm text-muted-foreground hover:text-primary transition-colors"
->
-  <Mail size={16} />
-  <span>Contact Us</span>
-</a>
-
-  href="https://github.com/cypj2011-creator/MyMalaysiaCare."
-  target="_blank"
-  rel="noopener noreferrer"
-  className="flex items-center space-x-2 text-sm text-muted-foreground hover:text-primary transition-colors"
->
-  <Github size={16} />
-  <span>Open Source</span>
-</a>
+                <Mail size={16} />
+                <span>Contact Us</span>
+              </a>
+              <a
+                href="https://github.com/cypj2011-creator/MyMalaysiaCare."
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center space-x-2 text-sm text-muted-foreground hover:text-primary transition-colors"
+              >
+                <Github size={16} />
+                <span>Open Source</span>
+              </a>
             </div>
           </div>
         </div>
