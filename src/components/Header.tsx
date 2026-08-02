@@ -39,7 +39,7 @@ const Header = () => {
       <nav className="container mx-auto px-4 h-16 flex items-center justify-between">
         <Link to="/" className="flex items-center space-x-2 group min-w-0">
           <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-full overflow-hidden flex items-center justify-center flex-shrink-0">
-  <img src="/logo.png" alt="MyMalaysiaCare logo" className="w-full h-full object-cover" />
+  <img src={`${import.meta.env.BASE_URL}logo.png`} alt="MyMalaysiaCare logo" className="w-full h-full object-cover" />
 </div>
           <span className="font-bold text-base sm:text-xl bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent break-words leading-tight">
             MyMalaysiaCare
