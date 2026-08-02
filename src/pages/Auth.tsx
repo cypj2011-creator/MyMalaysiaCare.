@@ -134,7 +134,7 @@ const Auth = () => {
         <CardHeader className="text-center">
           <div className="flex justify-center mb-4">
             <div className="bg-primary/10 p-3 rounded-full">
-              <Leaf className="w-8 h-8 text-primary" />
+              <img src={`${import.meta.env.BASE_URL}logo.png`} alt="MyMalaysiaCare logo" className="w-8 h-8 object-cover rounded-full" />
             </div>
           </div>
           <CardTitle className="text-2xl">{t("welcome")}</CardTitle>
