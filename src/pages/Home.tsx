@@ -51,7 +51,8 @@ const Home = () => {
       <section className="relative py-20 px-4 overflow-hidden">
         <div className="absolute inset-0 gradient-hero opacity-10 -z-10" />
         <div className="container mx-auto text-center max-w-4xl">
-          <h1 className="text-4xl md:text-6xl font-bold mb-6 bg-gradient-to-r from-primary via-secondary to-primary bg-clip-text text-transparent animate-fade-in leading-[1.15] pb-2">
+          <h1 className="text-[clamp(1.75rem,9vw,3.75rem)] md:text-6xl font-bold mb-6 bg-gradient-to-r from-primary via-secondary to-primary bg-clip-text text-transparent animate-fade-in leading-[1.15] pb-2 px-2 break-words hyphens-none max-w-full">
+            MyMalaysiaCare
             MyMalaysiaCare
           </h1>
           
