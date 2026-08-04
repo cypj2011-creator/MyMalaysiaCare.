@@ -123,7 +123,24 @@ const Auth = () => {
       toast({
         title: "Welcome back!",
         description: "You've successfully signed in.",
+       });
+    }
+    setLoading(false);
+  };
+
+  const handleGuest = async () => {
+    setLoading(true);
+    const { error } = await supabase.auth.signInAnonymously();
+    if (error) {
+      toast({
+        title: "Guest sign in failed",
+        description: friendlyError(error.message, (error as any).code),
+        variant: "destructive",
       });
+    } else {
+      toast({
+        title: "Signed in as guest",
+        description: "You're browsing anonymously. Your scans are saved to this guest account.",
     }
     setLoading(false);
   };
@@ -211,6 +228,28 @@ const Auth = () => {
               </form>
             </TabsContent>
           </Tabs>
+
+          <div className="relative my-6">
+            <div className="absolute inset-0 flex items-center">
+              <span className="w-full border-t" />
+            </div>
+            <div className="relative flex justify-center text-xs uppercase">
+              <span className="bg-card px-2 text-muted-foreground">or</span>
+            </div>
+          </div>
+
+          <Button
+            type="button"
+            variant="outline"
+            className="w-full"
+            disabled={loading}
+            onClick={handleGuest}
+          >
+            <UserRound className="w-4 h-4 mr-2" />
+            Continue as Guest
+          </Button>
+          <p className="text-center text-xs text-muted-foreground pt-2">
+            No email needed. You can create a full account later.
         </CardContent>
       </Card>
     </div>
