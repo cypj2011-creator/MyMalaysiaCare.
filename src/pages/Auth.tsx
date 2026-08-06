@@ -149,7 +149,6 @@ const Auth = () => {
   return (
     <div className="min-h-screen flex items-start justify-center bg-gradient-to-br from-background via-background to-primary/5 px-4 py-12">
       <Card className="w-full max-w-md animate-scale-in">
-      <Card className="w-full max-w-md animate-scale-in">
         <CardHeader className="text-center">
           <div className="flex justify-center mb-4">
             <div className="bg-primary/10 p-3 rounded-full">
