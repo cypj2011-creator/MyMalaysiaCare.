@@ -21,12 +21,14 @@ const Header = () => {
     localStorage.setItem("lang", v);
     window.dispatchEvent(new Event("languageChange"));
   };
+  
+  const isGuest = !!(user as any)?.is_anonymous;
 
   const navItems = [
     { path: "/", label: "Home", key: "home" },
     { path: "/recycle", label: "RecycAI", key: "recycAI" },
     { path: "/map", label: "Map", key: "map" },
-    { path: "/dashboard", label: "Dashboard", key: "dashboard" },
+    ...(isGuest ? [] : [{ path: "/dashboard", label: "Dashboard", key: "dashboard" }]),
     { path: "/leaderboard", label: "Leaderboard", key: "leaderboard" },
     { path: "/learn", label: "Learn", key: "learn" },
     { path: "/about", label: "About", key: "about" },
