@@ -4,6 +4,7 @@ import { Trophy, Medal, Award, Recycle } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { useTranslation } from "@/hooks/useTranslation";
 import { useAuth } from "@/hooks/useAuth";
+import { useToast } from "@/hooks/use-toast";
 
 interface Row {
   user_id: string;
@@ -21,10 +22,17 @@ const displayName = (r: Row) => {
 const Leaderboard = () => {
   const { t } = useTranslation();
   const { user } = useAuth();
+  const { toast } = useToast();
   const [rows, setRows] = useState<Row[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    if (user?.is_anonymous) {
+      toast({
+        title: "You're browsing as a guest",
+        description: "Guest accounts don't appear on the leaderboard. Sign up to save your progress and compete!",
+      });
+    }
     (async () => {
       setLoading(true);
       const { data, error } = await supabase.rpc("get_leaderboard");
