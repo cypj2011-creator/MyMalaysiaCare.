@@ -141,6 +141,7 @@ const Auth = () => {
       toast({
         title: "Signed in as guest",
         description: "You're browsing anonymously. Your scans are saved to this guest account.",
+      });
     }
     setLoading(false);
   };
@@ -250,6 +251,7 @@ const Auth = () => {
           </Button>
           <p className="text-center text-xs text-muted-foreground pt-2">
             No email needed. You can create a full account later.
+          </p>
         </CardContent>
       </Card>
     </div>
