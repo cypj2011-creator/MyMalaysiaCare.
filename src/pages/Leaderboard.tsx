@@ -108,3 +108,4 @@ if (error) {
 };
 
 export default Leaderboard;
+
