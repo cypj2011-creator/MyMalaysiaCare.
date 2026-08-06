@@ -44,10 +44,20 @@ const Dashboard = () => {
   const [editingName, setEditingName] = useState(false);
   const [nameDraft, setNameDraft] = useState("");
   const [savingName, setSavingName] = useState(false);
+  const isGuest = !!(user as any)?.is_anonymous;
 
   useEffect(() => {
-    if (!authLoading && !user) navigate("/auth");
-  }, [user, authLoading, navigate]);
+     if (authLoading) return;
+    if (!user) {
+      navigate("/auth");
+    } else if (isGuest) {
+      toast({
+        title: "Guest account",
+        description: "Create a full account to access your dashboard.",
+      });
+      navigate("/auth");
+    }
+  }, [user, isGuest, authLoading, navigate, toast]);
 
   useEffect(() => {
     if (!user) return;
