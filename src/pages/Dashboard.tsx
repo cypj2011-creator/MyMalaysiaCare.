@@ -51,11 +51,7 @@ const Dashboard = () => {
     if (!user) {
       navigate("/auth");
     } else if (isGuest) {
-      toast({
-        title: "Guest account",
-        description: "Create a full account to access your dashboard.",
-      });
-      navigate("/auth");
+      navigate("/");
     }
   }, [user, isGuest, authLoading, navigate, toast]);
 
