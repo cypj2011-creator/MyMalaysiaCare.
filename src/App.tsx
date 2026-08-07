@@ -56,7 +56,6 @@ const App = () => (
         </main>
         <Footer />
         <ChatBot />
-        <GuestUpgradeNotice />
         <GuestSessionCleanup />
       </HashRouter>
     </TooltipProvider>
