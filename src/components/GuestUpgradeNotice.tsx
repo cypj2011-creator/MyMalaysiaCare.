@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
-import { Sparkles, X } from "lucide-react";
+import { X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent } from "@/components/ui/dialog";
 import { useAuth } from "@/hooks/useAuth";
@@ -60,9 +60,13 @@ const GuestUpgradeNotice = () => {
           <X className="h-5 w-5" />
         </button>
 
-        <div className="rounded-full bg-primary/10 p-5">
-          <Sparkles className="h-10 w-10 text-primary" />
-        </div>
+        <div className="rounded-full overflow-hidden w-20 h-20 flex items-center justify-center">
+          <img
+           src={`${import.meta.env.BASE_URL}logo.png`}
+           alt="MyMalaysiaCare logo"
+           className="w-full h-full object-cover"
+         />
+       </div>
 
         <h2 className="text-3xl sm:text-4xl font-bold leading-tight break-words">
           Please sign up to access Dashboard, Leaderboard and all the other features
