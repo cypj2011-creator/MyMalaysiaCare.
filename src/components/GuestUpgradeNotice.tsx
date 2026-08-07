@@ -5,8 +5,6 @@ import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent } from "@/components/ui/dialog";
 import { useAuth } from "@/hooks/useAuth";
 
-const DISMISS_KEY = "guestNoticeDismissed";
-
 const GuestUpgradeNotice = () => {
   const { user, loading } = useAuth();
   const navigate = useNavigate();
@@ -16,11 +14,12 @@ const GuestUpgradeNotice = () => {
 
   useEffect(() => {
     if (loading) return;
-    if (isGuest && sessionStorage.getItem(DISMISS_KEY) !== "1") {
-      setOpen(true);
-    } else {
-      setOpen(false);
-    }
+    setOpen(isGuest);
+  }, [isGuest, user?.id, loading]);
+
+  const dismiss = () => {
+    setOpen(false);
+  };
   }, [isGuest, loading]);
 
   const dismiss = () => {
