@@ -8,3 +8,6 @@ verify_jwt = false
 
 [functions.transcribe-audio]
 verify_jwt = false
+
+[functions.delete-guest]
+verify_jwt = false
