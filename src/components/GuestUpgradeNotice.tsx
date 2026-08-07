@@ -1,30 +1,47 @@
-import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useEffect, useRef, useState } from "react";
+import { useNavigate, useLocation } from "react-router-dom";
 import { Sparkles, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent } from "@/components/ui/dialog";
 import { useAuth } from "@/hooks/useAuth";
+import { supabase } from "@/integrations/supabase/client";
 
 const GuestUpgradeNotice = () => {
   const { user, loading } = useAuth();
   const navigate = useNavigate();
+  const location = useLocation();
   const [open, setOpen] = useState(false);
+  const wasGuest = useRef(false);
 
   const isGuest = !!(user as any)?.is_anonymous;
+  const onDashboard = location.pathname === "/dashboard";
 
   useEffect(() => {
     if (loading) return;
-    setOpen(isGuest);
-  }, [isGuest, user?.id, loading]);
-
-  const dismiss = () => {
-    setOpen(false);
-  };
+    if (isGuest && !wasGuest.current) {
+      setOpen(true);
+    }
+    wasGuest.current = isGuest;
   }, [isGuest, loading]);
 
+  useEffect(() => {
+    if (loading) return;
+    if (isGuest && onDashboard) {
+      setOpen(true);
+    }
+  }, [onDashboard, isGuest, loading]);
+
   const dismiss = () => {
-    sessionStorage.setItem(DISMISS_KEY, "1");
     setOpen(false);
+    if (onDashboard) {
+      navigate("/");
+    }
+  };
+
+  const handleSignUp = async () => {
+    await supabase.auth.signOut();
+    setOpen(false);
+    navigate("/auth");
   };
 
   if (!isGuest) return null;
@@ -57,14 +74,7 @@ const GuestUpgradeNotice = () => {
         </p>
 
         <div className="flex flex-col sm:flex-row gap-3 w-full max-w-md">
-          <Button
-            size="lg"
-            className="flex-1"
-            onClick={() => {
-              dismiss();
-              navigate("/auth");
-            }}
-          >
+          <Button size="lg" className="flex-1" onClick={handleSignUp}>
             Sign Up Now
           </Button>
           <Button size="lg" variant="outline" className="flex-1" onClick={dismiss}>
