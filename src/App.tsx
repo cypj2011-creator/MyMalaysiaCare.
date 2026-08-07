@@ -8,6 +8,7 @@ import Header from "./components/Header";
 import Footer from "./components/Footer";
 import ChatBot from "./components/ChatBot";
 import GuestUpgradeNotice from "./components/GuestUpgradeNotice";
+import { GuestSessionCleanup } from "./hooks/useGuestCleanup";
 
 const Home = lazy(() => import("./pages/Home"));
 const RecycleScanner = lazy(() => import("./pages/RecycleScanner"));
@@ -55,6 +56,7 @@ const App = () => (
         </main>
         <Footer />
         <ChatBot />
+        <GuestSessionCleanup />
       </HashRouter>
     </TooltipProvider>
   </QueryClientProvider>
