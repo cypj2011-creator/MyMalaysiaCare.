@@ -37,6 +37,7 @@ const App = () => (
       <Sonner />
       <HashRouter>
         <Header />
+        <GuestUpgradeNotice />
         <main className="pb-24">
           <Suspense fallback={<AppFallback />}>
             <Routes>
