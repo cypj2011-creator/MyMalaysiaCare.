@@ -239,7 +239,7 @@ const InteractiveMap = () => {
   return (
     <div className="container mx-auto px-4 py-12">
       <div className="text-center mb-8">
-        <h1 className="text-4xl md:text-5xl font-bold mb-4 bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">
+        <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-4 bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent break-words px-2">
           {t("mapTitle")}
         </h1>
         <p className="text-lg text-muted-foreground">
