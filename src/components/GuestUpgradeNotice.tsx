@@ -46,16 +46,17 @@ const GuestUpgradeNotice = () => {
   if (!isGuest) return null;
 
   return (
-    <DialogContent
-      className="w-[90vw] max-w-2xl sm:max-w-3xl min-h-[60vh] flex flex-col items-center justify-center text-center gap-6 p-8"
-    >
-      <div className="rounded-full overflow-hidden w-20 h-20 flex items-center justify-center">
+    <Dialog open={open} onOpenChange={(v) => (!v ? dismiss() : setOpen(true))}>
+      <DialogContent
+        className="w-[90vw] max-w-2xl sm:max-w-3xl min-h-[60vh] flex flex-col items-center justify-center text-center gap-6 p-8"
+      >
+        <div className="rounded-full overflow-hidden w-20 h-20 flex items-center justify-center">
           <img
-           src={`${import.meta.env.BASE_URL}logo.png`}
-           alt="MyMalaysiaCare logo"
-           className="w-full h-full object-cover"
-         />
-       </div>
+            src={`${import.meta.env.BASE_URL}logo.png`}
+            alt="MyMalaysiaCare logo"
+            className="w-full h-full object-cover"
+          />
+        </div>
 
         <h2 className="text-3xl sm:text-4xl font-bold leading-tight break-words">
           Please sign up to access Dashboard, Leaderboard and all the other features
