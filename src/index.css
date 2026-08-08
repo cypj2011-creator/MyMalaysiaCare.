@@ -162,10 +162,6 @@ All colors MUST be HSL.
 }
 
 @layer utilities {
-
-
-    
-@layer utilities {
   .gradient-primary {
     background: var(--gradient-primary);
   }
