@@ -68,10 +68,10 @@ const GuestUpgradeNotice = () => {
         </p>
 
         <div className="flex flex-col sm:flex-row gap-3 w-full max-w-md">
-          <Button size="lg" className="flex-1" onClick={handleSignUp}>
+          <Button size="lg" className="w-full sm:flex-1" onClick={handleSignUp}>
             Sign Up Now
           </Button>
-          <Button size="lg" variant="outline" className="flex-1" onClick={dismiss}>
+          <Button size="lg" variant="outline" className="w-full sm:flex-1" onClick={dismiss}>
             Continue as Guest
           </Button>
         </div>
