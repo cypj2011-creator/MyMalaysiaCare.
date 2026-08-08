@@ -1,13 +1,15 @@
 import { Link, useLocation } from "react-router-dom";
-import { Menu, X, LogOut, User } from "lucide-react";
+import { Menu, X, LogOut, User, Sun, Moon } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useState } from "react";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { useAuth } from "@/hooks/useAuth";
+import { useTheme } from "@/hooks/useTheme";
 
 const Header = () => {
   const location = useLocation();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const { theme, toggleTheme } = useTheme();
   const { user, signOut } = useAuth();
   const [lang, setLang] = useState<string>(() => localStorage.getItem("lang") || "en");
   const languages = [
@@ -77,6 +79,16 @@ const Header = () => {
               </SelectContent>
             </Select>
           </div>
+
+          {/* Theme Toggle */}
+          <Button
+            variant="ghost"
+            size="icon"
+            onClick={toggleTheme}
+            aria-label="Toggle dark mode"
+          >
+            {theme === "dark" ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}
+          </Button>
           
           {/* Desktop Auth */}
           {user ? (
@@ -142,6 +154,27 @@ const Header = () => {
                   ))}
                 </SelectContent>
               </Select>
+            </div>
+
+            {/* Mobile Theme Toggle */}
+            <div className="pt-2">
+              <Button
+                variant="outline"
+                className="w-full justify-start"
+                onClick={toggleTheme}
+              >
+                {theme === "dark" ? (
+                  <>
+                    <Sun className="h-4 w-4 mr-2" />
+                    Light Mode
+                  </>
+                ) : (
+                  <>
+                    <Moon className="h-4 w-4 mr-2" />
+                    Dark Mode
+                  </>
+                )}
+              </Button>
             </div>
             
             {/* Mobile Auth */}
