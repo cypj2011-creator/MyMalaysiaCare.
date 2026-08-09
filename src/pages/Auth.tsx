@@ -137,11 +137,6 @@ const Auth = () => {
         description: friendlyError(error.message, (error as any).code),
         variant: "destructive",
       });
-    } else {
-      toast({
-        title: "Signed in as guest",
-        description: "You're browsing anonymously. Your scans are saved to this guest account.",
-      });
     }
     setLoading(false);
   };
