@@ -1,7 +1,8 @@
 import { useState, useEffect, useRef } from "react";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
-import { Camera, Upload, Sparkles, Leaf, Info, Clock, MapPin } from "lucide-react";
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import { Camera, Upload, Sparkles, Leaf, Info, Clock, MapPin, X } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/hooks/useAuth";
@@ -37,6 +38,13 @@ const RecycleScanner = () => {
   const navigate = useNavigate();
   const cameraInputRef = useRef<HTMLInputElement>(null);
   const uploadInputRef = useRef<HTMLInputElement>(null);
+  const videoRef = useRef<HTMLVideoElement>(null);
+  const canvasRef = useRef<HTMLCanvasElement>(null);
+  const streamRef = useRef<MediaStream | null>(null);
+  const [webcamOpen, setWebcamOpen] = useState(false);
+
+  const isMobile = () =>
+    /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
 
   useEffect(() => {
     if (!loading && !user) {
@@ -116,6 +124,60 @@ const RecycleScanner = () => {
       toast({ title: "Could not read image", description: "Please try another photo.", variant: "destructive" });
     };
     reader.readAsDataURL(file);
+  };
+
+  const openWebcam = async () => {
+    try {
+      const stream = await navigator.mediaDevices.getUserMedia({
+        video: { facingMode: "environment" },
+      });
+      streamRef.current = stream;
+      setWebcamOpen(true);
+      setTimeout(() => {
+        if (videoRef.current) {
+          videoRef.current.srcObject = stream;
+        }
+      }, 0);
+    } catch (err) {
+      toast({
+        title: "Camera unavailable",
+        description: "Could not access your webcam. You can use Upload instead.",
+        variant: "destructive",
+      });
+    }
+  };
+
+  const closeWebcam = () => {
+    streamRef.current?.getTracks().forEach((track) => track.stop());
+    streamRef.current = null;
+    setWebcamOpen(false);
+  };
+
+  const captureFromWebcam = async () => {
+    const video = videoRef.current;
+    const canvas = canvasRef.current;
+    if (!video || !canvas) return;
+
+    canvas.width = video.videoWidth;
+    canvas.height = video.videoHeight;
+    const ctx = canvas.getContext("2d");
+    if (!ctx) return;
+    ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+    const raw = canvas.toDataURL("image/jpeg", 0.9);
+
+    closeWebcam();
+
+    const imageData = await compressImage(raw);
+    setSelectedImage(imageData);
+    await analyzeImage(imageData);
+  };
+
+  const handleTakePhotoClick = () => {
+    if (isMobile()) {
+      cameraInputRef.current?.click();
+    } else {
+      openWebcam();
+    }
   };
 
   const invokeAnalyze = async (imageData: string) => {
@@ -240,7 +302,7 @@ const RecycleScanner = () => {
             <Button
               className="flex-1 w-full h-auto py-4 md:py-6"
               disabled={isScanning}
-              onClick={() => cameraInputRef.current?.click()}
+              onClick={handleTakePhotoClick}
             >
               <Camera className="mr-2 h-5 w-5" />
               <span className="text-sm md:text-base">{t("takePhoto")}</span>
@@ -354,8 +416,39 @@ const RecycleScanner = () => {
           </p>
         </div>
       </div>
+
+      <canvas ref={canvasRef} className="hidden" />
+
+      <Dialog open={webcamOpen} onOpenChange={(v) => (!v ? closeWebcam() : null)}>
+        <DialogContent className="max-w-2xl">
+          <DialogHeader>
+            <DialogTitle>Take a Photo</DialogTitle>
+          </DialogHeader>
+          <div className="relative rounded-lg overflow-hidden bg-black">
+            <video
+              ref={videoRef}
+              autoPlay
+              playsInline
+              muted
+              className="w-full h-auto"
+            />
+          </div>
+          <div className="flex gap-3 mt-2">
+            <Button className="flex-1" onClick={captureFromWebcam}>
+              <Camera className="mr-2 h-4 w-4" />
+              Capture
+            </Button>
+            <Button variant="outline" onClick={closeWebcam}>
+              <X className="mr-2 h-4 w-4" />
+              Cancel
+            </Button>
+          </div>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 };
+
+export default RecycleScanner;
 
 export default RecycleScanner;
