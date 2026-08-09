@@ -46,7 +46,7 @@ const GuestUpgradeNotice = () => {
   if (!isGuest) return null;
 
   return (
-    <Dialog open={open} onOpenChange={(v) => (!v ? dismiss() : setOpen(true))} modal={false}>
+    <Dialog open={open} onOpenChange={(v) => (!v ? dismiss() : setOpen(true))}>
       <DialogContent
         className="w-[90vw] max-w-2xl sm:max-w-3xl min-h-[60vh] flex flex-col items-center justify-center text-center gap-6 p-8"
       >
