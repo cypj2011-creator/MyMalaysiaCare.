@@ -450,5 +450,3 @@ const RecycleScanner = () => {
 };
 
 export default RecycleScanner;
-
-export default RecycleScanner;
