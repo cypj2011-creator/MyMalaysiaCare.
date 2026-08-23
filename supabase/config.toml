@@ -1,13 +1,13 @@
 project_id = "xddakwhrmcihmzcmjtuy"
 
 [functions.analyze-image]
-verify_jwt = false
+verify_jwt = true
 
 [functions.chat]
-verify_jwt = false
+verify_jwt = true
 
 [functions.transcribe-audio]
-verify_jwt = false
+verify_jwt = true
 
 [functions.delete-guest]
-verify_jwt = false
+verify_jwt = true
