@@ -1,7 +1,6 @@
 MyMalaysiaCare
 
 Malaysia's smartest recycling companion — an AI-powered web app that helps users identify recyclable items and find nearby recycling centers.
-Built for Coolest Projects Malaysia (Web category)
 
 🌏 Live Site
 https://cypj2011-creator.github.io/MyMalaysiaCare./
