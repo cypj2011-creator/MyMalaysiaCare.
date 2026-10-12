@@ -8,6 +8,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/hooks/useAuth";
 import { useNavigate } from "react-router-dom";
 import { useTranslation } from "@/hooks/useTranslation";
+import ScanFeedback from "@/components/ScanFeedback";
 
 interface ScanResult {
   category: string;
@@ -32,6 +33,7 @@ const RecycleScanner = () => {
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
   const [isScanning, setIsScanning] = useState(false);
   const [scanResult, setScanResult] = useState<ScanResult | null>(null);
+  const [resultRateable, setResultRateable] = useState(false);
   const [scanHistory, setScanHistory] = useState<ScanHistory[]>([]);
   const { toast } = useToast();
   const { user, loading } = useAuth();
@@ -232,6 +234,7 @@ const RecycleScanner = () => {
     }
 
     setScanResult(result);
+    setResultRateable(!usedFallback);
 
     if (user && !usedFallback) {
       const { error: insertError } = await supabase.from("scan_history").insert({
@@ -379,6 +382,8 @@ const RecycleScanner = () => {
                   {t("findNearestCenter")}
                 </Button>
               )}
+
+              {resultRateable && <ScanFeedback />}
             </div>
           )}
         </Card>
