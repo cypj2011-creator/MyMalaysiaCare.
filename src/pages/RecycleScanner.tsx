@@ -33,6 +33,7 @@ const RecycleScanner = () => {
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
   const [isScanning, setIsScanning] = useState(false);
   const [scanResult, setScanResult] = useState<ScanResult | null>(null);
+  const [scanId, setScanId] = useState<string | null>(null);
   const [resultRateable, setResultRateable] = useState(false);
   const [scanHistory, setScanHistory] = useState<ScanHistory[]>([]);
   const { toast } = useToast();
@@ -205,6 +206,7 @@ const RecycleScanner = () => {
   const analyzeImage = async (imageData: string) => {
     setIsScanning(true);
     setScanResult(null);
+    setScanId(null);
 
     let result: ScanResult;
     let usedFallback = false;
@@ -237,15 +239,23 @@ const RecycleScanner = () => {
     setResultRateable(!usedFallback);
 
     if (user && !usedFallback) {
-      const { error: insertError } = await supabase.from("scan_history").insert({
-        user_id: user.id,
-        category: result.category,
-        recyclable: result.recyclable,
-        instructions: result.instructions,
-        eco_fact: result.ecoFact,
-        confidence: result.confidence,
-      });
-      if (!insertError) loadScanHistory();
+      // Save the scan and keep its id so feedback can be linked to it.
+      const { data: inserted, error: insertError } = await supabase
+        .from("scan_history")
+        .insert({
+          user_id: user.id,
+          category: result.category,
+          recyclable: result.recyclable,
+          instructions: result.instructions,
+          eco_fact: result.ecoFact,
+          confidence: result.confidence,
+        })
+        .select("id")
+        .single();
+      if (!insertError) {
+        setScanId(inserted?.id ?? null);
+        loadScanHistory();
+      }
     }
 
     toast({
@@ -383,7 +393,13 @@ const RecycleScanner = () => {
                 </Button>
               )}
 
-              {resultRateable && <ScanFeedback />}
+              {resultRateable && (
+                <ScanFeedback
+                  category={scanResult.category}
+                  recyclable={scanResult.recyclable}
+                  scanId={scanId}
+                />
+              )}
             </div>
           )}
         </Card>
