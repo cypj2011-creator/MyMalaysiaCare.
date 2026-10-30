@@ -1,3 +1,4 @@
+
 import { useState, useEffect, useRef } from "react";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
@@ -103,7 +104,6 @@ const RecycleScanner = () => {
 
   const handleImageSelect = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target?.files?.[0];
-    // Reset so selecting the same file again re-triggers change
     if (e.target) e.target.value = "";
     if (!file) return;
 
@@ -184,7 +184,6 @@ const RecycleScanner = () => {
   };
 
   const invokeAnalyze = async (imageData: string) => {
-    // Retry up to 3 times with backoff for transient failures
     let lastErr: unknown = null;
     for (let attempt = 0; attempt < 3; attempt++) {
       try {
@@ -239,7 +238,6 @@ const RecycleScanner = () => {
     setResultRateable(!usedFallback);
 
     if (user && !usedFallback) {
-      // Save the scan and keep its id so feedback can be linked to it.
       const { data: inserted, error: insertError } = await supabase
         .from("scan_history")
         .insert({
@@ -263,7 +261,7 @@ const RecycleScanner = () => {
       description: usedFallback
         ? "AI service was busy — general recycling tips shown below."
         : `Identified as: ${result.category}`,
-      variant: usedFallback ? "default" : "default",
+      variant: "default",
     });
 
     setIsScanning(false);
@@ -278,22 +276,21 @@ const RecycleScanner = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-background via-background to-primary/5 py-12 md:py-20 px-4">
-      <div className="container mx-auto max-w-4xl">
+    <div className="min-h-screen bg-gradient-to-br from-background via-background to-primary/5 py-8 md:py-20 px-3 sm:px-4">
+      <div className="container mx-auto w-full max-w-4xl">
         <div className="text-center mb-8 md:mb-12 animate-fade-in">
           <div className="inline-flex items-center space-x-2 bg-primary/10 px-4 py-2 rounded-full mb-4">
             <Sparkles className="w-5 h-5 text-primary" />
             <span className="text-sm font-semibold text-primary">{t("smartAIRecognition")}</span>
           </div>
           <h1 className="text-3xl md:text-5xl font-bold mb-4">{t("recycAIScanner")}</h1>
-          <p className="text-base md:text-lg text-muted-foreground max-w-2xl mx-auto px-4">
+          <p className="text-base md:text-lg text-muted-foreground max-w-2xl mx-auto px-2 md:px-4">
             {t("instantIdentify")}
           </p>
         </div>
 
-        <Card className="p-4 md:p-8 mb-6 md:mb-8 animate-scale-in">
+        <Card className="w-full p-4 md:p-8 mb-6 md:mb-8 animate-scale-in">
           <div className="flex flex-col sm:flex-row gap-4 mb-6">
-            {/* Hidden Inputs */}
             <input
               ref={cameraInputRef}
               type="file"
@@ -405,7 +402,7 @@ const RecycleScanner = () => {
         </Card>
 
         {scanHistory.length > 0 && (
-          <Card className="p-4 md:p-6 animate-fade-in">
+          <Card className="w-full p-4 md:p-6 animate-fade-in">
             <h3 className="text-lg md:text-xl font-bold mb-4 flex items-center">
               <Clock className="mr-2 h-5 w-5" />
               {t("scanHistoryTitle")}
