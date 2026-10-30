@@ -222,15 +222,25 @@ const ChatBot = () => {
   return (
     <>
       {/* Chat Button */}
-      <Button
-        onClick={() => setIsOpen(!isOpen)}
-        className="fixed bottom-6 right-6 w-14 h-14 rounded-full shadow-custom-lg gradient-primary z-50 animate-float"
-        size="icon"
-        aria-label={isOpen ? "Close chat assistant" : "Open chat assistant"}
-        aria-expanded={isOpen}
-      >
-        {isOpen ? <X size={24} /> : <MessageCircle size={24} />}
-      </Button>
+<Button
+  onClick={() => setIsOpen(!isOpen)}
+  className="
+    fixed bottom-6 right-6
+    w-14 h-14 rounded-full
+    gradient-primary
+    shadow-[0_8px_24px_rgba(34,197,94,0.25)]
+    hover:shadow-[0_10px_28px_rgba(34,197,94,0.35)]
+    dark:shadow-[0_8px_24px_rgba(0,0,0,0.45)]
+    dark:hover:shadow-[0_10px_28px_rgba(0,0,0,0.55)]
+    z-50 animate-float
+    transition-shadow duration-300
+  "
+  size="icon"
+  aria-label={isOpen ? "Close chat assistant" : "Open chat assistant"}
+  aria-expanded={isOpen}
+>
+  {isOpen ? <X size={24} /> : <MessageCircle size={24} />}
+</Button>
 
       {/* Chat Window */}
       {isOpen && (
