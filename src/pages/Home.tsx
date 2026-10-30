@@ -1,145 +1,122 @@
 import { Link } from "react-router-dom";
-import { 
-  Camera, 
-  Map, 
-  BarChart3, 
-  Leaf, 
-  BookOpen,
-  Recycle,
-} from "lucide-react";
+import { Camera, Map, BarChart3, BookOpen, ArrowUpRight, Recycle } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { Card } from "@/components/ui/card";
 import { useTranslation } from "@/hooks/useTranslation";
 
 const Home = () => {
   const { t } = useTranslation();
 
   const features = [
-    {
-      icon: Camera,
-      title: t("smartRecycling"),
-      description: t("smartRecyclingDesc"),
-      link: "/recycle",
-      gradient: "gradient-primary",
-    },
-    {
-      icon: Map,
-      title: t("map"),
-      description: t("mapSubtitle"),
-      link: "/map",
-      gradient: "gradient-secondary",
-    },
-    {
-      icon: BarChart3,
-      title: t("dashboard"),
-      description: t("dashboardDesc"),
-      link: "/dashboard",
-      gradient: "gradient-warm",
-    },
-    {
-      icon: BookOpen,
-      title: t("learn"),
-      description: t("learnSubtitle"),
-      link: "/learn",
-      gradient: "gradient-primary",
-    },
+    { icon: Camera, title: t("smartRecycling"), description: t("smartRecyclingDesc"), link: "/recycle" },
+    { icon: Map, title: t("map"), description: t("mapSubtitle"), link: "/map" },
+    { icon: BarChart3, title: t("dashboard"), description: t("dashboardDesc"), link: "/dashboard" },
+    { icon: BookOpen, title: t("learn"), description: t("learnSubtitle"), link: "/learn" },
   ];
 
   return (
-    <div className="min-h-screen">
-      {/* Hero Section */}
-      <section className="relative py-20 px-4 overflow-hidden">
-        <div className="absolute inset-0 gradient-hero opacity-10 -z-10" />
-        <div className="container mx-auto text-center max-w-4xl">
-          <h1 className="text-[clamp(1.75rem,9vw,3.75rem)] md:text-6xl font-bold mb-6 bg-gradient-to-r from-primary via-secondary to-primary bg-clip-text text-transparent animate-fade-in leading-[1.15] pb-2 px-2 break-words hyphens-none max-w-full">
-            MyMalaysiaCare
-          </h1>
-          
-          <p className="text-xl md:text-2xl text-muted-foreground mb-8 animate-slide-up">
-            {t("homeSubtitle")}
-          </p>
-
-          <div className="flex flex-col sm:flex-row gap-4 justify-center mb-12 animate-slide-up">
-            <Link to="/recycle" className="w-full sm:w-auto">
-              <Button size="lg" className="w-full sm:w-auto gradient-primary text-white shadow-custom-lg hover:shadow-custom-xl transition-all py-6 text-lg px-8">
-                <Camera className="mr-3" size={24} />
-                {t("recycAI")}
-              </Button>
-            </Link>
-            <Link to="/map" className="w-full sm:w-auto">
-              <Button size="lg" variant="outline" className="w-full sm:w-auto border-2 hover:bg-primary/5 py-6 text-lg px-8">
-                <Map className="mr-3" size={24} />
-                {t("map")}
-              </Button>
-            </Link>
+    <div className="min-h-screen paper-grain">
+      {/* Hero */}
+      <section className="px-4 pt-14 pb-16 md:pt-20 md:pb-24 border-b border-border">
+        <div className="container mx-auto grid md:grid-cols-12 gap-10 items-end">
+          <div className="md:col-span-8">
+            <h1 className="text-[clamp(2.5rem,8vw,5.5rem)] leading-[0.95] font-extrabold text-primary tracking-tight">
+              MyMalaysia<span className="italic font-normal text-secondary">Care</span>
+            </h1>
+            <p className="mt-6 text-lg md:text-xl text-muted-foreground max-w-xl font-normal leading-relaxed">
+              {t("homeSubtitle")}
+            </p>
+            <div className="mt-10 flex flex-col sm:flex-row gap-3">
+              <Link to="/recycle">
+                <Button size="lg" className="w-full sm:w-auto h-14 px-8 text-base rounded-sm shadow-custom-md hover:translate-x-[-2px] hover:translate-y-[-2px] hover:shadow-custom-lg">
+                  <Camera className="mr-2" size={20} />
+                  {t("recycAI")}
+                </Button>
+              </Link>
+              <Link to="/map">
+                <Button size="lg" variant="outline" className="w-full sm:w-auto h-14 px-8 text-base rounded-sm border-2 border-primary bg-transparent text-primary hover:bg-primary hover:text-primary-foreground">
+                  <Map className="mr-2" size={20} />
+                  {t("map")}
+                </Button>
+              </Link>
+            </div>
           </div>
 
-          {/* Stats */}
-          <div className="grid grid-cols-3 gap-2 sm:gap-3 max-w-2xl mx-auto px-2">
-            <Card className="p-2 sm:p-4 text-center shadow-custom-md hover:shadow-custom-lg transition-shadow">
-              <div className="text-xl sm:text-3xl font-bold text-primary">100%</div>
-              <div className="text-[9px] sm:text-sm text-muted-foreground leading-tight">Client-Side</div>
-            </Card>
-            <Card className="p-2 sm:p-4 text-center shadow-custom-md hover:shadow-custom-lg transition-shadow">
-              <div className="text-base sm:text-3xl font-bold text-secondary leading-tight">
-                AI-Powered
+          {/* Stamp card */}
+          <aside className="md:col-span-4">
+            <div className="relative border-2 border-primary bg-card p-6 rotate-[-1.5deg] shadow-custom-lg">
+              <div className="absolute -top-3 left-6 bg-accent text-accent-foreground px-2 py-1">
+                <Recycle className="w-4 h-4" />
               </div>
-              <div className="text-[9px] sm:text-sm text-muted-foreground leading-tight mt-1">Smart Scanner</div>
-            </Card>
-            <Card className="p-2 sm:p-4 text-center shadow-custom-md hover:shadow-custom-lg transition-shadow">
-              <div className="text-xl sm:text-3xl font-bold text-accent">24/7</div>
-              <div className="text-[9px] sm:text-sm text-muted-foreground leading-tight">Available</div>
-            </Card>
-          </div>
+              <dl className="divide-y divide-border">
+                {[
+                  ["100%", "Client-Side"],
+                  ["AI-Powered", "Smart Scanner"],
+                  ["24/7", "Available"],
+                ].map(([v, l]) => (
+                  <div key={l} className="flex items-baseline justify-between py-3">
+                    <dt className="text-sm text-muted-foreground font-normal">{l}</dt>
+                    <dd className="text-xl sm:text-2xl text-primary text-right">{v}</dd>
+                  </div>
+                ))}
+              </dl>
+            </div>
+          </aside>
         </div>
       </section>
 
-      {/* Features Grid */}
-      <section className="py-16 px-4">
+      {/* Features as numbered index */}
+      <section className="px-4 py-16 md:py-24">
         <div className="container mx-auto">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl md:text-4xl font-bold mb-4">
+          <div className="grid md:grid-cols-12 gap-8 mb-12">
+            <h2 className="md:col-span-5 text-3xl md:text-5xl text-primary leading-tight">
               {t("whyChoose")}
             </h2>
-            <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
+            <p className="md:col-span-6 md:col-start-7 text-lg text-muted-foreground font-normal leading-relaxed self-end">
               {t("comprehensive")}
             </p>
           </div>
 
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {features.map((feature, index) => (
-              <Link key={index} to={feature.link}>
-                <Card className="p-6 h-full hover:shadow-custom-lg transition-all duration-300 hover:-translate-y-1 cursor-pointer group">
-                  <div className={`w-12 h-12 rounded-lg ${feature.gradient} flex items-center justify-center mb-4 group-hover:scale-110 transition-transform`}>
-                    <feature.icon className="w-6 h-6 text-white" />
-                  </div>
-                  <h3 className="text-xl font-semibold mb-2 break-words">{feature.title}</h3>
-                  <p className="text-muted-foreground text-sm leading-relaxed break-words">{feature.description}</p>
-                </Card>
-              </Link>
+          <ul className="border-t-2 border-primary">
+            {features.map((f, i) => (
+              <li key={f.link} className="border-b border-border">
+                <Link
+                  to={f.link}
+                  className="group grid grid-cols-[3rem_1fr_auto] md:grid-cols-[5rem_1fr_2fr_auto] gap-4 items-center py-6 md:py-8 hover:bg-muted/60 px-2"
+                >
+                  <span className="text-sm text-secondary tabular-nums">
+                    {String(i + 1).padStart(2, "0")}
+                  </span>
+                  <h3 className="text-xl md:text-2xl text-primary flex items-center gap-3">
+                    <f.icon className="w-5 h-5 text-secondary shrink-0" />
+                    {f.title}
+                  </h3>
+                  <p className="hidden md:block text-muted-foreground font-normal leading-relaxed">
+                    {f.description}
+                  </p>
+                  <ArrowUpRight className="w-6 h-6 text-primary transition-transform group-hover:translate-x-1 group-hover:-translate-y-1" />
+                </Link>
+              </li>
             ))}
-          </div>
+          </ul>
         </div>
       </section>
 
-      {/* Call to Action */}
-      <section className="py-16 px-4">
-        <Card className="container mx-auto max-w-4xl p-8 md:p-12 shadow-custom-xl gradient-hero text-white">
-          <div className="text-center">
-            <Recycle className="w-16 h-16 mx-auto mb-6" />
-            <h2 className="text-3xl md:text-4xl font-bold mb-4">
-              {t("getStarted")}
-            </h2>
-            <p className="text-lg mb-8 text-white/90">
-              {t("communityDrivenDesc")}
-            </p>
+      {/* Call to action */}
+      <section className="px-4 pb-20">
+        <div className="container mx-auto bg-primary text-primary-foreground p-10 md:p-16 grid md:grid-cols-12 gap-8 items-end rounded-sm">
+          <div className="md:col-span-8">
+            <Recycle className="w-12 h-12 text-accent mb-4" />
+            <h2 className="text-3xl md:text-5xl leading-tight">{t("getStarted")}</h2>
+            <p className="mt-4 text-lg opacity-80 font-normal max-w-xl">{t("communityDrivenDesc")}</p>
+          </div>
+          <div className="md:col-span-4 md:text-right">
             <Link to="/recycle">
-              <Button size="lg" variant="secondary" className="shadow-custom-lg">
-                {t("getStarted")}
+              <Button size="lg" className="h-14 px-8 rounded-sm bg-accent text-accent-foreground hover:bg-accent/90">
+                {t("getStarted")} <ArrowUpRight className="ml-2" size={18} />
               </Button>
             </Link>
           </div>
-        </Card>
+        </div>
       </section>
     </div>
   );
