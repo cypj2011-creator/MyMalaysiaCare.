@@ -49,7 +49,8 @@ const Home = () => {
       <section className="px-4 pt-10 pb-12 md:pt-16 md:pb-16 border-b border-border">
         <div className="container mx-auto grid md:grid-cols-12 gap-8 items-center">
 
-          <div className="md:col-span-8">
+          {/* Hero Content */}
+          <div className="md:col-span-8 text-center md:text-left flex flex-col items-center md:items-start">
             <h1 className="text-[clamp(2.8rem,8vw,5.8rem)] leading-[0.95] font-extrabold text-primary tracking-tight">
               MyMalaysia
               <span className="italic font-semibold text-secondary">
@@ -61,7 +62,7 @@ const Home = () => {
               {t("homeSubtitle")}
             </p>
 
-            <div className="mt-7 flex flex-col sm:flex-row gap-3">
+            <div className="mt-7 flex flex-col sm:flex-row gap-3 w-full sm:w-auto justify-center md:justify-start">
               <Link to="/recycle">
                 <Button
                   size="lg"
@@ -86,7 +87,7 @@ const Home = () => {
           </div>
 
           {/* Stamp Card */}
-          <aside className="md:col-span-4">
+          <aside className="md:col-span-4 w-full max-w-md mx-auto md:max-w-none">
             <div className="relative border-2 border-primary bg-card p-6 rotate-[-1deg] shadow-custom-lg rounded-sm">
               <div className="absolute -top-3 left-6 bg-accent text-accent-foreground px-3 py-1">
                 <Recycle className="w-4 h-4" />
