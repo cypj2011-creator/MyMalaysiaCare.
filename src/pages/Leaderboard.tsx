@@ -1,10 +1,10 @@
 import { useEffect, useState } from "react";
-import { Card } from "@/components/ui/card";
 import { Trophy, Medal, Award, Recycle } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { useTranslation } from "@/hooks/useTranslation";
 import { useAuth } from "@/hooks/useAuth";
 import { useToast } from "@/hooks/use-toast";
+import PageHeader from "@/components/PageHeader";
 
 interface Row {
   user_id: string;
@@ -37,18 +37,18 @@ const Leaderboard = () => {
       setLoading(true);
       const { data, error } = await supabase.rpc("get_leaderboard");
 
-if (error) {
-  console.error("Leaderboard fetch error:", error);
-  setRows([]);
-} else {
-  const merged: Row[] = (data ?? []).map((r: any) => ({
-    user_id: r.user_id,
-    username: r.username,
-    email: null,
-    points: Number(r.points),
-  }));
-  setRows(merged);
-}
+      if (error) {
+        console.error("Leaderboard fetch error:", error);
+        setRows([]);
+      } else {
+        const merged: Row[] = (data ?? []).map((r: any) => ({
+          user_id: r.user_id,
+          username: r.username,
+          email: null,
+          points: Number(r.points),
+        }));
+        setRows(merged);
+      }
       setLoading(false);
     })();
   }, []);
@@ -61,51 +61,44 @@ if (error) {
   };
 
   return (
-    <div className="container mx-auto px-4 py-12 max-w-3xl">
-      <div className="text-center mb-8">
-        <h1 className="text-3xl sm:text-4xl font-bold mb-2 bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent pb-1">
-          {t("leaderboardTitle")}
-        </h1>
-        <p className="text-muted-foreground">{t("leaderboardSubtitle")}</p>
-      </div>
+    <div className="paper-grain">
+      <div className="container mx-auto px-4 py-12 md:py-16 max-w-4xl">
+        <PageHeader title={t("leaderboardTitle")} subtitle={t("leaderboardSubtitle")} />
 
-      <Card className="p-4 sm:p-6 shadow-custom-lg">
         {loading ? (
           <div className="py-12 text-center text-muted-foreground">{t("loadingLeaderboard")}</div>
         ) : rows.length === 0 ? (
           <div className="py-12 text-center text-muted-foreground">{t("noPlayersYet")}</div>
         ) : (
-          <ul className="divide-y">
+          <ol className="border-t-2 border-primary">
             {rows.map((r, i) => {
               const isMe = user?.id === r.user_id;
+              const top = i < 3;
               return (
                 <li
                   key={r.user_id}
-                  className={`flex items-center gap-4 py-3 px-2 rounded-lg ${
-                    isMe ? "bg-primary/5 ring-1 ring-primary/30" : ""
+                  className={`grid grid-cols-[2.5rem_1fr_auto] sm:grid-cols-[3.5rem_1fr_auto] items-center gap-3 py-4 px-2 border-b border-border ${
+                    isMe ? "bg-accent/15" : ""
                   }`}
                 >
-                  <div className="w-8 flex justify-center">{rankIcon(i)}</div>
-                  <div className="flex-1 min-w-0">
-                    <p className="font-semibold truncate">
-                      {displayName(r)}
-                      {isMe && <span className="ml-2 text-xs text-primary">({t("you")})</span>}
-                    </p>
-                  </div>
-                  <div className="flex items-center gap-2 text-primary font-bold">
-                    <Recycle className="w-4 h-4" />
-                    {r.points}
-                    <span className="text-xs font-normal text-muted-foreground">{t("points")}</span>
+                  <div className="flex justify-center">{rankIcon(i)}</div>
+                  <p className={`truncate ${top ? "text-lg sm:text-xl text-primary" : "text-base"}`}>
+                    {displayName(r)}
+                    {isMe && <span className="ml-2 text-sm text-secondary">({t("you")})</span>}
+                  </p>
+                  <div className="flex items-center gap-2 text-primary">
+                    <Recycle className="w-4 h-4 text-secondary" />
+                    <span className="text-lg tabular-nums">{r.points}</span>
+                    <span className="text-sm text-muted-foreground">{t("points")}</span>
                   </div>
                 </li>
               );
             })}
-          </ul>
+          </ol>
         )}
-      </Card>
+      </div>
     </div>
   );
 };
 
 export default Leaderboard;
-
