@@ -47,11 +47,12 @@ const Home = () => {
 
       {/* Hero */}
       <section className="px-4 pt-10 pb-12 md:pt-16 md:pb-16 border-b border-border">
-        <div className="container mx-auto grid md:grid-cols-12 gap-8 items-center">
+        <div className="container mx-auto grid grid-cols-1 md:grid-cols-12 gap-8 items-center">
 
           {/* Hero Content */}
-          <div className="md:col-span-8 text-center md:text-left flex flex-col items-center md:items-start">
-            <h1 className="text-[clamp(2.8rem,8vw,5.8rem)] leading-[0.95] font-extrabold text-primary tracking-tight">
+          <div className="md:col-span-8 w-full flex flex-col items-center text-center md:items-start md:text-left">
+
+            <h1 className="w-full text-[clamp(2.8rem,8vw,5.8rem)] leading-[0.95] font-extrabold text-primary tracking-tight">
               MyMalaysia
               <span className="italic font-semibold text-secondary">
                 Care
@@ -63,7 +64,7 @@ const Home = () => {
             </p>
 
             <div className="mt-7 flex flex-col sm:flex-row gap-3 w-full sm:w-auto justify-center md:justify-start">
-              <Link to="/recycle">
+              <Link to="/recycle" className="w-full sm:w-auto">
                 <Button
                   size="lg"
                   className="w-full sm:w-auto h-14 px-8 text-base rounded-sm shadow-custom-md hover:translate-x-[-2px] hover:translate-y-[-2px] hover:shadow-custom-lg transition-all"
@@ -73,7 +74,7 @@ const Home = () => {
                 </Button>
               </Link>
 
-              <Link to="/map">
+              <Link to="/map" className="w-full sm:w-auto">
                 <Button
                   size="lg"
                   variant="outline"
