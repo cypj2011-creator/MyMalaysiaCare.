@@ -1,5 +1,14 @@
+
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
-import { MapPin, Navigation, Phone, Clock, Recycle, Battery, LocateFixed } from "lucide-react";
+import {
+  MapPin,
+  Navigation,
+  Phone,
+  Clock,
+  Recycle,
+  Battery,
+  LocateFixed,
+} from "lucide-react";
 import { toast } from "sonner";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -11,12 +20,13 @@ import "leaflet/dist/leaflet.css";
 import icon from "leaflet/dist/images/marker-icon.png";
 import iconShadow from "leaflet/dist/images/marker-shadow.png";
 
-let DefaultIcon = L.icon({
+const DefaultIcon = L.icon({
   iconUrl: icon,
   shadowUrl: iconShadow,
   iconSize: [25, 41],
   iconAnchor: [12, 41],
 });
+
 L.Marker.prototype.options.icon = DefaultIcon;
 
 interface Location {
@@ -34,44 +44,88 @@ interface Location {
 
 const InteractiveMap = () => {
   const { t } = useTranslation();
+
   const mapRef = useRef<L.Map | null>(null);
   const mapContainerRef = useRef<HTMLDivElement>(null);
   const markersLayerRef = useRef<L.LayerGroup | null>(null);
   const canvasRendererRef = useRef<L.Canvas | null>(null);
+
   const [locations, setLocations] = useState<Location[]>([]);
-  const [selectedLocation, setSelectedLocation] = useState<Location | null>(null);
+  const [selectedLocation, setSelectedLocation] =
+    useState<Location | null>(null);
+
   const [activeFilters, setActiveFilters] = useState<string[]>([
     "recycling",
     "ewaste",
   ]);
+
   const [loading, setLoading] = useState(true);
   const [loadingMessage, setLoadingMessage] = useState("");
 
-  const filterTypes = useMemo(() => [
-    { id: "recycling", label: t("recyclingCenters"), color: "#10b981", Icon: Recycle },
-    { id: "ewaste", label: t("ewastePoints"), color: "#3b82f6", Icon: Battery },
-  ], [t]);
+  const filterTypes = useMemo(
+    () => [
+      {
+        id: "recycling",
+        label: t("recyclingCenters"),
+        color: "#10b981",
+        Icon: Recycle,
+      },
+      {
+        id: "ewaste",
+        label: t("ewastePoints"),
+        color: "#3b82f6",
+        Icon: Battery,
+      },
+    ],
+    [t]
+  );
 
-  const fetchWithTimeout = useCallback(async (url: string, options: RequestInit = {}, timeoutMs = 4000) => {
-    const controller = new AbortController();
-    const timeoutId = window.setTimeout(() => controller.abort(), timeoutMs);
-    try {
-      return await fetch(url, { ...options, signal: controller.signal });
-    } finally {
-      window.clearTimeout(timeoutId);
-    }
-  }, []);
+  const fetchWithTimeout = useCallback(
+    async (
+      url: string,
+      options: RequestInit = {},
+      timeoutMs = 4000
+    ) => {
+      const controller = new AbortController();
+
+      const timeoutId = window.setTimeout(
+        () => controller.abort(),
+        timeoutMs
+      );
+
+      try {
+        return await fetch(url, {
+          ...options,
+          signal: controller.signal,
+        });
+      } finally {
+        window.clearTimeout(timeoutId);
+      }
+    },
+    []
+  );
 
   const mergeLocations = useCallback((incoming: Location[]) => {
     if (!incoming.length) return;
+
     setLocations((current) => {
-      const seen = new Set(current.map((l) => `${l.lat.toFixed(5)},${l.lng.toFixed(5)},${l.type}`));
+      const seen = new Set(
+        current.map(
+          (l) => `${l.lat.toFixed(5)},${l.lng.toFixed(5)},${l.type}`
+        )
+      );
+
       const merged = [...current];
-      let nextId = current.length ? Math.max(...current.map((l) => l.id)) + 1 : 1;
+
+      let nextId = current.length
+        ? Math.max(...current.map((l) => l.id)) + 1
+        : 1;
 
       for (const loc of incoming) {
         const key = `${loc.lat.toFixed(5)},${loc.lng.toFixed(5)},${loc.type}`;
+
         if (seen.has(key)) continue;
+
         seen.add(key);
         merged.push({ ...loc, id: nextId++ });
       }
@@ -80,16 +134,24 @@ const InteractiveMap = () => {
     });
   }, []);
 
+  // Load local and Malaysia-wide recycling locations
   useEffect(() => {
     let cancelled = false;
+
     async function load() {
       setLoading(true);
       setLoadingMessage(t("loadingLocations"));
-      
+
       try {
-        const localRes = await fetchWithTimeout(`${import.meta.env.BASE_URL}data/locations.json`, {}, 2500);
+        const localRes = await fetchWithTimeout(
+          `${import.meta.env.BASE_URL}data/locations.json`,
+          {},
+          2500
+        );
+
         if (!cancelled && localRes.ok) {
           const local = await localRes.json();
+
           if (Array.isArray(local) && local.length) {
             setLocations(local);
           }
@@ -98,12 +160,19 @@ const InteractiveMap = () => {
         console.warn("Local locations failed:", e);
       }
 
-      // Keep "Location loading" notification visible while adding Malaysia-wide locations
       try {
-        const malaysiaRes = await fetchWithTimeout(`${import.meta.env.BASE_URL}data/malaysia-osm-locations.json`, {}, 8000);
+        const malaysiaRes = await fetchWithTimeout(
+          `${import.meta.env.BASE_URL}data/malaysia-osm-locations.json`,
+          {},
+          8000
+        );
+
         if (!cancelled && malaysiaRes.ok) {
           const malaysiaLocations = await malaysiaRes.json();
-          if (Array.isArray(malaysiaLocations)) mergeLocations(malaysiaLocations);
+
+          if (Array.isArray(malaysiaLocations)) {
+            mergeLocations(malaysiaLocations);
+          }
         }
       } catch (e) {
         console.warn("Nationwide data failed:", e);
@@ -114,26 +183,34 @@ const InteractiveMap = () => {
         setLoadingMessage("");
       }
     }
+
     load();
+
     return () => {
       cancelled = true;
     };
   }, [t, fetchWithTimeout, mergeLocations]);
 
+  // Initialize Leaflet map
   useEffect(() => {
     if (!mapContainerRef.current || mapRef.current) return;
 
-    // Initialize map
-    const map = L.map(mapContainerRef.current).setView([4.2105, 101.9758], 7);
+    const map = L.map(mapContainerRef.current).setView(
+      [4.2105, 101.9758],
+      7
+    );
+
     mapRef.current = map;
-    // High-performance canvas renderer for many points
+
     canvasRendererRef.current = L.canvas({ padding: 0.5 });
 
-    // Add tile layer
-    L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
-      attribution: '© OpenStreetMap contributors',
-      maxZoom: 19,
-    }).addTo(map);
+    L.tileLayer(
+      "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
+      {
+        attribution: "© OpenStreetMap contributors",
+        maxZoom: 19,
+      }
+    ).addTo(map);
 
     return () => {
       if (mapRef.current) {
@@ -143,39 +220,48 @@ const InteractiveMap = () => {
     };
   }, []);
 
+  // Render filtered recycling markers
   useEffect(() => {
     const map = mapRef.current;
+
     if (!map || locations.length === 0) return;
 
     const filteredLocations = locations.filter((loc) =>
       activeFilters.includes(loc.type)
     );
+
     const colorByType: Record<string, string> = Object.fromEntries(
       filterTypes.map((f) => [f.id, f.color])
     );
 
-    // Render ALL locations once into a single SVG layer.
-    // circleMarker on the default SVG renderer scales smoothly together with
-    // the map during the zoom animation (no canvas redraw lag, no jumping).
     if (markersLayerRef.current) {
       map.removeLayer(markersLayerRef.current);
       markersLayerRef.current = null;
     }
 
     const group = L.layerGroup();
+
     for (const location of filteredLocations) {
-      const circle = L.circleMarker([location.lat, location.lng], {
-        radius: 6,
-        color: "#ffffff",
-        weight: 1.5,
-        fillColor: colorByType[location.type] || "#10b981",
-        fillOpacity: 0.95,
-      }).on("click", () => {
+      const circle = L.circleMarker(
+        [location.lat, location.lng],
+        {
+          radius: 6,
+          color: "#ffffff",
+          weight: 1.5,
+          fillColor: colorByType[location.type] || "#10b981",
+          fillOpacity: 0.95,
+        }
+      ).on("click", () => {
         setSelectedLocation(location);
       });
-      circle.bindPopup(`<strong>${location.name}</strong><br>${location.address}`);
+
+      circle.bindPopup(
+        `<strong>${location.name}</strong><br>${location.address}`
+      );
+
       group.addLayer(circle);
     }
+
     group.addTo(map);
     markersLayerRef.current = group;
 
@@ -195,53 +281,84 @@ const InteractiveMap = () => {
     );
   };
 
+  // Open Google Maps directions
   const getDirections = (location: Location) => {
     const url = `https://www.google.com/maps/dir/?api=1&destination=${location.lat},${location.lng}`;
+
     window.open(url, "_blank");
   };
 
   const userMarkerRef = useRef<L.Marker | null>(null);
   const userCircleRef = useRef<L.Circle | null>(null);
+
   const [locating, setLocating] = useState(false);
 
+  // Locate current user
   const locateMe = useCallback(() => {
     const map = mapRef.current;
+
     if (!map) return;
+
     if (!("geolocation" in navigator)) {
       toast.error("Geolocation is not supported by your browser");
       return;
     }
+
     setLocating(true);
+
     navigator.geolocation.getCurrentPosition(
       (pos) => {
         const { latitude, longitude, accuracy } = pos.coords;
+
         if (userMarkerRef.current) userMarkerRef.current.remove();
         if (userCircleRef.current) userCircleRef.current.remove();
-        userMarkerRef.current = L.marker([latitude, longitude]).addTo(map).bindPopup("You are here");
-        userCircleRef.current = L.circle([latitude, longitude], {
-          radius: accuracy,
-          color: "#3b82f6",
-          fillColor: "#3b82f6",
-          fillOpacity: 0.15,
-          weight: 1,
-        }).addTo(map);
+
+        userMarkerRef.current = L.marker([
+          latitude,
+          longitude,
+        ])
+          .addTo(map)
+          .bindPopup("You are here");
+
+        userCircleRef.current = L.circle(
+          [latitude, longitude],
+          {
+            radius: accuracy,
+            color: "#3b82f6",
+            fillColor: "#3b82f6",
+            fillOpacity: 0.15,
+            weight: 1,
+          }
+        ).addTo(map);
+
         map.setView([latitude, longitude], 14);
         setLocating(false);
       },
       (err) => {
         setLocating(false);
-        toast.error(err.code === err.PERMISSION_DENIED ? "Location permission denied" : "Could not get your location");
+
+        toast.error(
+          err.code === err.PERMISSION_DENIED
+            ? "Location permission denied"
+            : "Could not get your location"
+        );
       },
-      { enableHighAccuracy: true, timeout: 10000, maximumAge: 60000 }
+      {
+        enableHighAccuracy: true,
+        timeout: 10000,
+        maximumAge: 60000,
+      }
     );
   }, []);
 
   return (
     <div className="container mx-auto px-4 py-12">
+      {/* Page Header */}
       <div className="text-center mb-8">
         <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-4 bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent break-words px-2">
           {t("mapTitle")}
         </h1>
+
         <p className="text-lg text-muted-foreground">
           {t("mapSubtitle")}
         </p>
@@ -252,28 +369,31 @@ const InteractiveMap = () => {
         <div className="flex flex-wrap gap-2">
           {filterTypes.map((filter) => {
             const FilterIcon = filter.Icon;
+            const isActive = activeFilters.includes(filter.id);
+
             return (
               <Button
-  key={filter.id}
-  onClick={() => toggleFilter(filter.id)}
-  variant="outline"
-  size="sm"
-  className={`
-    text-white font-semibold border-0 transition-all duration-200
-    ${
-      activeFilters.includes(filter.id)
-        ? filter.id === "recycling"
-          ? "bg-emerald-600 hover:bg-emerald-700"
-          : "bg-blue-600 hover:bg-blue-700"
-        : "bg-slate-500 hover:bg-slate-600"
-    }
-  `}
->
-  <FilterIcon className="mr-2" size={16} />
-  {filter.label}
-</Button>
+                key={filter.id}
+                onClick={() => toggleFilter(filter.id)}
+                variant="outline"
+                size="sm"
+                className={`
+                  text-white font-semibold border-0 transition-colors duration-200
+                  ${
+                    isActive
+                      ? filter.id === "recycling"
+                        ? "bg-emerald-600 hover:bg-emerald-700"
+                        : "bg-blue-600 hover:bg-blue-700"
+                      : "bg-slate-500 hover:bg-slate-600"
+                  }
+                `}
+              >
+                <FilterIcon className="mr-2" size={16} />
+                {filter.label}
+              </Button>
             );
           })}
+
           <Button
             onClick={locateMe}
             variant="outline"
@@ -287,11 +407,15 @@ const InteractiveMap = () => {
         </div>
       </Card>
 
+      {/* Loading Notification */}
       {loading && loadingMessage && (
         <div className="fixed top-20 right-4 z-[1000] animate-slide-in">
           <div className="inline-flex items-center space-x-3 bg-primary text-white px-4 py-3 rounded-lg shadow-custom-lg backdrop-blur">
             <div className="h-5 w-5 border-2 border-white border-t-transparent rounded-full animate-spin" />
-            <span className="text-sm font-medium">{loadingMessage}</span>
+
+            <span className="text-sm font-medium">
+              {loadingMessage}
+            </span>
           </div>
         </div>
       )}
@@ -300,44 +424,65 @@ const InteractiveMap = () => {
         {/* Map */}
         <div className="lg:col-span-2">
           <Card className="overflow-hidden shadow-custom-lg">
-            <div ref={mapContainerRef} className="w-full h-[600px]" />
+            <div
+              ref={mapContainerRef}
+              className="w-full h-[600px]"
+            />
           </Card>
         </div>
 
         {/* Location Details */}
         <div className="space-y-6">
           {selectedLocation ? (
-            <Card className="p-6 shadow-custom-lg animate-scale-in">
-              <h2 className="text-2xl font-bold mb-4 break-words">{selectedLocation.name}</h2>
-              
+            <Card className="p-6 shadow-custom-lg animate-scale-in bg-card text-card-foreground border-border">
+              <h2 className="text-2xl font-bold mb-4 break-words text-foreground dark:text-white">
+                {selectedLocation.name}
+              </h2>
+
               <div className="space-y-3">
+                {/* Address */}
                 <div className="flex items-start space-x-3">
                   <MapPin className="w-5 h-5 text-primary mt-0.5 flex-shrink-0" />
-                  <p className="text-muted-foreground text-sm break-words">{selectedLocation.address}</p>
+
+                  <p className="text-foreground dark:text-white text-sm break-words">
+                    {selectedLocation.address}
+                  </p>
                 </div>
 
+                {/* Opening Hours */}
                 {selectedLocation.hours && (
                   <div className="flex items-start space-x-3">
                     <Clock className="w-5 h-5 text-primary mt-0.5 flex-shrink-0" />
-                    <p className="text-muted-foreground">{selectedLocation.hours}</p>
+
+                    <p className="text-foreground dark:text-white">
+                      {selectedLocation.hours}
+                    </p>
                   </div>
                 )}
 
+                {/* Phone */}
                 {selectedLocation.phone && (
                   <div className="flex items-start space-x-3">
                     <Phone className="w-5 h-5 text-primary mt-0.5 flex-shrink-0" />
-                    <p className="text-muted-foreground">{selectedLocation.phone}</p>
+
+                    <p className="text-foreground dark:text-white">
+                      {selectedLocation.phone}
+                    </p>
                   </div>
                 )}
 
+                {/* Accepted Materials */}
                 {selectedLocation.accepts && (
-                  <div className="pt-3 border-t">
-                    <p className="font-semibold mb-2">{t("accepts")}</p>
+                  <div className="pt-3 border-t border-border">
+                    <p className="font-semibold mb-2 text-foreground dark:text-white">
+                      {t("accepts")}
+                    </p>
+
                     <div className="flex flex-wrap gap-2">
                       {selectedLocation.accepts.map((item, index) => (
                         <span
                           key={index}
-                          className="px-3 py-1 bg-primary/10 text-primary rounded-full text-sm font-medium"
+                          className="px-3 py-1 bg-primary/10 text-primary dark:bg-emerald-700 dark:text-white rounded-full text-sm font-semibold"
                         >
                           {item}
                         </span>
@@ -346,40 +491,53 @@ const InteractiveMap = () => {
                   </div>
                 )}
 
+                {/* Capacity */}
                 {selectedLocation.capacity && (
-                  <div className="pt-3 border-t">
-                    <p className="font-semibold">{t("capacity")} {selectedLocation.capacity}</p>
+                  <div className="pt-3 border-t border-border">
+                    <p className="font-semibold text-foreground dark:text-white">
+                      {t("capacity")} {selectedLocation.capacity}
+                    </p>
                   </div>
                 )}
               </div>
 
+              {/* Get Directions */}
               <Button
                 onClick={() => getDirections(selectedLocation)}
-                className="w-full mt-6 gradient-primary"
+                className="w-full mt-6 gradient-primary text-white font-semibold hover:opacity-90 transition-opacity"
               >
                 <Navigation className="mr-2" size={18} />
                 {t("getDirections")}
               </Button>
             </Card>
           ) : (
-            <Card className="p-6 shadow-custom-lg">
-              <p className="text-center text-muted-foreground">
+            <Card className="p-6 shadow-custom-lg bg-card border-border">
+              <p className="text-center text-muted-foreground dark:text-white">
                 {t("clickMarker")}
               </p>
             </Card>
           )}
 
           {/* Legend */}
-          <Card className="p-6 shadow-custom-md">
-            <h3 className="font-semibold mb-4">{t("legend")}</h3>
+          <Card className="p-6 shadow-custom-md bg-card border-border">
+            <h3 className="font-semibold mb-4 text-foreground dark:text-white">
+              {t("legend")}
+            </h3>
+
             <div className="space-y-2">
               {filterTypes.map((filter) => (
-                <div key={filter.id} className="flex items-center space-x-3">
+                <div
+                  key={filter.id}
+                  className="flex items-center space-x-3"
+                >
                   <div
                     className="w-4 h-4 rounded-full"
                     style={{ backgroundColor: filter.color }}
                   />
-                  <span className="text-sm text-muted-foreground">{filter.label}</span>
+
+                  <span className="text-sm text-muted-foreground dark:text-white">
+                    {filter.label}
+                  </span>
                 </div>
               ))}
             </div>
