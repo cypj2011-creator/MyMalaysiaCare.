@@ -206,15 +206,16 @@ const Dashboard = () => {
 
   if (authLoading || loadingData) {
     return (
-      <div className="min-h-[60vh]">
-        <div className="fixed top-20 right-4 z-[1000] animate-slide-in">
-          <div className="inline-flex items-center space-x-3 bg-primary text-white px-4 py-3 rounded-lg shadow-custom-lg backdrop-blur">
-            <div className="h-5 w-5 border-2 border-white border-t-transparent rounded-full animate-spin" />
-            <span className="text-sm font-medium">
-              Loading your dashboard...
-            </span>
-          </div>
-        </div>
+      <div className="min-h-[60vh] w-full flex flex-col items-center justify-center gap-5">
+        <h1 className="text-3xl sm:text-4xl font-extrabold tracking-tight text-primary">
+          MyMalaysia<span className="italic font-semibold text-secondary">Care</span>
+        </h1>
+
+        <div
+          className="h-9 w-9 rounded-full border-[3px] border-primary/20 border-t-primary animate-spin"
+          role="status"
+          aria-label="Loading"
+        />
       </div>
     );
   }
