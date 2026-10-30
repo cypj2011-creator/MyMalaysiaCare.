@@ -39,7 +39,6 @@ const Home = () => {
 
       if (availableWidth > 0 && naturalWidth > 0) {
         const calculatedSize = (100 * availableWidth) / naturalWidth;
-
         setMobileFontSize(calculatedSize);
       }
     };
@@ -186,7 +185,7 @@ const Home = () => {
       </section>
 
       {/* Features */}
-      <section className="px-4 py-12 md:py-16">
+      <section className="px-4 pt-10 pb-8 md:pt-12 md:pb-10">
         <div className="container mx-auto">
 
           <div className="grid md:grid-cols-12 gap-6 mb-8 items-end">
@@ -228,7 +227,7 @@ const Home = () => {
       </section>
 
       {/* Call to Action */}
-      <section className="px-4 pb-12 md:pb-16">
+      <section className="px-4 pt-4 pb-4 md:pt-6 md:pb-6">
         <div className="container mx-auto bg-primary text-primary-foreground p-8 md:p-12 grid md:grid-cols-12 gap-6 items-center rounded-sm">
 
           <div className="md:col-span-8">
