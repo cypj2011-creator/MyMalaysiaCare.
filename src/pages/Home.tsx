@@ -52,11 +52,8 @@ const Home = () => {
           {/* Hero Content */}
           <div className="md:col-span-8 w-full flex flex-col items-center text-center md:items-start md:text-left">
 
-            <h1 className="w-full text-[clamp(2.8rem,8vw,5.8rem)] leading-[0.95] font-extrabold text-primary tracking-tight">
-              MyMalaysia
-              <span className="italic font-semibold text-secondary">
-                Care
-              </span>
+            <h1 className="w-full whitespace-nowrap text-center md:text-left text-[clamp(1.65rem,7.5vw,5.8rem)] leading-none font-extrabold text-primary tracking-tight">
+              MyMalaysia<span className="italic font-semibold text-secondary">Care</span>
             </h1>
 
             <p className="mt-5 text-lg md:text-2xl text-primary font-semibold max-w-2xl leading-relaxed">
