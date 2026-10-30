@@ -1,5 +1,6 @@
 
 import { Link } from "react-router-dom";
+import { useEffect, useRef, useState } from "react";
 import {
   Camera,
   Map,
@@ -14,6 +15,51 @@ import { useTranslation } from "@/hooks/useTranslation";
 
 const Home = () => {
   const { t } = useTranslation();
+
+  const headingRef = useRef<HTMLHeadingElement>(null);
+  const measureRef = useRef<HTMLSpanElement>(null);
+  const [mobileFontSize, setMobileFontSize] = useState<number | null>(null);
+
+  useEffect(() => {
+    const heading = headingRef.current;
+    const measure = measureRef.current;
+
+    if (!heading || !measure) return;
+
+    const mobileQuery = window.matchMedia("(max-width: 767px)");
+
+    const calculateFontSize = () => {
+      if (!mobileQuery.matches) {
+        setMobileFontSize(null);
+        return;
+      }
+
+      const availableWidth = heading.clientWidth * 0.97;
+      const naturalWidth = measure.getBoundingClientRect().width;
+
+      if (availableWidth > 0 && naturalWidth > 0) {
+        const calculatedSize = (100 * availableWidth) / naturalWidth;
+
+        setMobileFontSize(calculatedSize);
+      }
+    };
+
+    calculateFontSize();
+
+    const observer = new ResizeObserver(calculateFontSize);
+    observer.observe(heading);
+
+    mobileQuery.addEventListener("change", calculateFontSize);
+    window.addEventListener("resize", calculateFontSize);
+
+    document.fonts?.ready.then(calculateFontSize);
+
+    return () => {
+      observer.disconnect();
+      mobileQuery.removeEventListener("change", calculateFontSize);
+      window.removeEventListener("resize", calculateFontSize);
+    };
+  }, []);
 
   const features = [
     {
@@ -52,8 +98,31 @@ const Home = () => {
           {/* Hero Content */}
           <div className="md:col-span-8 w-full min-w-0 flex flex-col items-center text-center md:items-start md:text-left">
 
-            <h1 className="w-full whitespace-nowrap text-center md:text-left text-[clamp(1.8rem,9.5vw,5.8rem)] sm:text-[clamp(3rem,7vw,5.8rem)] leading-none font-extrabold text-primary tracking-[-0.075em]">
+            <h1
+              ref={headingRef}
+              style={
+                mobileFontSize !== null
+                  ? { fontSize: `${mobileFontSize}px` }
+                  : undefined
+              }
+              className="relative w-full whitespace-nowrap text-center md:text-left text-[clamp(2rem,8.5vw,5.8rem)] leading-none font-extrabold text-primary tracking-[-0.075em]"
+            >
               MyMalaysia<span className="italic font-semibold text-secondary">Care</span>
+
+              {/* Hidden measurement text for accurate mobile sizing */}
+              <span
+                ref={measureRef}
+                aria-hidden="true"
+                className="absolute invisible pointer-events-none whitespace-nowrap"
+                style={{
+                  top: 0,
+                  left: 0,
+                  fontSize: "100px",
+                  letterSpacing: "-7.5px",
+                }}
+              >
+                MyMalaysia<span className="italic font-semibold">Care</span>
+              </span>
             </h1>
 
             <p className="mt-5 text-lg md:text-2xl text-primary font-semibold max-w-2xl leading-relaxed">
