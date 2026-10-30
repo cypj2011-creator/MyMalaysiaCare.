@@ -1,4 +1,4 @@
-import { lazy, Suspense } from "react";
+import { lazy, Suspense, useEffect, useRef } from "react";
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
@@ -22,6 +22,44 @@ const NotFound = lazy(() => import("./pages/NotFound"));
 
 const queryClient = new QueryClient();
 
+const CursorGlow = () => {
+  const glowRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const glow = glowRef.current;
+
+    if (!glow) return;
+
+    const finePointer = window.matchMedia("(pointer: fine)");
+
+    if (!finePointer.matches) return;
+
+    const handlePointerMove = (event: PointerEvent) => {
+      if (event.pointerType === "touch") return;
+
+      glow.style.transform = `translate3d(${event.clientX}px, ${event.clientY}px, 0) translate(-50%, -50%)`;
+      glow.style.opacity = "1";
+    };
+
+    const handlePointerLeave = () => {
+      glow.style.opacity = "0";
+    };
+
+    window.addEventListener("pointermove", handlePointerMove);
+    document.documentElement.addEventListener("pointerleave", handlePointerLeave);
+
+    return () => {
+      window.removeEventListener("pointermove", handlePointerMove);
+      document.documentElement.removeEventListener(
+        "pointerleave",
+        handlePointerLeave
+      );
+    };
+  }, []);
+
+  return <div ref={glowRef} className="cursor-glow" aria-hidden="true" />;
+};
+
 const AppFallback = () => (
   <div className="min-h-[60vh] flex items-center justify-center bg-background">
     <div className="flex items-center gap-3 text-primary">
@@ -34,6 +72,7 @@ const AppFallback = () => (
 const App = () => (
   <QueryClientProvider client={queryClient}>
     <TooltipProvider>
+      <CursorGlow />
       <Toaster />
       <Sonner />
       <HashRouter>
