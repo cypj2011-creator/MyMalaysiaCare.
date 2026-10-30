@@ -46,13 +46,13 @@ const Home = () => {
     <div className="min-h-screen paper-grain">
 
       {/* Hero */}
-      <section className="px-4 pt-10 pb-12 md:pt-16 md:pb-16 border-b border-border">
+      <section className="px-3 sm:px-4 pt-10 pb-12 md:pt-16 md:pb-16 border-b border-border">
         <div className="container mx-auto grid grid-cols-1 md:grid-cols-12 gap-8 items-center">
 
           {/* Hero Content */}
-          <div className="md:col-span-8 w-full flex flex-col items-center text-center md:items-start md:text-left">
+          <div className="md:col-span-8 w-full min-w-0 flex flex-col items-center text-center md:items-start md:text-left">
 
-            <h1 className="w-full whitespace-nowrap text-center md:text-left text-[clamp(2rem,8.5vw,5.8rem)] leading-none font-extrabold text-primary tracking-[-0.06em]">
+            <h1 className="w-full whitespace-nowrap text-center md:text-left text-[clamp(1.8rem,9.5vw,5.8rem)] sm:text-[clamp(3rem,7vw,5.8rem)] leading-none font-extrabold text-primary tracking-[-0.075em]">
               MyMalaysia<span className="italic font-semibold text-secondary">Care</span>
             </h1>
 
