@@ -254,15 +254,24 @@ const InteractiveMap = () => {
             const FilterIcon = filter.Icon;
             return (
               <Button
-                key={filter.id}
-                onClick={() => toggleFilter(filter.id)}
-                variant={activeFilters.includes(filter.id) ? "default" : "outline"}
-                size="sm"
-                className={activeFilters.includes(filter.id) ? "gradient-primary" : ""}
-              >
-                <FilterIcon className="mr-2" size={16} />
-                {filter.label}
-              </Button>
+  key={filter.id}
+  onClick={() => toggleFilter(filter.id)}
+  variant="outline"
+  size="sm"
+  className={`
+    text-white font-semibold border-0 transition-all duration-200
+    ${
+      activeFilters.includes(filter.id)
+        ? filter.id === "recycling"
+          ? "bg-emerald-600 hover:bg-emerald-700"
+          : "bg-blue-600 hover:bg-blue-700"
+        : "bg-slate-500 hover:bg-slate-600"
+    }
+  `}
+>
+  <FilterIcon className="mr-2" size={16} />
+  {filter.label}
+</Button>
             );
           })}
           <Button
