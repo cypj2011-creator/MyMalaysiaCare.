@@ -206,8 +206,15 @@ const Dashboard = () => {
 
   if (authLoading || loadingData) {
     return (
-      <div className="min-h-[60vh] flex items-center justify-center">
-        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary" />
+      <div className="min-h-[60vh]">
+        <div className="fixed top-20 right-4 z-[1000] animate-slide-in">
+          <div className="inline-flex items-center space-x-3 bg-primary text-white px-4 py-3 rounded-lg shadow-custom-lg backdrop-blur">
+            <div className="h-5 w-5 border-2 border-white border-t-transparent rounded-full animate-spin" />
+            <span className="text-sm font-medium">
+              Loading your dashboard...
+            </span>
+          </div>
+        </div>
       </div>
     );
   }
@@ -234,7 +241,6 @@ const Dashboard = () => {
       {/* Account Header */}
       <Card className="w-full p-4 sm:p-6 mb-6 md:mb-8 shadow-custom-lg">
         <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-5">
-          
           {/* Profile Information */}
           <div className="flex items-start gap-3 sm:gap-4 min-w-0 flex-1">
             <Avatar className="h-14 w-14 sm:h-16 sm:w-16 flex-shrink-0">
