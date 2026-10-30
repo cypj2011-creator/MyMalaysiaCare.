@@ -126,8 +126,8 @@ const Home = () => {
               {t("whyChoose")}
             </h2>
 
-            <p className="md:col-span-6 md:col-start-7 text-base md:text-lg text-muted-foreground font-medium leading-relaxed self-end">
-              Discover practical tools that make recycling easier, help you find nearby recycling locations, and support a greener Malaysia.
+            <p className="md:col-span-6 md:col-start-7 text-base md:text-lg text-muted-foreground font-extrabold leading-relaxed self-end">
+              Small actions. Greener tomorrows.
             </p>
           </div>
 
