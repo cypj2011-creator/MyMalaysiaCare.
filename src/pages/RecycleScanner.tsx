@@ -341,8 +341,8 @@ const RecycleScanner = () => {
   }
 
   return (
-    <div className="min-h-screen w-full overflow-x-hidden bg-gradient-to-br from-background via-background to-primary/5 py-8 md:py-20 px-2 sm:px-4">
-      <div className="container mx-auto w-full max-w-4xl">
+    <div className="min-h-screen w-full overflow-x-hidden bg-gradient-to-br from-background via-background to-primary/5 py-8 md:py-20 px-1 sm:px-4">
+      <div className="mx-auto w-full max-w-none md:max-w-4xl">
         {/* Page heading */}
         <div className="text-center mb-8 md:mb-12 animate-fade-in">
           <div className="inline-flex items-center space-x-2 bg-primary/10 px-4 py-2 rounded-full mb-4">
@@ -362,7 +362,7 @@ const RecycleScanner = () => {
         </div>
 
         {/* Scanner card */}
-        <Card className="w-full p-3 sm:p-4 md:p-8 mb-6 md:mb-8 animate-scale-in">
+        <Card className="w-full p-2 sm:p-4 md:p-8 mb-6 md:mb-8 animate-scale-in">
           <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 mb-6">
             <input
               ref={cameraInputRef}
@@ -500,7 +500,7 @@ const RecycleScanner = () => {
 
         {/* Scan history */}
         {scanHistory.length > 0 && (
-          <Card className="w-full p-3 sm:p-4 md:p-6 animate-fade-in">
+          <Card className="w-full p-2 sm:p-4 md:p-6 animate-fade-in">
             <h3 className="text-lg md:text-xl font-bold mb-4 flex items-center">
               <Clock className="mr-2 h-5 w-5" />
               {t("scanHistoryTitle")}
@@ -542,7 +542,7 @@ const RecycleScanner = () => {
         )}
 
         {/* AI assistance information */}
-        <div className="mt-6 md:mt-8 p-3 sm:p-4 md:p-6 bg-primary/5 rounded-lg animate-fade-in">
+        <div className="mt-6 md:mt-8 p-2 sm:p-4 md:p-6 bg-primary/5 rounded-lg animate-fade-in">
           <h3 className="font-semibold mb-2 text-sm md:text-base">
             {t("smartAIAssistance")}
           </h3>
