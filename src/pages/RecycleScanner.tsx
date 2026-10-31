@@ -380,8 +380,8 @@ const RecycleScanner = () => {
       {/* Preserve the destination repository's wide layout */}
       <div className="mx-auto w-full max-w-none md:max-w-4xl">
 
-        {/* Page heading: centred with mobile side spacing */}
-        <div className="w-full px-2 sm:px-0 text-center [&>div]:items-center [&>div]:text-center [&_h1]:w-full [&_h1]:text-center [&_p]:w-full [&_p]:text-center">
+        {/* Mobile heading alignment only; laptop uses original PageHeader layout */}
+        <div className="w-full px-2 sm:px-0 max-md:text-center max-md:[&>div]:items-center max-md:[&>div]:text-center max-md:[&_h1]:w-full max-md:[&_h1]:text-center max-md:[&_p]:w-full max-md:[&_p]:text-center">
           <PageHeader
             eyebrow={t("smartAIRecognition")}
             icon={<Sparkles className="w-4 h-4" />}
