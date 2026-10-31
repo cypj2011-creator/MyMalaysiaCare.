@@ -380,15 +380,15 @@ const RecycleScanner = () => {
       {/* Preserve the destination repository's wide layout */}
       <div className="mx-auto w-full max-w-none md:max-w-4xl">
 
-        {/* Mobile heading alignment only; laptop uses original PageHeader layout */}
-        <div className="w-full px-2 sm:px-0 max-md:text-center max-md:[&>div]:items-center max-md:[&>div]:text-center max-md:[&_h1]:w-full max-md:[&_h1]:text-center max-md:[&_p]:w-full max-md:[&_p]:text-center">
-          <PageHeader
-            eyebrow={t("smartAIRecognition")}
-            icon={<Sparkles className="w-4 h-4" />}
-            title={t("recycAIScanner")}
-            subtitle={t("instantIdentify")}
-          />
-        </div>
+        {/* Mobile heading alignment only; desktop remains unchanged */}
+<div className="w-full px-2 sm:px-0 max-md:text-center max-md:[&>div]:w-full max-md:[&>div]:items-center max-md:[&>div]:justify-center max-md:[&>div]:text-center max-md:[&_h1]:w-full max-md:[&_h1]:text-center max-md:[&_p]:w-full max-md:[&_p]:text-center max-md:[&_span]:text-center">
+  <PageHeader
+    eyebrow={t("smartAIRecognition")}
+    icon={<Sparkles className="w-4 h-4" />}
+    title={t("recycAIScanner")}
+    subtitle={t("instantIdentify")}
+  />
+</div>
 
         {/* Scanner card */}
         <Card className="w-full p-4 sm:p-4 md:p-8 mb-6 md:mb-8 animate-scale-in">
