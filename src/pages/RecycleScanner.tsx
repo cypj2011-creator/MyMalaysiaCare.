@@ -379,7 +379,6 @@ const RecycleScanner = () => {
     <div className="min-h-screen w-full overflow-x-hidden paper-grain py-8 md:py-16 px-4 sm:px-4">
       {/* Preserve the destination repository's wide layout */}
       <div className="mx-auto w-full max-w-none md:max-w-4xl">
-
         {/* Page Header */}
         <PageHeader
           eyebrow={t("smartAIRecognition")}
@@ -388,210 +387,206 @@ const RecycleScanner = () => {
           title={t("recycAIScanner")}
           subtitle={t("instantIdentify")}
         />
-</div>
+      </div>
 
-        {/* Scanner card */}
-        <Card className="w-full p-4 sm:p-4 md:p-8 mb-6 md:mb-8 animate-scale-in">
-          <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 mb-6">
+      {/* Scanner card */}
+      <Card className="w-full p-4 sm:p-4 md:p-8 mb-6 md:mb-8 animate-scale-in">
+        <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 mb-6">
+          <input
+            ref={cameraInputRef}
+            type="file"
+            accept="image/*"
+            capture="environment"
+            onChange={handleImageSelect}
+            className="hidden"
+            disabled={isScanning}
+          />
 
-            <input
-              ref={cameraInputRef}
-              type="file"
-              accept="image/*"
-              capture="environment"
-              onChange={handleImageSelect}
-              className="hidden"
-              disabled={isScanning}
+          <input
+            ref={uploadInputRef}
+            type="file"
+            accept="image/*"
+            onChange={handleImageSelect}
+            className="hidden"
+            disabled={isScanning}
+          />
+
+          <Button
+            className="flex-1 w-full h-auto py-4 md:py-6"
+            disabled={isScanning}
+            onClick={handleTakePhotoClick}
+          >
+            <Camera className="mr-2 h-5 w-5 shrink-0" />
+            <span className="text-sm md:text-base">
+              {t("takePhoto")}
+            </span>
+          </Button>
+
+          <Button
+            variant="outline"
+            className="flex-1 w-full h-auto py-4 md:py-6"
+            disabled={isScanning}
+            onClick={() => uploadInputRef.current?.click()}
+          >
+            <Upload className="mr-2 h-5 w-5 shrink-0" />
+            <span className="text-sm md:text-base">
+              {t("uploadPhoto")}
+            </span>
+          </Button>
+        </div>
+
+        {/* Selected image */}
+        {selectedImage && (
+          <div className="mb-6 animate-fade-in">
+            <img
+              src={selectedImage}
+              alt="Selected item"
+              className="w-full max-h-[300px] md:max-h-[400px] object-contain rounded-lg"
             />
-
-            <input
-              ref={uploadInputRef}
-              type="file"
-              accept="image/*"
-              onChange={handleImageSelect}
-              className="hidden"
-              disabled={isScanning}
-            />
-
-            <Button
-              className="flex-1 w-full h-auto py-4 md:py-6"
-              disabled={isScanning}
-              onClick={handleTakePhotoClick}
-            >
-              <Camera className="mr-2 h-5 w-5 shrink-0" />
-              <span className="text-sm md:text-base">
-                {t("takePhoto")}
-              </span>
-            </Button>
-
-            <Button
-              variant="outline"
-              className="flex-1 w-full h-auto py-4 md:py-6"
-              disabled={isScanning}
-              onClick={() => uploadInputRef.current?.click()}
-            >
-              <Upload className="mr-2 h-5 w-5 shrink-0" />
-              <span className="text-sm md:text-base">
-                {t("uploadPhoto")}
-              </span>
-            </Button>
           </div>
-
-          {/* Selected image */}
-          {selectedImage && (
-            <div className="mb-6 animate-fade-in">
-              <img
-                src={selectedImage}
-                alt="Selected item"
-                className="w-full max-h-[300px] md:max-h-[400px] object-contain rounded-lg"
-              />
-            </div>
-          )}
-
-          {/* Scanning state */}
-          {isScanning && (
-            <div className="text-center py-8 md:py-12 animate-fade-in">
-              <div className="inline-flex items-center space-x-3 bg-primary/10 px-6 py-3 rounded-full mb-4">
-                <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-primary" />
-
-                <span className="text-primary font-medium">
-                  AI analyzing your item...
-                </span>
-              </div>
-            </div>
-          )}
-
-          {/* Scan result */}
-          {scanResult && !isScanning && (
-            <div className="space-y-4 md:space-y-6 animate-fade-in">
-
-              {/* Recyclability status */}
-              <div
-                className={`p-4 md:p-6 rounded-lg ${
-                  scanResult.recyclable
-                    ? "bg-secondary/10 border-2 border-secondary"
-                    : "bg-destructive/10 border-2 border-destructive"
-                }`}
-              >
-                <div className="flex items-center justify-between gap-3 mb-2">
-                  <h3 className="text-lg md:text-xl font-bold text-foreground">
-                    {scanResult.recyclable
-                      ? t("recyclable")
-                      : t("nonRecyclable")}
-                  </h3>
-
-                  <span className="text-xs md:text-sm font-medium text-muted-foreground whitespace-nowrap">
-                    {Math.round(scanResult.confidence * 100)}%{" "}
-                    {t("confident")}
-                  </span>
-                </div>
-
-                <p className="text-base md:text-lg font-semibold text-foreground mb-2 break-words">
-                  {t("category")} {scanResult.category}
-                </p>
-              </div>
-
-              {/* Instructions */}
-              <div className="bg-muted p-4 md:p-6 rounded-lg">
-                <h4 className="font-semibold text-primary mb-2 flex items-center text-sm md:text-base">
-                  <Info className="mr-2 h-4 w-4 md:h-5 md:w-5 shrink-0" />
-                  {t("instructionsLabel")}
-                </h4>
-
-                <p className="text-foreground text-sm md:text-base break-words">
-                  {scanResult.instructions}
-                </p>
-              </div>
-
-              {/* Eco fact */}
-              <div className="bg-accent/15 p-4 border-l-4 border-accent md:p-6 rounded-lg">
-                <h4 className="font-semibold text-primary mb-2 flex items-center text-sm md:text-base">
-                  <Leaf className="mr-2 h-4 w-4 md:h-5 md:w-5 shrink-0" />
-                  {t("ecoFactLabel")}
-                </h4>
-
-                <p className="text-foreground text-sm md:text-base break-words">
-                  {scanResult.ecoFact}
-                </p>
-              </div>
-
-              {/* Recycling centre map */}
-              {scanResult.recyclable && (
-                <Button
-                  onClick={() => navigate("/map")}
-                  className="w-full gradient-primary"
-                >
-                  <MapPin className="mr-2 h-5 w-5 shrink-0" />
-                  {t("findNearestCenter")}
-                </Button>
-              )}
-
-              {/* Scan feedback */}
-              {resultRateable && (
-                <ScanFeedback
-                  category={scanResult.category}
-                  recyclable={scanResult.recyclable}
-                  scanId={scanId}
-                />
-              )}
-            </div>
-          )}
-        </Card>
-
-        {/* Scan history */}
-        {scanHistory.length > 0 && (
-          <Card className="w-full p-4 sm:p-4 md:p-6 animate-fade-in">
-            <h3 className="text-lg md:text-xl font-bold mb-4 flex items-center">
-              <Clock className="mr-2 h-5 w-5 shrink-0" />
-              {t("scanHistoryTitle")}
-            </h3>
-
-            <div className="space-y-3">
-              {scanHistory.map((scan) => (
-                <div
-                  key={scan.id}
-                  className="p-3 md:p-4 bg-secondary/10 rounded-lg"
-                >
-                  <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
-
-                    <div className="flex-1 min-w-0">
-                      <p className="font-semibold text-sm md:text-base break-words">
-                        {scan.category}
-                      </p>
-
-                      <p className="text-xs md:text-sm text-muted-foreground">
-                        {new Date(scan.created_at).toLocaleDateString()}
-                      </p>
-                    </div>
-
-                    <span
-                      className={`self-start sm:self-auto text-xs md:text-sm font-medium px-2 py-1 rounded-full whitespace-nowrap ${
-                        scan.recyclable
-                          ? "bg-secondary text-secondary-foreground"
-                          : "bg-destructive text-destructive-foreground"
-                      }`}
-                    >
-                      {scan.recyclable
-                        ? t("recyclable")
-                        : t("nonRecyclable")}
-                    </span>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </Card>
         )}
 
-        {/* AI assistance information */}
-        <div className="mt-6 md:mt-8 p-4 sm:p-4 md:p-6 bg-primary/5 rounded-lg animate-fade-in">
-          <h3 className="font-semibold mb-2 text-sm md:text-base">
-            {t("smartAIAssistance")}
+        {/* Scanning state */}
+        {isScanning && (
+          <div className="text-center py-8 md:py-12 animate-fade-in">
+            <div className="inline-flex items-center space-x-3 bg-primary/10 px-6 py-3 rounded-full mb-4">
+              <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-primary" />
+
+              <span className="text-primary font-medium">
+                AI analyzing your item...
+              </span>
+            </div>
+          </div>
+        )}
+
+        {/* Scan result */}
+        {scanResult && !isScanning && (
+          <div className="space-y-4 md:space-y-6 animate-fade-in">
+            {/* Recyclability status */}
+            <div
+              className={`p-4 md:p-6 rounded-lg ${
+                scanResult.recyclable
+                  ? "bg-secondary/10 border-2 border-secondary"
+                  : "bg-destructive/10 border-2 border-destructive"
+              }`}
+            >
+              <div className="flex items-center justify-between gap-3 mb-2">
+                <h3 className="text-lg md:text-xl font-bold text-foreground">
+                  {scanResult.recyclable
+                    ? t("recyclable")
+                    : t("nonRecyclable")}
+                </h3>
+
+                <span className="text-xs md:text-sm font-medium text-muted-foreground whitespace-nowrap">
+                  {Math.round(scanResult.confidence * 100)}%{" "}
+                  {t("confident")}
+                </span>
+              </div>
+
+              <p className="text-base md:text-lg font-semibold text-foreground mb-2 break-words">
+                {t("category")} {scanResult.category}
+              </p>
+            </div>
+
+            {/* Instructions */}
+            <div className="bg-muted p-4 md:p-6 rounded-lg">
+              <h4 className="font-semibold text-primary mb-2 flex items-center text-sm md:text-base">
+                <Info className="mr-2 h-4 w-4 md:h-5 md:w-5 shrink-0" />
+                {t("instructionsLabel")}
+              </h4>
+
+              <p className="text-foreground text-sm md:text-base break-words">
+                {scanResult.instructions}
+              </p>
+            </div>
+
+            {/* Eco fact */}
+            <div className="bg-accent/15 p-4 border-l-4 border-accent md:p-6 rounded-lg">
+              <h4 className="font-semibold text-primary mb-2 flex items-center text-sm md:text-base">
+                <Leaf className="mr-2 h-4 w-4 md:h-5 md:w-5 shrink-0" />
+                {t("ecoFactLabel")}
+              </h4>
+
+              <p className="text-foreground text-sm md:text-base break-words">
+                {scanResult.ecoFact}
+              </p>
+            </div>
+
+            {/* Recycling centre map */}
+            {scanResult.recyclable && (
+              <Button
+                onClick={() => navigate("/map")}
+                className="w-full gradient-primary"
+              >
+                <MapPin className="mr-2 h-5 w-5 shrink-0" />
+                {t("findNearestCenter")}
+              </Button>
+            )}
+
+            {/* Scan feedback */}
+            {resultRateable && (
+              <ScanFeedback
+                category={scanResult.category}
+                recyclable={scanResult.recyclable}
+                scanId={scanId}
+              />
+            )}
+          </div>
+        )}
+      </Card>
+
+      {/* Scan history */}
+      {scanHistory.length > 0 && (
+        <Card className="w-full p-4 sm:p-4 md:p-6 animate-fade-in">
+          <h3 className="text-lg md:text-xl font-bold mb-4 flex items-center">
+            <Clock className="mr-2 h-5 w-5 shrink-0" />
+            {t("scanHistoryTitle")}
           </h3>
 
-          <p className="text-xs md:text-sm text-muted-foreground">
-            {t("aiRecognizes")}
-          </p>
-        </div>
+          <div className="space-y-3">
+            {scanHistory.map((scan) => (
+              <div
+                key={scan.id}
+                className="p-3 md:p-4 bg-secondary/10 rounded-lg"
+              >
+                <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
+                  <div className="flex-1 min-w-0">
+                    <p className="font-semibold text-sm md:text-base break-words">
+                      {scan.category}
+                    </p>
+
+                    <p className="text-xs md:text-sm text-muted-foreground">
+                      {new Date(scan.created_at).toLocaleDateString()}
+                    </p>
+                  </div>
+
+                  <span
+                    className={`self-start sm:self-auto text-xs md:text-sm font-medium px-2 py-1 rounded-full whitespace-nowrap ${
+                      scan.recyclable
+                        ? "bg-secondary text-secondary-foreground"
+                        : "bg-destructive text-destructive-foreground"
+                    }`}
+                  >
+                    {scan.recyclable
+                      ? t("recyclable")
+                      : t("nonRecyclable")}
+                  </span>
+                </div>
+              </div>
+            ))}
+          </div>
+        </Card>
+      )}
+
+      {/* AI assistance information */}
+      <div className="mt-6 md:mt-8 p-4 sm:p-4 md:p-6 bg-primary/5 rounded-lg animate-fade-in">
+        <h3 className="font-semibold mb-2 text-sm md:text-base">
+          {t("smartAIAssistance")}
+        </h3>
+
+        <p className="text-xs md:text-sm text-muted-foreground">
+          {t("aiRecognizes")}
+        </p>
       </div>
 
       {/* Webcam canvas */}
