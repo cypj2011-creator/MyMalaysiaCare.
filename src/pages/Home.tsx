@@ -1,4 +1,3 @@
-
 import { Link } from "react-router-dom";
 import { useEffect, useRef, useState } from "react";
 import {
@@ -88,15 +87,12 @@ const Home = () => {
   ];
 
   return (
-    <div className="min-h-screen paper-grain">
-
+    <div className="min-h-screen w-full max-w-full overflow-x-clip paper-grain">
       {/* Hero */}
-      <section className="px-3 sm:px-4 pt-10 pb-12 md:pt-16 md:pb-16 border-b border-border">
-        <div className="container mx-auto grid grid-cols-1 md:grid-cols-12 gap-8 items-center">
-
+      <section className="w-full max-w-full overflow-x-clip px-3 sm:px-4 pt-10 pb-12 md:pt-16 md:pb-16 border-b border-border">
+        <div className="container mx-auto w-full max-w-full grid grid-cols-1 md:grid-cols-12 gap-8 items-center">
           {/* Hero Content */}
           <div className="md:col-span-8 w-full min-w-0 flex flex-col items-center text-center md:items-start md:text-left">
-
             <h1
               ref={headingRef}
               style={
@@ -104,9 +100,12 @@ const Home = () => {
                   ? { fontSize: `${mobileFontSize}px` }
                   : undefined
               }
-              className="relative w-full whitespace-nowrap text-center md:text-left text-[clamp(2rem,8.5vw,5.8rem)] leading-none font-extrabold text-primary tracking-[-0.075em]"
+              className="relative w-full max-w-full overflow-hidden whitespace-nowrap text-center md:text-left text-[clamp(2rem,8.5vw,5.8rem)] leading-none font-extrabold text-primary tracking-[-0.075em]"
             >
-              MyMalaysia<span className="italic font-semibold text-secondary">Care</span>
+              MyMalaysia
+              <span className="italic font-semibold text-secondary">
+                Care
+              </span>
 
               {/* Hidden measurement text for accurate mobile sizing */}
               <span
@@ -120,11 +119,12 @@ const Home = () => {
                   letterSpacing: "-7.5px",
                 }}
               >
-                MyMalaysia<span className="italic font-semibold">Care</span>
+                MyMalaysia
+                <span className="italic font-semibold">Care</span>
               </span>
             </h1>
 
-            <p className="mt-5 text-lg md:text-2xl text-primary font-semibold max-w-2xl leading-relaxed">
+            <p className="mt-5 w-full max-w-2xl text-lg md:text-2xl text-primary font-semibold leading-relaxed">
               {t("homeSubtitle")}
             </p>
 
@@ -153,8 +153,8 @@ const Home = () => {
           </div>
 
           {/* Stamp Card */}
-          <aside className="md:col-span-4 w-full max-w-md mx-auto md:max-w-none">
-            <div className="relative border-2 border-primary bg-card p-6 rotate-[-1deg] shadow-custom-lg rounded-sm">
+          <aside className="md:col-span-4 w-full min-w-0 max-w-md mx-auto md:max-w-none">
+            <div className="relative w-full min-w-0 border-2 border-primary bg-card p-6 rotate-[-1deg] shadow-custom-lg rounded-sm">
               <div className="absolute -top-3 left-6 bg-accent text-accent-foreground px-3 py-1">
                 <Recycle className="w-4 h-4" />
               </div>
@@ -167,7 +167,7 @@ const Home = () => {
                 ].map(([value, label]) => (
                   <div
                     key={label}
-                    className="flex items-baseline justify-between py-3"
+                    className="flex items-baseline justify-between gap-3 py-3"
                   >
                     <dt className="text-sm text-muted-foreground font-medium">
                       {label}
@@ -185,10 +185,9 @@ const Home = () => {
       </section>
 
       {/* Features */}
-      <section className="px-4 pt-10 pb-8 md:pt-12 md:pb-10">
-        <div className="container mx-auto">
-
-          <div className="grid md:grid-cols-12 gap-6 mb-8 items-end">
+      <section className="w-full max-w-full overflow-x-clip px-4 pt-10 pb-8 md:pt-12 md:pb-10">
+        <div className="container mx-auto w-full max-w-full min-w-0">
+          <div className="grid grid-cols-1 md:grid-cols-12 gap-6 mb-8 items-end">
             <h2 className="md:col-span-5 text-3xl md:text-5xl font-bold text-primary leading-tight tracking-tight">
               {t("whyChoose")}
             </h2>
@@ -198,27 +197,29 @@ const Home = () => {
             </p>
           </div>
 
-          <ul className="border-t-2 border-primary">
+          <ul className="w-full max-w-full border-t-2 border-primary">
             {features.map((feature, index) => (
               <li key={feature.link} className="border-b border-border">
                 <Link
                   to={feature.link}
-                  className="group grid grid-cols-[2.5rem_1fr_auto] md:grid-cols-[5rem_1fr_2fr_auto] gap-3 md:gap-4 items-center py-5 md:py-7 hover:bg-muted/60 px-2 transition-colors"
+                  className="group grid w-full min-w-0 grid-cols-[2.5rem_minmax(0,1fr)_auto] md:grid-cols-[5rem_minmax(0,1fr)_2fr_auto] gap-3 md:gap-4 items-center py-5 md:py-7 hover:bg-muted/60 px-2 transition-colors"
                 >
                   <span className="text-base md:text-lg font-bold text-secondary tabular-nums">
                     {String(index + 1).padStart(2, "0")}
                   </span>
 
-                  <h3 className="text-lg md:text-2xl font-bold text-primary flex items-center gap-3">
+                  <h3 className="min-w-0 text-lg md:text-2xl font-bold text-primary flex items-center gap-3">
                     <feature.icon className="w-5 h-5 text-secondary shrink-0" />
-                    {feature.title}
+                    <span className="min-w-0 break-words">
+                      {feature.title}
+                    </span>
                   </h3>
 
-                  <p className="hidden md:block text-muted-foreground font-medium leading-relaxed">
+                  <p className="hidden md:block min-w-0 text-muted-foreground font-medium leading-relaxed">
                     {feature.description}
                   </p>
 
-                  <ArrowUpRight className="w-6 h-6 text-primary transition-transform group-hover:translate-x-1 group-hover:-translate-y-1" />
+                  <ArrowUpRight className="w-6 h-6 text-primary shrink-0 transition-transform group-hover:translate-x-1 group-hover:-translate-y-1" />
                 </Link>
               </li>
             ))}
@@ -227,10 +228,9 @@ const Home = () => {
       </section>
 
       {/* Call to Action */}
-      <section className="px-4 pt-4 pb-4 md:pt-6 md:pb-6">
-        <div className="container mx-auto bg-primary text-primary-foreground p-8 md:p-12 grid md:grid-cols-12 gap-6 items-center rounded-sm">
-
-          <div className="md:col-span-8">
+      <section className="w-full max-w-full overflow-x-clip px-4 pt-4 pb-4 md:pt-6 md:pb-6">
+        <div className="container mx-auto w-full max-w-full min-w-0 bg-primary text-primary-foreground p-8 md:p-12 grid grid-cols-1 md:grid-cols-12 gap-6 items-center rounded-sm">
+          <div className="md:col-span-8 min-w-0">
             <Recycle className="w-10 h-10 text-accent mb-4" />
 
             <h2 className="text-3xl md:text-5xl font-bold leading-tight">
@@ -242,21 +242,19 @@ const Home = () => {
             </p>
           </div>
 
-          <div className="md:col-span-4 md:text-right">
-            <Link to="/recycle">
+          <div className="md:col-span-4 min-w-0 md:text-right">
+            <Link to="/recycle" className="inline-block max-w-full">
               <Button
                 size="lg"
-                className="h-14 px-8 rounded-sm bg-accent text-accent-foreground hover:bg-accent/90 font-bold"
+                className="h-14 px-8 max-w-full rounded-sm bg-accent text-accent-foreground hover:bg-accent/90 font-bold"
               >
                 {t("getStarted")}
-                <ArrowUpRight className="ml-2" size={18} />
+                <ArrowUpRight className="ml-2 shrink-0" size={18} />
               </Button>
             </Link>
           </div>
-
         </div>
       </section>
-
     </div>
   );
 };
