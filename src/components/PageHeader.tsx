@@ -1,3 +1,4 @@
+
 import { ReactNode } from "react";
 
 interface PageHeaderProps {
@@ -9,18 +10,20 @@ interface PageHeaderProps {
 
 /** Editorial page header: small label, large serif title, subtitle, ruled bottom edge. */
 const PageHeader = ({ eyebrow, title, subtitle, icon }: PageHeaderProps) => (
-  <header className="border-b-2 border-primary pb-8 mb-10 md:mb-14">
+  <header className="border-b-2 border-primary pb-8 mb-10 md:mb-14 max-md:text-center">
     {eyebrow && (
-      <p className="text-xs sm:text-sm uppercase tracking-[0.2em] text-secondary mb-4 flex items-center gap-2">
+      <p className="text-xs sm:text-sm uppercase tracking-[0.2em] text-secondary mb-4 flex items-center justify-center gap-2">
         {icon}
         {eyebrow}
       </p>
     )}
-    <h1 className="text-[clamp(2.25rem,7vw,4.5rem)] leading-[1] font-extrabold text-primary tracking-tight break-words">
+
+    <h1 className="text-[clamp(2.25rem,7vw,4.5rem)] leading-[1] font-extrabold text-primary tracking-tight break-words max-md:text-center">
       {title}
     </h1>
+
     {subtitle && (
-      <p className="mt-5 text-base sm:text-lg md:text-xl text-muted-foreground max-w-2xl leading-relaxed">
+      <p className="mt-5 text-base sm:text-lg md:text-xl text-muted-foreground max-w-2xl leading-relaxed mx-auto max-md:text-center">
         {subtitle}
       </p>
     )}
