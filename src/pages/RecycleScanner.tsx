@@ -316,7 +316,7 @@ const RecycleScanner = () => {
         recyclable: true,
 
         instructions:
-          "We couldn't reach the AI service right now. General tip: clean the item, separate materials (plastic, paper, metal, glass), and drop it off at a recycling centre near you.",
+          "We couldn't reach the AI service right now. General tip: clean the item, separate materials (plastic, paper, metal, glass), and drop them off at a recycling centre near you.",
 
         ecoFact:
           "Even a single recycled bottle saves enough energy to power a lightbulb for hours.",
@@ -376,20 +376,22 @@ const RecycleScanner = () => {
   }
 
   return (
-    <div className="min-h-screen w-full overflow-x-hidden paper-grain py-8 md:py-16 px-1 sm:px-4">
-      {/* Keep the destination repository's original wide layout */}
+    <div className="min-h-screen w-full overflow-x-hidden paper-grain py-8 md:py-16 px-4 sm:px-4">
+      {/* Preserve the destination repository's wide layout */}
       <div className="mx-auto w-full max-w-none md:max-w-4xl">
 
-        {/* Page heading: original no-dot repository component */}
-        <PageHeader
-          eyebrow={t("smartAIRecognition")}
-          icon={<Sparkles className="w-4 h-4" />}
-          title={t("recycAIScanner")}
-          subtitle={t("instantIdentify")}
-        />
+        {/* Page heading: centred with mobile side spacing */}
+        <div className="w-full px-2 sm:px-0 text-center [&>div]:items-center [&>div]:text-center [&_h1]:w-full [&_h1]:text-center [&_p]:w-full [&_p]:text-center">
+          <PageHeader
+            eyebrow={t("smartAIRecognition")}
+            icon={<Sparkles className="w-4 h-4" />}
+            title={t("recycAIScanner")}
+            subtitle={t("instantIdentify")}
+          />
+        </div>
 
         {/* Scanner card */}
-        <Card className="w-full p-2 sm:p-4 md:p-8 mb-6 md:mb-8 animate-scale-in">
+        <Card className="w-full p-4 sm:p-4 md:p-8 mb-6 md:mb-8 animate-scale-in">
           <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 mb-6">
 
             <input
@@ -538,7 +540,7 @@ const RecycleScanner = () => {
 
         {/* Scan history */}
         {scanHistory.length > 0 && (
-          <Card className="w-full p-2 sm:p-4 md:p-6 animate-fade-in">
+          <Card className="w-full p-4 sm:p-4 md:p-6 animate-fade-in">
             <h3 className="text-lg md:text-xl font-bold mb-4 flex items-center">
               <Clock className="mr-2 h-5 w-5 shrink-0" />
               {t("scanHistoryTitle")}
@@ -581,7 +583,7 @@ const RecycleScanner = () => {
         )}
 
         {/* AI assistance information */}
-        <div className="mt-6 md:mt-8 p-2 sm:p-4 md:p-6 bg-primary/5 rounded-lg animate-fade-in">
+        <div className="mt-6 md:mt-8 p-4 sm:p-4 md:p-6 bg-primary/5 rounded-lg animate-fade-in">
           <h3 className="font-semibold mb-2 text-sm md:text-base">
             {t("smartAIAssistance")}
           </h3>
