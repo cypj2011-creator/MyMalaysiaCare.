@@ -61,6 +61,10 @@ const InteractiveMap = () => {
 
   const [loading, setLoading] = useState(true);
   const [loadingMessage, setLoadingMessage] = useState("");
+  const [locating, setLocating] = useState(false);
+
+  const userMarkerRef = useRef<L.Marker | null>(null);
+  const userCircleRef = useRef<L.Circle | null>(null);
 
   const filterTypes = useMemo(
     () => [
@@ -216,6 +220,8 @@ const InteractiveMap = () => {
       if (mapRef.current) {
         mapRef.current.remove();
         mapRef.current = null;
+        markersLayerRef.current = null;
+        canvasRendererRef.current = null;
       }
     };
   }, []);
@@ -287,11 +293,6 @@ const InteractiveMap = () => {
 
     window.open(url, "_blank");
   };
-
-  const userMarkerRef = useRef<L.Marker | null>(null);
-  const userCircleRef = useRef<L.Circle | null>(null);
-
-  const [locating, setLocating] = useState(false);
 
   // Locate current user
   const locateMe = useCallback(() => {
@@ -407,13 +408,13 @@ const InteractiveMap = () => {
         </div>
       </Card>
 
-      {/* Theme-aware Loading Notification */}
+      {/* Loading notification - kept below the navigation header */}
       {loading && loadingMessage && (
         <div
           className="
             fixed top-20 left-1/2 -translate-x-1/2
             sm:left-auto sm:right-4 sm:translate-x-0
-            z-[1000] w-[calc(100%-2rem)] sm:w-auto
+            z-40 w-[calc(100%-2rem)] sm:w-auto
             max-w-sm animate-slide-in
           "
           role="status"
@@ -446,12 +447,13 @@ const InteractiveMap = () => {
       )}
 
       <div className="grid lg:grid-cols-3 gap-6">
-        {/* Map */}
-        <div className="lg:col-span-2">
-          <Card className="overflow-hidden shadow-custom-lg">
+        {/* Map - isolated stacking context prevents Leaflet layers
+            from appearing above the website navigation */}
+        <div className="lg:col-span-2 relative z-0 isolate">
+          <Card className="relative z-0 overflow-hidden shadow-custom-lg">
             <div
               ref={mapContainerRef}
-              className="w-full h-[600px]"
+              className="relative z-0 w-full h-[600px]"
             />
           </Card>
         </div>
