@@ -390,6 +390,7 @@ const RecycleScanner = () => {
     subtitle={t("instantIdentify")}
   />
 </div>
+</div>  
 
         {/* Scanner card */}
         <Card className="w-full p-4 sm:p-4 md:p-8 mb-6 md:mb-8 animate-scale-in">
