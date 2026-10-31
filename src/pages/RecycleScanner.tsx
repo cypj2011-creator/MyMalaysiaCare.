@@ -381,13 +381,14 @@ const RecycleScanner = () => {
       <div className="mx-auto w-full max-w-none md:max-w-4xl">
 
         {/* Page Header */}
-<PageHeader
-  eyebrow={t("smartAIRecognition")}
-  icon={<Sparkles className="w-4 h-4" />}
-  title={t("recycAIScanner")}
-  subtitle={t("instantIdentify")}
-/>
-</div>  
+        <PageHeader
+          eyebrow={t("smartAIRecognition")}
+          eyebrowClassName="max-md:justify-center"
+          icon={<Sparkles className="w-4 h-4" />}
+          title={t("recycAIScanner")}
+          subtitle={t("instantIdentify")}
+        />
+</div>
 
         {/* Scanner card */}
         <Card className="w-full p-4 sm:p-4 md:p-8 mb-6 md:mb-8 animate-scale-in">
