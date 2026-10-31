@@ -220,8 +220,6 @@ const InteractiveMap = () => {
       if (mapRef.current) {
         mapRef.current.remove();
         mapRef.current = null;
-        markersLayerRef.current = null;
-        canvasRendererRef.current = null;
       }
     };
   }, []);
@@ -408,7 +406,7 @@ const InteractiveMap = () => {
         </div>
       </Card>
 
-      {/* Loading notification - kept below the navigation header */}
+      {/* Theme-aware Loading Notification */}
       {loading && loadingMessage && (
         <div
           className="
@@ -447,8 +445,7 @@ const InteractiveMap = () => {
       )}
 
       <div className="grid lg:grid-cols-3 gap-6">
-        {/* Map - isolated stacking context prevents Leaflet layers
-            from appearing above the website navigation */}
+        {/* Map */}
         <div className="lg:col-span-2 relative z-0 isolate">
           <Card className="relative z-0 overflow-hidden shadow-custom-lg">
             <div
