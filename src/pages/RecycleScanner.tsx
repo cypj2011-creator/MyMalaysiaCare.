@@ -382,6 +382,7 @@ const RecycleScanner = () => {
 
         {/* Mobile heading alignment only; desktop remains unchanged */}
 <div className="w-full px-2 sm:px-0 max-md:text-center max-md:[&>div]:w-full max-md:[&>div]:items-center max-md:[&>div]:justify-center max-md:[&>div]:text-center max-md:[&_h1]:w-full max-md:[&_h1]:text-center max-md:[&_p]:w-full max-md:[&_p]:text-center max-md:[&_span]:text-center">
+  <div className="w-full max-md:text-center max-md:[&_*]:text-center">
   <PageHeader
     eyebrow={t("smartAIRecognition")}
     icon={<Sparkles className="w-4 h-4" />}
