@@ -33,7 +33,8 @@ const Home = () => {
         return;
       }
 
-      const availableWidth = heading.clientWidth * 0.97;
+      // Leave extra room so the letters never touch or get clipped.
+      const availableWidth = heading.clientWidth * 0.90;
       const naturalWidth = measure.getBoundingClientRect().width;
 
       if (availableWidth > 0 && naturalWidth > 0) {
@@ -100,12 +101,9 @@ const Home = () => {
                   ? { fontSize: `${mobileFontSize}px` }
                   : undefined
               }
-              className="relative w-full max-w-full overflow-hidden whitespace-nowrap text-center md:text-left text-[clamp(2rem,8.5vw,5.8rem)] leading-none font-extrabold text-primary tracking-[-0.075em]"
+              className="relative w-full max-w-full overflow-visible whitespace-nowrap text-center md:text-left text-[clamp(2rem,8.5vw,5.8rem)] leading-[1.15] font-extrabold text-primary tracking-[-0.065em]"
             >
-              MyMalaysia
-              <span className="italic font-semibold text-secondary">
-                Care
-              </span>
+              MyMalaysia<span className="italic font-semibold text-secondary">Care</span>
 
               {/* Hidden measurement text for accurate mobile sizing */}
               <span
@@ -116,11 +114,10 @@ const Home = () => {
                   top: 0,
                   left: 0,
                   fontSize: "100px",
-                  letterSpacing: "-7.5px",
+                  letterSpacing: "-6.5px",
                 }}
               >
-                MyMalaysia
-                <span className="italic font-semibold">Care</span>
+                MyMalaysia<span className="italic font-semibold">Care</span>
               </span>
             </h1>
 
