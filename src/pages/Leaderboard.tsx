@@ -74,7 +74,7 @@ const Leaderboard = () => {
   const rankNumber = (i: number) => (
     <span
       className={`tabular-nums font-serif leading-none tracking-[-0.05em] ${
-        i < 3 ? "text-[2.2rem] sm:text-[2.6rem] md:text-[3.8rem]" : "text-[1.8rem] sm:text-[2.1rem] md:text-[2.9rem]"
+        i < 3 ? "text-[2.2rem] sm:text-[2.6rem]" : "text-[1.8rem] sm:text-[2.1rem]"
       } ${rankColor(i)}`}
     >
       {String(i + 1).padStart(2, "0")}
@@ -99,21 +99,21 @@ const Leaderboard = () => {
                 return (
                   <li
                     key={r.user_id}
-                    className={`grid grid-cols-[3rem_1fr_auto] sm:grid-cols-[4rem_1fr_auto] md:grid-cols-[5rem_1fr_auto] items-center gap-3 md:gap-4 py-3 md:py-5 px-2 border-b border-border ${
+                    className={`grid grid-cols-[3rem_1fr_auto] sm:grid-cols-[4rem_1fr_auto] items-center gap-3 py-3 px-2 border-b border-border ${
                       isMe ? "bg-accent/15" : ""
                     }`}
                   >
                     <div className="flex justify-center py-1">{rankNumber(actualIndex)}</div>
 
-                    <p className="truncate text-base sm:text-lg md:text-[2.15rem] text-primary leading-none">
+                    <p className="truncate text-base sm:text-lg text-primary leading-none">
                       {displayName(r)}
-                      {isMe && <span className="ml-2 text-sm md:text-base text-secondary">({t("you")})</span>}
+                      {isMe && <span className="ml-2 text-sm text-secondary">({t("you")})</span>}
                     </p>
 
                     <div className="flex items-center gap-2 text-primary">
-                      <Recycle className="w-4 h-4 md:w-5 md:h-5 text-secondary" />
-                      <span className="text-lg md:text-2xl tabular-nums">{r.points}</span>
-                      <span className="text-sm md:text-base text-muted-foreground">{t("points")}</span>
+                      <Recycle className="w-4 h-4 text-secondary" />
+                      <span className="text-lg tabular-nums">{r.points}</span>
+                      <span className="text-sm text-muted-foreground">{t("points")}</span>
                     </div>
                   </li>
                 );
