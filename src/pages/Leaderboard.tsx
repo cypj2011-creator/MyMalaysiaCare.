@@ -33,6 +33,7 @@ const Leaderboard = () => {
         description: "Guest accounts don't appear on the leaderboard. Sign up to save your progress and compete!",
       });
     }
+
     (async () => {
       setLoading(true);
       const { data, error } = await supabase.rpc("get_leaderboard");
@@ -54,16 +55,16 @@ const Leaderboard = () => {
   }, []);
 
   const rankColor = (i: number) => {
-    if (i === 0) return "text-[#D4AF37]";
-    if (i === 1) return "text-[#C0C0C0]";
-    if (i === 2) return "text-[#CD7F32]";
+    if (i === 0) return "text-[#d4af37]";
+    if (i === 1) return "text-[#c0c0c0]";
+    if (i === 2) return "text-[#b87333]";
     return "text-stone-200/95";
   };
 
   const rankNumber = (i: number) => (
     <span
-      className={`tabular-nums font-serif leading-none tracking-[-0.04em] ${
-        i < 3 ? "text-[2.6rem] sm:text-[3.6rem]" : "text-[2.2rem] sm:text-[3rem]"
+      className={`tabular-nums font-serif leading-none tracking-[-0.05em] ${
+        i < 3 ? "text-[2.2rem] sm:text-[2.8rem]" : "text-[1.8rem] sm:text-[2.4rem]"
       } ${rankColor(i)}`}
     >
       {String(i + 1).padStart(2, "0")}
@@ -83,19 +84,20 @@ const Leaderboard = () => {
           <ol className="border-t-2 border-primary">
             {rows.map((r, i) => {
               const isMe = user?.id === r.user_id;
-              const top = i < 3;
               return (
                 <li
                   key={r.user_id}
-                  className={`grid grid-cols-[2.5rem_1fr_auto] sm:grid-cols-[3.5rem_1fr_auto] items-center gap-3 py-4 px-2 border-b border-border ${
+                  className={`grid grid-cols-[3rem_1fr_auto] sm:grid-cols-[4rem_1fr_auto] items-center gap-3 py-3 px-2 border-b border-border ${
                     isMe ? "bg-accent/15" : ""
                   }`}
                 >
-                  <div className="flex justify-center">{rankNumber(i)}</div>
-                  <p className={`truncate ${top ? "text-lg sm:text-xl text-primary" : "text-base"}`}>
+                  <div className="flex justify-center py-1">{rankNumber(i)}</div>
+
+                  <p className="truncate text-base sm:text-lg text-primary">
                     {displayName(r)}
                     {isMe && <span className="ml-2 text-sm text-secondary">({t("you")})</span>}
                   </p>
+
                   <div className="flex items-center gap-2 text-primary">
                     <Recycle className="w-4 h-4 text-secondary" />
                     <span className="text-lg tabular-nums">{r.points}</span>
