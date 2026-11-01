@@ -173,8 +173,9 @@ const Leaderboard = () => {
           </p>
 
           <ul className="border-t-2 border-primary">
-            {RANKS.map((rank, i) => {
-              const next = RANKS[i + 1];
+            {RANKS.map((rank, i) => ({ rank, next: RANKS[i + 1] }))
+              .reverse() /* best rank first */
+              .map(({ rank, next }) => {
               const start = Math.max(1, rank.minPoints);
               const pts = next ? `${start}–${next.minPoints - 1} pts` : `${start}+ pts`;
               const isMine = myRankName === rank.name;
