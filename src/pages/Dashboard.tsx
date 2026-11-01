@@ -501,16 +501,9 @@ const Dashboard = () => {
                 <div className="text-xl font-bold text-accent">{eco.name}</div>
                 <div className="text-2xl font-bold text-accent mt-1">Lvl {eco.level}</div>
                 <Progress value={eco.progress} className="h-2 mt-3" />
-                <div className="text-xs text-muted-foreground mt-2">
-                  {eco.isMax
-                    ? "Max level reached!"
-                    : `${eco.pointsToNext} pt${eco.pointsToNext === 1 ? "" : "s"} until Lvl ${eco.next ? `${eco.next.level} ${eco.next.name}` : ""}`}
+                <div className="text-sm font-semibold text-primary mt-3">
+                  {`${eco.pointsToNext} pt${eco.pointsToNext === 1 ? "" : "s"} until Lvl ${eco.nextLevel.level} ${eco.nextLevel.name}`}
                 </div>
-                {eco.next && (
-                  <div className="text-sm font-semibold text-primary mt-2">
-                    Next target: {eco.next.name} • Lvl {eco.next.level}
-                  </div>
-                )}
               </div>
             </div>
           </Card>
