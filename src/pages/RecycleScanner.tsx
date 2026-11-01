@@ -52,6 +52,8 @@ const RecycleScanner = () => {
   const [scanId, setScanId] = useState<string | null>(null);
   const [resultRateable, setResultRateable] = useState(false);
   const [scanHistory, setScanHistory] = useState<ScanHistory[]>([]);
+  const [historyPage, setHistoryPage] = useState(1);
+  const [historyTotal, setHistoryTotal] = useState(0);
   const [webcamOpen, setWebcamOpen] = useState(false);
 
   const { toast } = useToast();
@@ -86,17 +88,30 @@ const RecycleScanner = () => {
     }
   }, [user]);
 
-  const loadScanHistory = async () => {
-    const { data, error } = await supabase
+  // Scan history: 5 per page
+  const HISTORY_PAGE_SIZE = 5;
+
+  const loadScanHistory = async (page = 1) => {
+    if (!user) return;
+
+    const from = (page - 1) * HISTORY_PAGE_SIZE;
+    const to = from + HISTORY_PAGE_SIZE - 1;
+
+    const { data, error, count } = await supabase
       .from("scan_history")
-      .select("*")
+      .select("*", { count: "exact" })
+      .eq("user_id", user.id)
       .order("created_at", { ascending: false })
-      .limit(10);
+      .range(from, to);
 
     if (!error && data) {
       setScanHistory(data);
+      setHistoryTotal(count ?? data.length);
+      setHistoryPage(page);
     }
   };
+
+  const historyTotalPages = Math.max(1, Math.ceil(historyTotal / HISTORY_PAGE_SIZE));
 
   const compressImage = (
     dataUrl: string,
@@ -534,6 +549,32 @@ const RecycleScanner = () => {
                 </div>
               ))}
             </div>
+
+            {historyTotal > HISTORY_PAGE_SIZE && (
+              <div className="mt-4 flex items-center justify-between gap-3">
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={() => loadScanHistory(Math.max(1, historyPage - 1))}
+                  disabled={historyPage === 1}
+                >
+                  Previous
+                </Button>
+
+                <span className="text-sm text-muted-foreground">
+                  Page {historyPage} of {historyTotalPages}
+                </span>
+
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={() => loadScanHistory(Math.min(historyTotalPages, historyPage + 1))}
+                  disabled={historyPage === historyTotalPages}
+                >
+                  Next
+                </Button>
+              </div>
+            )}
           </Card>
         )}
 
