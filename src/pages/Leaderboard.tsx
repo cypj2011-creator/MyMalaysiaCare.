@@ -68,7 +68,7 @@ const Leaderboard = () => {
     if (i === 0) return "text-[#d4af37]";
     if (i === 1) return "text-[#c0c0c0]";
     if (i === 2) return "text-[#b87333]";
-    return "text-stone-200/95";
+    return "text-[#1f1f1f] dark:text-stone-200/95";
   };
 
   const rankNumber = (i: number) => (
