@@ -5,7 +5,7 @@ import { useTranslation } from "@/hooks/useTranslation";
 import { useAuth } from "@/hooks/useAuth";
 import { useToast } from "@/hooks/use-toast";
 import PageHeader from "@/components/PageHeader";
-import { getEcoLevel } from "@/lib/ecoLevels";
+import { getEcoRank, RANKS } from "@/lib/ecoLevels";
 
 interface Row {
   user_id: string;
@@ -62,6 +62,10 @@ const Leaderboard = () => {
     setPage(1);
   }, [rows.length]);
 
+  // Which rank is the signed-in player in? (used to highlight it in the guide)
+  const myPoints = rows.find((r) => r.user_id === user?.id)?.points;
+  const myRankName = myPoints != null ? getEcoRank(myPoints).name : null;
+
   const totalPages = Math.max(1, Math.ceil(rows.length / PAGE_SIZE));
   const paginatedRows = rows.slice((page - 1) * PAGE_SIZE, page * PAGE_SIZE);
 
@@ -97,7 +101,7 @@ const Leaderboard = () => {
               {paginatedRows.map((r, i) => {
                 const actualIndex = (page - 1) * PAGE_SIZE + i;
                 const isMe = user?.id === r.user_id;
-                const eco = getEcoLevel(r.points);
+                const eco = getEcoRank(r.points);
 
                 return (
                   <li
@@ -125,7 +129,7 @@ const Leaderboard = () => {
                       <span
                         className={`mt-1 inline-flex items-center rounded-full border px-2 py-0.5 text-[10px] sm:text-[11px] font-semibold uppercase tracking-[0.14em] ${eco.className}`}
                       >
-                        {eco.name} • Lvl {eco.level}
+                        {eco.name}
                       </span>
                     </div>
                   </li>
@@ -160,6 +164,44 @@ const Leaderboard = () => {
             )}
           </>
         )}
+
+        {/* Level guide */}
+        <section className="mt-12">
+          <h2 className="text-xl sm:text-2xl font-semibold text-primary mb-1">Level guide</h2>
+          <p className="text-sm text-muted-foreground mb-4">
+            Keep recycling to earn points and unlock new ranks!
+          </p>
+
+          <ul className="border-t-2 border-primary">
+            {RANKS.map((rank, i) => {
+              const next = RANKS[i + 1];
+              const start = Math.max(1, rank.minPoints);
+              const pts = next ? `${start}–${next.minPoints - 1} pts` : `${start}+ pts`;
+              const isMine = myRankName === rank.name;
+
+              return (
+                <li
+                  key={rank.name}
+                  className={`flex items-center justify-between gap-3 py-3 px-2 border-b border-border ${
+                    isMine ? "bg-accent/15" : ""
+                  }`}
+                >
+                  <div className="min-w-0">
+                    <span
+                      className={`inline-flex items-center rounded-full border px-2.5 py-0.5 text-[11px] sm:text-xs font-semibold uppercase tracking-[0.14em] ${rank.className}`}
+                    >
+                      {rank.name}
+                    </span>
+                    {isMine && <span className="ml-2 text-xs text-secondary">({t("you")})</span>}
+                  </div>
+                  <span className="text-sm sm:text-base font-semibold text-primary tabular-nums text-right shrink-0">
+                    {pts}
+                  </span>
+                </li>
+              );
+            })}
+          </ul>
+        </section>
       </div>
     </div>
   );
