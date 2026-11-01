@@ -53,12 +53,20 @@ const Leaderboard = () => {
     })();
   }, []);
 
-  const rankIcon = (i: number) => {
-    if (i === 0) return <Trophy className="w-6 h-6 text-yellow-500" />;
-    if (i === 1) return <Medal className="w-6 h-6 text-slate-400" />;
-    if (i === 2) return <Award className="w-6 h-6 text-amber-700" />;
-    return <span className="w-6 text-center font-bold text-muted-foreground">{i + 1}</span>;
+  const rankColor = (i: number) => {
+    if (i === 0) return "text-[#D4AF37]";
+    if (i === 1) return "text-[#C0C0C0]";
+    if (i === 2) return "text-[#CD7F32]";
+    return "text-muted-foreground";
   };
+
+  const rankNumber = (i: number) => (
+    <span
+      className={`tabular-nums ${i < 3 ? "text-3xl sm:text-4xl" : "text-lg"} ${rankColor(i)}`}
+    >
+      {i + 1}
+    </span>
+  );
 
   return (
     <div className="paper-grain">
@@ -81,7 +89,7 @@ const Leaderboard = () => {
                     isMe ? "bg-accent/15" : ""
                   }`}
                 >
-                  <div className="flex justify-center">{rankIcon(i)}</div>
+                  <div className="flex justify-center">{rankNumber(i)}</div>
                   <p className={`truncate ${top ? "text-lg sm:text-xl text-primary" : "text-base"}`}>
                     {displayName(r)}
                     {isMe && <span className="ml-2 text-sm text-secondary">({t("you")})</span>}
