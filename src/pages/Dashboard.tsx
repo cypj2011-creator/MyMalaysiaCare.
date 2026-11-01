@@ -3,7 +3,7 @@ import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Progress } from "@/components/ui/progress";
-import { getEcoLevel } from "@/lib/ecoLevels";
+import { getEcoRank } from "@/lib/ecoLevels";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import {
   PieChart, Pie, Cell, LineChart, Line,
@@ -123,7 +123,7 @@ const Dashboard = () => {
   const totalScans = scans.length;
   const recyclableCount = scans.filter((s) => s.recyclable).length;
   const points = recyclableCount;
-  const eco = getEcoLevel(points);
+  const eco = getEcoRank(points);
 
   // Recent scans: 5 per page
   const HISTORY_PAGE_SIZE = 5;
@@ -499,10 +499,11 @@ const Dashboard = () => {
               <div className="text-center p-4 bg-accent/5 rounded-lg">
                 <Trophy className="w-8 h-8 text-accent mx-auto mb-2" />
                 <div className="text-xl font-bold text-accent">{eco.name}</div>
-                <div className="text-2xl font-bold text-accent mt-1">Lvl {eco.level}</div>
                 <Progress value={eco.progress} className="h-2 mt-3" />
                 <div className="text-sm font-semibold text-primary mt-3">
-                  {`${eco.pointsToNext} pt${eco.pointsToNext === 1 ? "" : "s"} until Lvl ${eco.nextLevel.level} ${eco.nextLevel.name}`}
+                  {eco.next
+                    ? `${eco.pointsToNext} pt${eco.pointsToNext === 1 ? "" : "s"} until ${eco.next.name}`
+                    : "Top rank reached!"}
                 </div>
               </div>
             </div>
