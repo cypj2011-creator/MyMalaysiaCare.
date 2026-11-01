@@ -110,19 +110,22 @@ const Leaderboard = () => {
                     <div className="flex justify-center py-1">{rankNumber(actualIndex)}</div>
 
                     <div className="min-w-0 overflow-hidden">
-                      <p className="truncate whitespace-nowrap overflow-hidden text-ellipsis text-base sm:text-lg text-primary leading-normal">
+                      <p className="truncate whitespace-nowrap overflow-hidden text-ellipsis text-lg sm:text-xl font-semibold text-primary leading-normal">
                         {displayName(r)}
                         {isMe && <span className="ml-2 text-sm text-secondary">({t("you")})</span>}
                       </p>
-                      <p className="text-xs text-muted-foreground mt-0.5">
-                        {t("ecoWarrior")} • Lv. {ecoLevel}
-                      </p>
                     </div>
 
-                    <div className="flex items-center gap-2 text-primary shrink-0">
-                      <Recycle className="w-4 h-4 text-secondary" />
-                      <span className="text-lg tabular-nums">{r.points}</span>
-                      <span className="text-sm text-muted-foreground">{t("points")}</span>
+                    <div className="flex flex-col items-end text-primary shrink-0">
+                      <div className="flex items-center gap-2">
+                        <Recycle className="w-4 h-4 text-secondary" />
+                        <span className="text-xl sm:text-2xl font-bold tabular-nums">{r.points}</span>
+                        <span className="text-xs uppercase tracking-wide text-muted-foreground">{t("points")}</span>
+                      </div>
+
+                      <span className="mt-1 inline-flex items-center rounded-full border border-emerald-500/40 bg-emerald-500/10 px-2 py-0.5 text-[10px] sm:text-[11px] font-semibold uppercase tracking-[0.14em] text-emerald-700 dark:text-emerald-300">
+                        {t("ecoWarrior")} Lv.{ecoLevel}
+                      </span>
                     </div>
                   </li>
                 );
