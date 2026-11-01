@@ -15,38 +15,28 @@ interface Row {
 
 const PAGE_SIZE = 15;
 
-const getEcoWarriorLevel = (points: number) => Math.max(1, Math.floor(points / 10) + 1);
+const getEcoWarriorLevel = (value: number) => Math.max(1, Math.floor(value / 5) + 1);
 
 const getEcoWarriorBadge = (level: number) => {
+  if (level >= 100) {
+    return { label: "Eco Sovereign", className: "border-amber-400/50 bg-amber-400/10 text-amber-700 dark:text-amber-300" };
+  }
+  if (level >= 50) {
+    return { label: "Eco Titan", className: "border-fuchsia-500/50 bg-fuchsia-500/10 text-fuchsia-700 dark:text-fuchsia-300" };
+  }
+  if (level >= 30) {
+    return { label: "Legend", className: "border-violet-500/50 bg-violet-500/10 text-violet-700 dark:text-violet-300" };
+  }
+  if (level >= 20) {
+    return { label: "Champion", className: "border-sky-500/50 bg-sky-500/10 text-sky-700 dark:text-sky-300" };
+  }
+  if (level >= 10) {
+    return { label: "Guardian", className: "border-emerald-500/50 bg-emerald-500/10 text-emerald-700 dark:text-emerald-300" };
+  }
   if (level >= 5) {
-    return {
-      label: "Legend",
-      className: "border-amber-400/50 bg-amber-400/10 text-amber-700 dark:text-amber-300",
-    };
+    return { label: "Ranger", className: "border-lime-500/50 bg-lime-500/10 text-lime-700 dark:text-lime-300" };
   }
-  if (level >= 4) {
-    return {
-      label: "Champion",
-      className: "border-violet-500/50 bg-violet-500/10 text-violet-700 dark:text-violet-300",
-    };
-  }
-  if (level >= 3) {
-    return {
-      label: "Guardian",
-      className: "border-sky-500/50 bg-sky-500/10 text-sky-700 dark:text-sky-300",
-    };
-  }
-  if (level >= 2) {
-    return {
-      label: "Ranger",
-      className: "border-emerald-500/50 bg-emerald-500/10 text-emerald-700 dark:text-emerald-300",
-    };
-  }
-
-  return {
-    label: "Sprout",
-    className: "border-lime-500/50 bg-lime-500/10 text-lime-700 dark:text-lime-300",
-  };
+  return { label: "Sprout", className: "border-amber-600/50 bg-amber-600/10 text-amber-700 dark:text-amber-300" };
 };
 
 const displayName = (r: Row) => {
