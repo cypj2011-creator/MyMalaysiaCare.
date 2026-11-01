@@ -17,6 +17,38 @@ const PAGE_SIZE = 15;
 
 const getEcoWarriorLevel = (points: number) => Math.max(1, Math.floor(points / 10) + 1);
 
+const getEcoWarriorBadge = (level: number) => {
+  if (level >= 5) {
+    return {
+      label: "Legend",
+      className: "border-amber-400/50 bg-amber-400/10 text-amber-700 dark:text-amber-300",
+    };
+  }
+  if (level >= 4) {
+    return {
+      label: "Champion",
+      className: "border-violet-500/50 bg-violet-500/10 text-violet-700 dark:text-violet-300",
+    };
+  }
+  if (level >= 3) {
+    return {
+      label: "Guardian",
+      className: "border-sky-500/50 bg-sky-500/10 text-sky-700 dark:text-sky-300",
+    };
+  }
+  if (level >= 2) {
+    return {
+      label: "Ranger",
+      className: "border-emerald-500/50 bg-emerald-500/10 text-emerald-700 dark:text-emerald-300",
+    };
+  }
+
+  return {
+    label: "Sprout",
+    className: "border-lime-500/50 bg-lime-500/10 text-lime-700 dark:text-lime-300",
+  };
+};
+
 const displayName = (r: Row) => {
   if (r.username && r.username.trim()) return r.username.trim();
   if (r.email) return r.email.split("@")[0];
@@ -99,6 +131,7 @@ const Leaderboard = () => {
                 const actualIndex = (page - 1) * PAGE_SIZE + i;
                 const isMe = user?.id === r.user_id;
                 const ecoLevel = getEcoWarriorLevel(r.points);
+                const badge = getEcoWarriorBadge(ecoLevel);
 
                 return (
                   <li
@@ -123,8 +156,10 @@ const Leaderboard = () => {
                         <span className="text-xs uppercase tracking-wide text-muted-foreground">{t("points")}</span>
                       </div>
 
-                      <span className="mt-1 inline-flex items-center rounded-full border border-emerald-500/40 bg-emerald-500/10 px-2 py-0.5 text-[10px] sm:text-[11px] font-semibold uppercase tracking-[0.14em] text-emerald-700 dark:text-emerald-300">
-                        {t("ecoWarrior")} Lv.{ecoLevel}
+                      <span
+                        className={`mt-1 inline-flex items-center rounded-full border px-2 py-0.5 text-[10px] sm:text-[11px] font-semibold uppercase tracking-[0.14em] ${badge.className}`}
+                      >
+                        {badge.label} • Lvl {ecoLevel}
                       </span>
                     </div>
                   </li>
