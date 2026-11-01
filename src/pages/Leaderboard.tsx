@@ -15,6 +15,8 @@ interface Row {
 
 const PAGE_SIZE = 15;
 
+const getEcoWarriorLevel = (points: number) => Math.max(1, Math.floor(points / 10) + 1);
+
 const displayName = (r: Row) => {
   if (r.username && r.username.trim()) return r.username.trim();
   if (r.email) return r.email.split("@")[0];
@@ -96,6 +98,8 @@ const Leaderboard = () => {
               {paginatedRows.map((r, i) => {
                 const actualIndex = (page - 1) * PAGE_SIZE + i;
                 const isMe = user?.id === r.user_id;
+                const ecoLevel = getEcoWarriorLevel(r.points);
+
                 return (
                   <li
                     key={r.user_id}
@@ -109,6 +113,9 @@ const Leaderboard = () => {
                       <p className="truncate whitespace-nowrap overflow-hidden text-ellipsis text-base sm:text-lg text-primary leading-normal">
                         {displayName(r)}
                         {isMe && <span className="ml-2 text-sm text-secondary">({t("you")})</span>}
+                      </p>
+                      <p className="text-xs text-muted-foreground mt-0.5">
+                        {t("ecoWarrior")} • Lv. {ecoLevel}
                       </p>
                     </div>
 
