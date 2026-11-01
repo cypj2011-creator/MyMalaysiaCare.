@@ -408,8 +408,8 @@ const InteractiveMap = () => {
 
       {/* Filters */}
       <Card className="p-4 mb-6 shadow-custom-md">
-        <div className="flex flex-wrap items-center justify-between gap-2">
-          <div className="flex flex-wrap items-center gap-2">
+        <div className="grid grid-cols-[minmax(0,1fr)_auto] items-center gap-2 sm:flex sm:items-center sm:justify-between">
+          <div className="flex flex-col gap-2 sm:flex-row sm:items-center">
             {filterTypes.map((filter) => {
               const FilterIcon = filter.Icon;
               const isActive = activeFilters.includes(filter.id);
@@ -442,6 +442,7 @@ const InteractiveMap = () => {
             onClick={locateMe}
             variant="outline"
             size="sm"
+            className="justify-self-end sm:justify-self-auto"
             disabled={locating}
           >
             <LocateFixed className="mr-2" size={16} />
