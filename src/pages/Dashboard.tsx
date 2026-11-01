@@ -476,7 +476,7 @@ const Dashboard = () => {
             </h3>
 
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-              <div className="text-center p-4 bg-primary/5 rounded-lg">
+              <div className="text-center p-4 sm:flex sm:flex-col sm:justify-center bg-primary/5 rounded-lg">
                 <Droplets className="w-8 h-8 text-primary mx-auto mb-2" />
                 <div className="text-2xl font-bold text-primary">
                   {waterSaved}L
@@ -486,7 +486,7 @@ const Dashboard = () => {
                 </div>
               </div>
 
-              <div className="text-center p-4 bg-secondary/5 rounded-lg">
+              <div className="text-center p-4 sm:flex sm:flex-col sm:justify-center bg-secondary/5 rounded-lg">
                 <Zap className="w-8 h-8 text-secondary mx-auto mb-2" />
                 <div className="text-2xl font-bold text-secondary">
                   {energySaved} kWh
