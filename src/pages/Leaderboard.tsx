@@ -13,6 +13,8 @@ interface Row {
   points: number;
 }
 
+const PAGE_SIZE = 10;
+
 const displayName = (r: Row) => {
   if (r.username && r.username.trim()) return r.username.trim();
   if (r.email) return r.email.split("@")[0];
@@ -25,6 +27,7 @@ const Leaderboard = () => {
   const { toast } = useToast();
   const [rows, setRows] = useState<Row[]>([]);
   const [loading, setLoading] = useState(true);
+  const [page, setPage] = useState(1);
 
   useEffect(() => {
     if (user?.is_anonymous) {
@@ -54,6 +57,13 @@ const Leaderboard = () => {
     })();
   }, []);
 
+  useEffect(() => {
+    setPage(1);
+  }, [rows.length]);
+
+  const totalPages = Math.max(1, Math.ceil(rows.length / PAGE_SIZE));
+  const paginatedRows = rows.slice((page - 1) * PAGE_SIZE, page * PAGE_SIZE);
+
   const rankColor = (i: number) => {
     if (i === 0) return "text-[#d4af37]";
     if (i === 1) return "text-[#c0c0c0]";
@@ -81,32 +91,61 @@ const Leaderboard = () => {
         ) : rows.length === 0 ? (
           <div className="py-12 text-center text-muted-foreground">{t("noPlayersYet")}</div>
         ) : (
-          <ol className="border-t-2 border-primary">
-            {rows.map((r, i) => {
-              const isMe = user?.id === r.user_id;
-              return (
-                <li
-                  key={r.user_id}
-                  className={`grid grid-cols-[3rem_1fr_auto] sm:grid-cols-[4rem_1fr_auto] items-center gap-3 py-3 px-2 border-b border-border ${
-                    isMe ? "bg-accent/15" : ""
-                  }`}
+          <>
+            <ol className="border-t-2 border-primary">
+              {paginatedRows.map((r, i) => {
+                const actualIndex = (page - 1) * PAGE_SIZE + i;
+                const isMe = user?.id === r.user_id;
+                return (
+                  <li
+                    key={r.user_id}
+                    className={`grid grid-cols-[3rem_1fr_auto] sm:grid-cols-[4rem_1fr_auto] items-center gap-3 py-3 px-2 border-b border-border ${
+                      isMe ? "bg-accent/15" : ""
+                    }`}
+                  >
+                    <div className="flex justify-center py-1">{rankNumber(actualIndex)}</div>
+
+                    <p className="truncate text-base sm:text-lg text-primary">
+                      {displayName(r)}
+                      {isMe && <span className="ml-2 text-sm text-secondary">({t("you")})</span>}
+                    </p>
+
+                    <div className="flex items-center gap-2 text-primary">
+                      <Recycle className="w-4 h-4 text-secondary" />
+                      <span className="text-lg tabular-nums">{r.points}</span>
+                      <span className="text-sm text-muted-foreground">{t("points")}</span>
+                    </div>
+                  </li>
+                );
+              })}
+            </ol>
+
+            {rows.length > PAGE_SIZE && (
+              <div className="mt-6 flex items-center justify-between gap-3">
+                <button
+                  type="button"
+                  onClick={() => setPage((p) => Math.max(1, p - 1))}
+                  disabled={page === 1}
+                  className="rounded-md border border-border px-3 py-2 text-sm text-primary disabled:cursor-not-allowed disabled:opacity-40"
                 >
-                  <div className="flex justify-center py-1">{rankNumber(i)}</div>
+                  Previous
+                </button>
 
-                  <p className="truncate text-base sm:text-lg text-primary">
-                    {displayName(r)}
-                    {isMe && <span className="ml-2 text-sm text-secondary">({t("you")})</span>}
-                  </p>
+                <span className="text-sm text-muted-foreground">
+                  Page {page} of {totalPages}
+                </span>
 
-                  <div className="flex items-center gap-2 text-primary">
-                    <Recycle className="w-4 h-4 text-secondary" />
-                    <span className="text-lg tabular-nums">{r.points}</span>
-                    <span className="text-sm text-muted-foreground">{t("points")}</span>
-                  </div>
-                </li>
-              );
-            })}
-          </ol>
+                <button
+                  type="button"
+                  onClick={() => setPage((p) => Math.min(totalPages, p + 1))}
+                  disabled={page === totalPages}
+                  className="rounded-md border border-border px-3 py-2 text-sm text-primary disabled:cursor-not-allowed disabled:opacity-40"
+                >
+                  Next
+                </button>
+              </div>
+            )}
+          </>
         )}
       </div>
     </div>
