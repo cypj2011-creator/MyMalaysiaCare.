@@ -259,14 +259,9 @@ const RecycleScanner = () => {
       } catch (err) {
         lastErr = err;
 
-        console.warn(
-          `analyze-image attempt ${attempt + 1} failed`,
-          err
-        );
+        console.warn(`analyze-image attempt ${attempt + 1} failed`, err);
 
-        await new Promise((r) =>
-          setTimeout(r, 600 * (attempt + 1))
-        );
+        await new Promise((r) => setTimeout(r, 600 * (attempt + 1)));
       }
     }
 
@@ -286,24 +281,16 @@ const RecycleScanner = () => {
 
       result = {
         category: data.category ?? "Unknown Item",
-
         recyclable:
-          typeof data.recyclable === "boolean"
-            ? data.recyclable
-            : false,
-
+          typeof data.recyclable === "boolean" ? data.recyclable : false,
         instructions:
           data.instructions ??
           "Rinse the item, remove any non-recyclable parts, and take it to your nearest recycling centre.",
-
         ecoFact:
           data.ecoFact ??
           "Recycling one item helps reduce landfill waste and conserves natural resources.",
-
         confidence:
-          typeof data.confidence === "number"
-            ? data.confidence
-            : 0.6,
+          typeof data.confidence === "number" ? data.confidence : 0.6,
       };
     } catch (error) {
       console.error("Analysis error (using fallback):", error);
@@ -313,13 +300,10 @@ const RecycleScanner = () => {
       result = {
         category: "Unidentified Item",
         recyclable: true,
-
         instructions:
           "We couldn't reach the AI service right now. General tip: clean the item, separate materials (plastic, paper, metal, glass), and drop them off at a recycling centre near you.",
-
         ecoFact:
           "Even a single recycled bottle saves enough energy to power a lightbulb for hours.",
-
         confidence: 0.5,
       };
     }
@@ -348,14 +332,10 @@ const RecycleScanner = () => {
     }
 
     toast({
-      title: usedFallback
-        ? "Showing offline guidance"
-        : "Analysis complete!",
-
+      title: usedFallback ? "Showing offline guidance" : "Analysis complete!",
       description: usedFallback
         ? "AI service was busy — general recycling tips shown below."
         : `Identified as: ${result.category}`,
-
       variant: "default",
     });
 
@@ -377,7 +357,6 @@ const RecycleScanner = () => {
   return (
     <div className="min-h-screen w-full overflow-x-hidden paper-grain py-8 md:py-16 px-4 sm:px-4">
       <div className="mx-auto w-full max-w-none md:max-w-4xl">
-        {/* Page Header */}
         <PageHeader
           eyebrow={t("smartAIRecognition")}
           eyebrowClassName="max-md:justify-center"
@@ -388,7 +367,6 @@ const RecycleScanner = () => {
           subtitle={t("instantIdentify")}
         />
 
-        {/* Scanner card */}
         <Card className="w-full p-4 sm:p-4 md:p-8 mb-6 md:mb-8 animate-scale-in">
           <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 mb-6">
             <input
@@ -416,9 +394,7 @@ const RecycleScanner = () => {
               onClick={handleTakePhotoClick}
             >
               <Camera className="mr-2 h-5 w-5 shrink-0" />
-              <span className="text-sm md:text-base">
-                {t("takePhoto")}
-              </span>
+              <span className="text-sm md:text-base">{t("takePhoto")}</span>
             </Button>
 
             <Button
@@ -428,13 +404,10 @@ const RecycleScanner = () => {
               onClick={() => uploadInputRef.current?.click()}
             >
               <Upload className="mr-2 h-5 w-5 shrink-0" />
-              <span className="text-sm md:text-base">
-                {t("uploadPhoto")}
-              </span>
+              <span className="text-sm md:text-base">{t("uploadPhoto")}</span>
             </Button>
           </div>
 
-          {/* Selected image */}
           {selectedImage && (
             <div className="mb-6 animate-fade-in">
               <img
@@ -445,7 +418,6 @@ const RecycleScanner = () => {
             </div>
           )}
 
-          {/* Scanning state */}
           {isScanning && (
             <div className="text-center py-8 md:py-12 animate-fade-in">
               <div className="inline-flex items-center space-x-3 bg-primary/10 px-6 py-3 rounded-full mb-4">
@@ -458,10 +430,8 @@ const RecycleScanner = () => {
             </div>
           )}
 
-          {/* Scan result */}
           {scanResult && !isScanning && (
             <div className="space-y-4 md:space-y-6 animate-fade-in">
-              {/* Recyclability status */}
               <div
                 className={`p-4 md:p-6 rounded-lg ${
                   scanResult.recyclable
@@ -471,14 +441,11 @@ const RecycleScanner = () => {
               >
                 <div className="flex items-center justify-between gap-3 mb-2">
                   <h3 className="text-lg md:text-xl font-bold text-foreground">
-                    {scanResult.recyclable
-                      ? t("recyclable")
-                      : t("nonRecyclable")}
+                    {scanResult.recyclable ? t("recyclable") : t("nonRecyclable")}
                   </h3>
 
                   <span className="text-xs md:text-sm font-medium text-muted-foreground whitespace-nowrap">
-                    {Math.round(scanResult.confidence * 100)}%{" "}
-                    {t("confident")}
+                    {Math.round(scanResult.confidence * 100)}% {t("confident")}
                   </span>
                 </div>
 
@@ -487,7 +454,6 @@ const RecycleScanner = () => {
                 </p>
               </div>
 
-              {/* Instructions */}
               <div className="bg-muted p-4 md:p-6 rounded-lg">
                 <h4 className="font-semibold text-primary mb-2 flex items-center text-sm md:text-base">
                   <Info className="mr-2 h-4 w-4 md:h-5 md:w-5 shrink-0" />
@@ -499,7 +465,6 @@ const RecycleScanner = () => {
                 </p>
               </div>
 
-              {/* Eco fact */}
               <div className="bg-accent/15 p-4 border-l-4 border-accent md:p-6 rounded-lg">
                 <h4 className="font-semibold text-primary mb-2 flex items-center text-sm md:text-base">
                   <Leaf className="mr-2 h-4 w-4 md:h-5 md:w-5 shrink-0" />
@@ -511,18 +476,16 @@ const RecycleScanner = () => {
                 </p>
               </div>
 
-              {/* Recycling centre map */}
               {scanResult.recyclable && (
                 <Button
                   onClick={() => navigate("/map")}
-                  className="w-full gradient-primary"
+                  className="w-full gradient-primary text-white"
                 >
-                  <MapPin className="mr-2 h-5 w-5 shrink-0" />
-                  {t("findNearestCenter")}
+                  <MapPin className="mr-2 h-5 w-5 shrink-0 text-white" />
+                  <span className="text-white">{t("findNearestCenter")}</span>
                 </Button>
               )}
 
-              {/* Scan feedback */}
               {resultRateable && (
                 <ScanFeedback
                   category={scanResult.category}
@@ -534,7 +497,6 @@ const RecycleScanner = () => {
           )}
         </Card>
 
-        {/* Scan history */}
         {scanHistory.length > 0 && (
           <Card className="w-full p-4 sm:p-4 md:p-6 animate-fade-in">
             <h3 className="text-lg md:text-xl font-bold mb-4 flex items-center">
@@ -566,9 +528,7 @@ const RecycleScanner = () => {
                           : "bg-destructive text-destructive-foreground"
                       }`}
                     >
-                      {scan.recyclable
-                        ? t("recyclable")
-                        : t("nonRecyclable")}
+                      {scan.recyclable ? t("recyclable") : t("nonRecyclable")}
                     </span>
                   </div>
                 </div>
@@ -577,7 +537,6 @@ const RecycleScanner = () => {
           </Card>
         )}
 
-        {/* AI assistance information */}
         <div className="mt-6 md:mt-8 p-4 sm:p-4 md:p-6 bg-primary/5 rounded-lg animate-fade-in">
           <h3 className="font-semibold mb-2 text-sm md:text-base">
             {t("smartAIAssistance")}
@@ -589,10 +548,8 @@ const RecycleScanner = () => {
         </div>
       </div>
 
-      {/* Webcam canvas */}
       <canvas ref={canvasRef} className="hidden" />
 
-      {/* Webcam dialog */}
       <Dialog
         open={webcamOpen}
         onOpenChange={(v) => (!v ? closeWebcam() : null)}
@@ -613,18 +570,12 @@ const RecycleScanner = () => {
           </div>
 
           <div className="flex gap-3 mt-2">
-            <Button
-              className="flex-1"
-              onClick={captureFromWebcam}
-            >
+            <Button className="flex-1" onClick={captureFromWebcam}>
               <Camera className="mr-2 h-4 w-4" />
               Capture
             </Button>
 
-            <Button
-              variant="outline"
-              onClick={closeWebcam}
-            >
+            <Button variant="outline" onClick={closeWebcam}>
               <X className="mr-2 h-4 w-4" />
               Cancel
             </Button>
