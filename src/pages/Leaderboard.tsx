@@ -62,7 +62,7 @@ const Leaderboard = () => {
 
   const rankNumber = (i: number) => (
     <span
-      className={`tabular-nums ${i < 3 ? "text-3xl sm:text-4xl" : "text-lg"} ${rankColor(i)}`}
+      className={`tabular-nums ${i < 3 ? "text-3xl sm:text-4xl font-bold" : "text-lg font-medium"} ${rankColor(i)}`}
     >
       {i + 1}
     </span>
@@ -96,7 +96,7 @@ const Leaderboard = () => {
                   </p>
                   <div className="flex items-center gap-2 text-primary">
                     <Recycle className="w-4 h-4 text-secondary" />
-                    <span className="text-lg tabular-nums">{r.points}</span>
+                    <span className="text-lg tabular-nums font-medium">{r.points}</span>
                     <span className="text-sm text-muted-foreground">{t("points")}</span>
                   </div>
                 </li>
