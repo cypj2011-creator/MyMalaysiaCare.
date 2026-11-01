@@ -13,7 +13,7 @@ interface Row {
   points: number;
 }
 
-const PAGE_SIZE = 10;
+const PAGE_SIZE = 15;
 
 const displayName = (r: Row) => {
   if (r.username && r.username.trim()) return r.username.trim();
