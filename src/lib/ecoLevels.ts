@@ -59,6 +59,7 @@ export interface EcoLevel {
   isMax: boolean;
   pointsToNext: number; // points still needed for the next level (0 at max)
   progress: number;     // 0..100, progress inside the current level
+  next: { level: number; name: string } | null; // the next target (null at max level)
 }
 
 export const getEcoLevel = (points: number): EcoLevel => {
@@ -76,5 +77,6 @@ export const getEcoLevel = (points: number): EcoLevel => {
     isMax,
     pointsToNext,
     progress,
+    next: isMax ? null : { level: level + 1, name: LEVEL_NAMES[level] },
   };
 };
