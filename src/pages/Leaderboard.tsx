@@ -99,18 +99,20 @@ const Leaderboard = () => {
                 return (
                   <li
                     key={r.user_id}
-                    className={`grid grid-cols-[3rem_1fr_auto] sm:grid-cols-[4rem_1fr_auto] items-center gap-3 py-3 px-2 border-b border-border ${
+                    className={`grid min-w-0 grid-cols-[3rem_1fr_auto] sm:grid-cols-[4rem_1fr_auto] items-center gap-3 py-3 px-2 border-b border-border ${
                       isMe ? "bg-accent/15" : ""
                     }`}
                   >
                     <div className="flex justify-center py-1">{rankNumber(actualIndex)}</div>
 
-                    <p className="truncate text-base sm:text-lg text-primary leading-none">
-                      {displayName(r)}
-                      {isMe && <span className="ml-2 text-sm text-secondary">({t("you")})</span>}
-                    </p>
+                    <div className="min-w-0 overflow-hidden">
+                      <p className="truncate whitespace-nowrap overflow-hidden text-ellipsis text-base sm:text-lg text-primary leading-normal">
+                        {displayName(r)}
+                        {isMe && <span className="ml-2 text-sm text-secondary">({t("you")})</span>}
+                      </p>
+                    </div>
 
-                    <div className="flex items-center gap-2 text-primary">
+                    <div className="flex items-center gap-2 text-primary shrink-0">
                       <Recycle className="w-4 h-4 text-secondary" />
                       <span className="text-lg tabular-nums">{r.points}</span>
                       <span className="text-sm text-muted-foreground">{t("points")}</span>
