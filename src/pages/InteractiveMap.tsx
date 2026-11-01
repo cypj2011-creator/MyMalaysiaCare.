@@ -408,33 +408,35 @@ const InteractiveMap = () => {
 
       {/* Filters */}
       <Card className="p-4 mb-6 shadow-custom-md">
-        <div className="flex flex-wrap gap-2 justify-end">
-          {filterTypes.map((filter) => {
-            const FilterIcon = filter.Icon;
-            const isActive = activeFilters.includes(filter.id);
+        <div className="flex flex-wrap items-center justify-between gap-2">
+          <div className="flex flex-wrap items-center gap-2">
+            {filterTypes.map((filter) => {
+              const FilterIcon = filter.Icon;
+              const isActive = activeFilters.includes(filter.id);
 
-            return (
-              <Button
-                key={filter.id}
-                onClick={() => toggleFilter(filter.id)}
-                variant="outline"
-                size="sm"
-                className={`
-                  text-white font-semibold border-0 transition-colors duration-200
-                  ${
-                    isActive
-                      ? filter.id === "recycling"
-                        ? "bg-emerald-600 hover:bg-emerald-700"
-                        : "bg-blue-600 hover:bg-blue-700"
-                      : "bg-slate-500 hover:bg-slate-600"
-                  }
-                `}
-              >
-                <FilterIcon className="mr-2" size={16} />
-                {filter.label}
-              </Button>
-            );
-          })}
+              return (
+                <Button
+                  key={filter.id}
+                  onClick={() => toggleFilter(filter.id)}
+                  variant="outline"
+                  size="sm"
+                  className={`
+                    text-white font-semibold border-0 transition-colors duration-200
+                    ${
+                      isActive
+                        ? filter.id === "recycling"
+                          ? "bg-emerald-600 hover:bg-emerald-700"
+                          : "bg-blue-600 hover:bg-blue-700"
+                        : "bg-slate-500 hover:bg-slate-600"
+                    }
+                  `}
+                >
+                  <FilterIcon className="mr-2" size={16} />
+                  {filter.label}
+                </Button>
+              );
+            })}
+          </div>
 
           <Button
             onClick={locateMe}
