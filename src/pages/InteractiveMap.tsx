@@ -1,4 +1,3 @@
-
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import {
   MapPin,
@@ -48,12 +47,6 @@ const esc = (value: string) =>
   String(value).replace(/[&<>"']/g, (c) =>
     ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c] as string)
   );
-
-// Quick-jump views
-const REGIONS = {
-  malaysia: { center: [4.2105, 101.9758] as [number, number], zoom: 7 },
-  singapore: { center: [1.3521, 103.8198] as [number, number], zoom: 12 },
-};
 
 const InteractiveMap = () => {
   const { t } = useTranslation();
@@ -335,12 +328,6 @@ const InteractiveMap = () => {
     );
   };
 
-  const goToRegion = (region: keyof typeof REGIONS) => {
-    const map = mapRef.current;
-    if (!map) return;
-    map.flyTo(REGIONS[region].center, REGIONS[region].zoom, { duration: 1.2 });
-  };
-
   // Open Google Maps directions
   const getDirections = (location: Location) => {
     const url = `https://www.google.com/maps/dir/?api=1&destination=${location.lat},${location.lng}`;
@@ -421,7 +408,7 @@ const InteractiveMap = () => {
 
       {/* Filters */}
       <Card className="p-4 mb-6 shadow-custom-md">
-        <div className="flex flex-wrap gap-2">
+        <div className="flex flex-wrap gap-2 justify-end">
           {filterTypes.map((filter) => {
             const FilterIcon = filter.Icon;
             const isActive = activeFilters.includes(filter.id);
@@ -448,25 +435,6 @@ const InteractiveMap = () => {
               </Button>
             );
           })}
-
-          <Button
-            onClick={() => goToRegion("malaysia")}
-            variant="outline"
-            size="sm"
-            className="ml-auto"
-          >
-            <MapPin className="mr-2" size={16} />
-            Malaysia
-          </Button>
-
-          <Button
-            onClick={() => goToRegion("singapore")}
-            variant="outline"
-            size="sm"
-          >
-            <MapPin className="mr-2" size={16} />
-            Singapore
-          </Button>
 
           <Button
             onClick={locateMe}
