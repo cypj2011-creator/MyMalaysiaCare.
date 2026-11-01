@@ -46,6 +46,7 @@ const Dashboard = () => {
   const [editingName, setEditingName] = useState(false);
   const [nameDraft, setNameDraft] = useState("");
   const [savingName, setSavingName] = useState(false);
+  const [historyPage, setHistoryPage] = useState(1);
   const isGuest = !!(user as any)?.is_anonymous;
 
   useEffect(() => {
@@ -123,6 +124,15 @@ const Dashboard = () => {
   const recyclableCount = scans.filter((s) => s.recyclable).length;
   const points = recyclableCount;
   const eco = getEcoLevel(points);
+
+  // Recent scans: 5 per page
+  const HISTORY_PAGE_SIZE = 5;
+  const historyTotalPages = Math.max(1, Math.ceil(scans.length / HISTORY_PAGE_SIZE));
+  const currentHistoryPage = Math.min(historyPage, historyTotalPages);
+  const pagedScans = scans.slice(
+    (currentHistoryPage - 1) * HISTORY_PAGE_SIZE,
+    currentHistoryPage * HISTORY_PAGE_SIZE
+  );
 
   const carbonSaved = Math.round(recyclableCount * 1.1 * 10) / 10;
   const waterSaved = Math.round(recyclableCount * 13);
@@ -494,7 +504,7 @@ const Dashboard = () => {
                 <div className="text-xs text-muted-foreground mt-2">
                   {eco.isMax
                     ? "Max level reached!"
-                    : `${eco.pointsToNext} pt${eco.pointsToNext === 1 ? "" : "s"} to next level`}
+                    : `${eco.pointsToNext} pt${eco.pointsToNext === 1 ? "" : "s"} until Lvl ${eco.next ? `${eco.next.level} ${eco.next.name}` : ""}`}
                 </div>
                 {eco.next && (
                   <div className="text-sm font-semibold text-primary mt-2">
@@ -511,7 +521,7 @@ const Dashboard = () => {
             </h3>
 
             <div className="space-y-2">
-              {scans.slice(0, 10).map((s) => (
+              {pagedScans.map((s) => (
                 <div
                   key={s.id}
                   className="flex items-center justify-between gap-3 p-3 bg-secondary/10 rounded-lg"
@@ -535,6 +545,34 @@ const Dashboard = () => {
                 </div>
               ))}
             </div>
+
+            {scans.length > HISTORY_PAGE_SIZE && (
+              <div className="mt-4 flex items-center justify-between gap-3">
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={() => setHistoryPage(Math.max(1, currentHistoryPage - 1))}
+                  disabled={currentHistoryPage === 1}
+                >
+                  Previous
+                </Button>
+
+                <span className="text-sm text-muted-foreground">
+                  Page {currentHistoryPage} of {historyTotalPages}
+                </span>
+
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={() =>
+                    setHistoryPage(Math.min(historyTotalPages, currentHistoryPage + 1))
+                  }
+                  disabled={currentHistoryPage === historyTotalPages}
+                >
+                  Next
+                </Button>
+              </div>
+            )}
           </Card>
         </div>
       )}
