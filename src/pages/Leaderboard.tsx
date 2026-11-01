@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Trophy, Medal, Award, Recycle } from "lucide-react";
+import { Recycle } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { useTranslation } from "@/hooks/useTranslation";
 import { useAuth } from "@/hooks/useAuth";
@@ -57,14 +57,16 @@ const Leaderboard = () => {
     if (i === 0) return "text-[#D4AF37]";
     if (i === 1) return "text-[#C0C0C0]";
     if (i === 2) return "text-[#CD7F32]";
-    return "text-muted-foreground";
+    return "text-stone-200/95";
   };
 
   const rankNumber = (i: number) => (
     <span
-      className={`tabular-nums ${i < 3 ? "text-3xl sm:text-4xl font-bold" : "text-lg font-medium"} ${rankColor(i)}`}
+      className={`tabular-nums font-serif leading-none tracking-[-0.04em] ${
+        i < 3 ? "text-[2.6rem] sm:text-[3.6rem]" : "text-[2.2rem] sm:text-[3rem]"
+      } ${rankColor(i)}`}
     >
-      {i + 1}
+      {String(i + 1).padStart(2, "0")}
     </span>
   );
 
@@ -96,7 +98,7 @@ const Leaderboard = () => {
                   </p>
                   <div className="flex items-center gap-2 text-primary">
                     <Recycle className="w-4 h-4 text-secondary" />
-                    <span className="text-lg tabular-nums font-medium">{r.points}</span>
+                    <span className="text-lg tabular-nums">{r.points}</span>
                     <span className="text-sm text-muted-foreground">{t("points")}</span>
                   </div>
                 </li>
