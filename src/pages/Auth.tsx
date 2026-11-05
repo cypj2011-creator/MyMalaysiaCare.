@@ -155,8 +155,6 @@ const Auth = () => {
           <CardDescription>{t("authSubtitle")}</CardDescription>
         </CardHeader>
         <CardContent>
-          <GoogleSignInButton />
-
           <Tabs defaultValue="signup" className="w-full">
             <TabsList className="grid w-full grid-cols-2">
               <TabsTrigger value="signin">{t("signIn")}</TabsTrigger>
@@ -189,10 +187,19 @@ const Auth = () => {
                 <Button type="submit" className="w-full" disabled={loading}>
                   {loading ? "Signing in..." : t("signInButton")}
                 </Button>
-                  <p className="text-center text-xs text-muted-foreground pt-2">
+                <p className="text-center text-xs text-muted-foreground pt-2">
                   Protected And Secured By Supabase
                 </p>
               </form>
+              <div className="relative my-4">
+                <div className="absolute inset-0 flex items-center">
+                  <span className="w-full border-t" />
+                </div>
+                <div className="relative flex justify-center text-xs uppercase">
+                  <span className="bg-card px-2 text-muted-foreground">or</span>
+                </div>
+              </div>
+              <GoogleSignInButton />
             </TabsContent>
             <TabsContent value="signup">
               <form onSubmit={handleSignUp} className="space-y-4">
@@ -221,7 +228,7 @@ const Auth = () => {
                 <Button type="submit" className="w-full" disabled={loading}>
                   {loading ? "Creating account..." : t("signUpButton")}
                 </Button>
-                   <p className="text-center text-xs text-muted-foreground pt-2">
+                <p className="text-center text-xs text-muted-foreground pt-2">
                   Protected And Secured By Supabase
                 </p>
               </form>
