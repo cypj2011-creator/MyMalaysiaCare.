@@ -3,7 +3,7 @@ import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { HashRouter, Routes, Route } from "react-router-dom";
+import { HashRouter, Routes, Route, useLocation } from "react-router-dom";
 import Header from "./components/Header";
 import Footer from "./components/Footer";
 import ChatBot from "./components/ChatBot";
@@ -60,6 +60,16 @@ const CursorGlow = () => {
   return <div ref={glowRef} className="cursor-glow" aria-hidden="true" />;
 };
 
+const ScrollToTop = () => {
+  const { pathname } = useLocation();
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [pathname]);
+
+  return null;
+};
+
 const AppFallback = () => (
   <div className="min-h-[60vh] flex items-center justify-center bg-background">
     <div className="flex items-center gap-3 text-primary">
@@ -76,6 +86,7 @@ const App = () => (
       <Toaster />
       <Sonner />
       <HashRouter>
+        <ScrollToTop />
         <Header />
         <GuestUpgradeNotice />
         <main className="pb-24">
