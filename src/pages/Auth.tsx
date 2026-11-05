@@ -187,9 +187,6 @@ const Auth = () => {
                 <Button type="submit" className="w-full" disabled={loading}>
                   {loading ? "Signing in..." : t("signInButton")}
                 </Button>
-                <p className="text-center text-xs text-muted-foreground pt-2">
-                  Protected And Secured By Supabase
-                </p>
               </form>
               <div className="mt-4">
                 <GoogleSignInButton mode="signin" />
@@ -222,9 +219,6 @@ const Auth = () => {
                 <Button type="submit" className="w-full" disabled={loading}>
                   {loading ? "Creating account..." : t("signUpButton")}
                 </Button>
-                <p className="text-center text-xs text-muted-foreground pt-2">
-                  Protected And Secured By Supabase
-                </p>
               </form>
               <div className="mt-4">
                 <GoogleSignInButton mode="signup" />
@@ -232,19 +226,10 @@ const Auth = () => {
             </TabsContent>
           </Tabs>
 
-          <div className="relative my-6">
-            <div className="absolute inset-0 flex items-center">
-              <span className="w-full border-t" />
-            </div>
-            <div className="relative flex justify-center text-xs uppercase">
-              <span className="bg-card px-2 text-muted-foreground">or</span>
-            </div>
-          </div>
-
           <Button
             type="button"
             variant="outline"
-            className="w-full"
+            className="w-full mt-6"
             disabled={loading}
             onClick={handleGuest}
           >
@@ -253,6 +238,9 @@ const Auth = () => {
           </Button>
           <p className="text-center text-xs text-muted-foreground pt-2">
             No email needed. You can create a full account later.
+          </p>
+          <p className="text-center text-xs text-muted-foreground pt-2">
+            Protected And Secured By Supabase
           </p>
         </CardContent>
       </Card>
