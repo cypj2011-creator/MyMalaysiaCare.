@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Recycle } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { useTranslation } from "@/hooks/useTranslation";
@@ -29,6 +29,17 @@ const Leaderboard = () => {
   const [rows, setRows] = useState<Row[]>([]);
   const [loading, setLoading] = useState(true);
   const [page, setPage] = useState(1);
+  const leaderboardRef = useRef<HTMLOListElement>(null);
+
+  const changePage = (nextPage: number) => {
+    setPage(nextPage);
+    requestAnimationFrame(() => {
+      const stickyHeader = document.querySelector("header");
+      const headerOffset = (stickyHeader?.getBoundingClientRect().height ?? 0) + 16;
+      const top = (leaderboardRef.current?.getBoundingClientRect().top ?? 0) + window.scrollY - headerOffset;
+      window.scrollTo({ top, behavior: "smooth" });
+    });
+  };
 
   useEffect(() => {
     if (user?.is_anonymous) {
@@ -62,7 +73,6 @@ const Leaderboard = () => {
     setPage(1);
   }, [rows.length]);
 
-  // Which rank is the signed-in player in? (used to highlight it in the guide)
   const myPoints = rows.find((r) => r.user_id === user?.id)?.points;
   const myRankName = myPoints != null ? getEcoRank(myPoints).name : null;
 
@@ -97,7 +107,7 @@ const Leaderboard = () => {
           <div className="py-12 text-center text-muted-foreground">{t("noPlayersYet")}</div>
         ) : (
           <>
-            <ol className="border-t-2 border-primary">
+            <ol ref={leaderboardRef} className="border-t-2 border-primary">
               {paginatedRows.map((r, i) => {
                 const actualIndex = (page - 1) * PAGE_SIZE + i;
                 const isMe = user?.id === r.user_id;
@@ -137,35 +147,48 @@ const Leaderboard = () => {
               })}
             </ol>
 
-            {rows.length > PAGE_SIZE && (
-              <div className="mt-6 flex items-center justify-between gap-3">
+            <nav aria-label="Leaderboard pages" className="mt-6">
+              <div className="flex items-center justify-between gap-3">
                 <button
                   type="button"
-                  onClick={() => setPage((p) => Math.max(1, p - 1))}
+                  onClick={() => changePage(Math.max(1, page - 1))}
                   disabled={page === 1}
                   className="rounded-md border border-border px-3 py-2 text-sm text-primary disabled:cursor-not-allowed disabled:opacity-40"
                 >
                   Previous
                 </button>
-
-                <span className="text-sm text-muted-foreground">
-                  Page {page} of {totalPages}
-                </span>
-
+                <span className="text-sm text-muted-foreground">Page {page} of {totalPages}</span>
                 <button
                   type="button"
-                  onClick={() => setPage((p) => Math.min(totalPages, p + 1))}
+                  onClick={() => changePage(Math.min(totalPages, page + 1))}
                   disabled={page === totalPages}
                   className="rounded-md border border-border px-3 py-2 text-sm text-primary disabled:cursor-not-allowed disabled:opacity-40"
                 >
                   Next
                 </button>
               </div>
-            )}
+              <div className="mt-3 flex flex-wrap items-center justify-center gap-2">
+                {Array.from({ length: totalPages }, (_, index) => index + 1).map((pageNumber) => (
+                  <button
+                    key={pageNumber}
+                    type="button"
+                    onClick={() => changePage(pageNumber)}
+                    aria-current={pageNumber === page ? "page" : undefined}
+                    aria-label={`Go to leaderboard page ${pageNumber}`}
+                    className={`min-w-9 rounded-md border px-3 py-2 text-sm ${
+                      pageNumber === page
+                        ? "border-primary bg-primary text-primary-foreground"
+                        : "border-border text-primary hover:bg-muted"
+                    }`}
+                  >
+                    {pageNumber}
+                  </button>
+                ))}
+              </div>
+            </nav>
           </>
         )}
 
-        {/* Level guide */}
         <section className="mt-12">
           <h2 className="text-xl sm:text-2xl font-semibold text-primary mb-1">Level guide</h2>
           <p className="text-sm text-muted-foreground mb-4">
@@ -174,33 +197,33 @@ const Leaderboard = () => {
 
           <ul className="border-t-2 border-primary">
             {RANKS.map((rank, i) => ({ rank, next: RANKS[i + 1] }))
-              .reverse() /* best rank first */
+              .reverse()
               .map(({ rank, next }) => {
-              const start = Math.max(1, rank.minPoints);
-              const pts = next ? `${start}–${next.minPoints - 1} pts` : `${start}+ pts`;
-              const isMine = myRankName === rank.name;
+                const start = Math.max(1, rank.minPoints);
+                const pts = next ? `${start}–${next.minPoints - 1} pts` : `${start}+ pts`;
+                const isMine = myRankName === rank.name;
 
-              return (
-                <li
-                  key={rank.name}
-                  className={`flex items-center justify-between gap-3 py-3 px-2 border-b border-border ${
-                    isMine ? "bg-accent/15" : ""
-                  }`}
-                >
-                  <div className="min-w-0">
-                    <span
-                      className={`inline-flex items-center rounded-full border px-2.5 py-0.5 text-[11px] sm:text-xs font-semibold uppercase tracking-[0.14em] ${rank.className}`}
-                    >
-                      {rank.name}
+                return (
+                  <li
+                    key={rank.name}
+                    className={`flex items-center justify-between gap-3 py-3 px-2 border-b border-border ${
+                      isMine ? "bg-accent/15" : ""
+                    }`}
+                  >
+                    <div className="min-w-0">
+                      <span
+                        className={`inline-flex items-center rounded-full border px-2.5 py-0.5 text-[11px] sm:text-xs font-semibold uppercase tracking-[0.14em] ${rank.className}`}
+                      >
+                        {rank.name}
+                      </span>
+                      {isMine && <span className="ml-2 text-xs text-secondary">({t("you")})</span>}
+                    </div>
+                    <span className="text-sm sm:text-base font-semibold text-primary tabular-nums text-right shrink-0">
+                      {pts}
                     </span>
-                    {isMine && <span className="ml-2 text-xs text-secondary">({t("you")})</span>}
-                  </div>
-                  <span className="text-sm sm:text-base font-semibold text-primary tabular-nums text-right shrink-0">
-                    {pts}
-                  </span>
-                </li>
-              );
-            })}
+                  </li>
+                );
+              })}
           </ul>
         </section>
       </div>
