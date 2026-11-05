@@ -94,9 +94,20 @@ const App = () => (
           onClickCapture={(event) => {
             const button = (event.target as HTMLElement).closest("button");
             const label = button?.textContent?.trim();
-            if (label === "Previous" || label === "Next") {
-              window.scrollTo({ top: 0, behavior: "smooth" });
+            if (label !== "Previous" && label !== "Next") return;
+
+            if (window.location.hash.startsWith("#/recycle")) {
+              const historyCard = button?.closest(".animate-fade-in");
+              if (!historyCard) return;
+
+              const stickyHeader = document.querySelector("header");
+              const headerOffset = (stickyHeader?.getBoundingClientRect().height ?? 0) + 16;
+              const top = historyCard.getBoundingClientRect().top + window.scrollY - headerOffset;
+              window.scrollTo({ top, behavior: "smooth" });
+              return;
             }
+
+            window.scrollTo({ top: 0, behavior: "smooth" });
           }}
         >
           <Suspense fallback={<AppFallback />}>
