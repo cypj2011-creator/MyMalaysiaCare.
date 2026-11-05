@@ -30,13 +30,16 @@ const Leaderboard = () => {
   const [loading, setLoading] = useState(true);
   const [page, setPage] = useState(1);
   const leaderboardRef = useRef<HTMLOListElement>(null);
+  const leaderboardHeaderRef = useRef<HTMLDivElement>(null);
 
   const changePage = (nextPage: number) => {
     setPage(nextPage);
     requestAnimationFrame(() => {
       const stickyHeader = document.querySelector("header");
       const headerOffset = (stickyHeader?.getBoundingClientRect().height ?? 0) + 16;
-      const top = (leaderboardRef.current?.getBoundingClientRect().top ?? 0) + window.scrollY - headerOffset;
+      const scrollTarget =
+        leaderboardHeaderRef.current?.querySelector("header p") ?? leaderboardRef.current;
+      const top = (scrollTarget?.getBoundingClientRect().top ?? 0) + window.scrollY - headerOffset;
       window.scrollTo({ top, behavior: "smooth" });
     });
   };
@@ -99,7 +102,9 @@ const Leaderboard = () => {
   return (
     <div className="paper-grain">
       <div className="container mx-auto px-4 py-12 md:py-16 max-w-4xl">
-        <PageHeader title={t("leaderboardTitle")} subtitle={t("leaderboardSubtitle")} />
+        <div ref={leaderboardHeaderRef}>
+          <PageHeader title={t("leaderboardTitle")} subtitle={t("leaderboardSubtitle")} />
+        </div>
 
         {loading ? (
           <div className="py-12 text-center text-muted-foreground">{t("loadingLeaderboard")}</div>

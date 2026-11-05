@@ -551,29 +551,46 @@ const RecycleScanner = () => {
             </div>
 
             {historyTotal > HISTORY_PAGE_SIZE && (
-              <div className="mt-4 flex items-center justify-between gap-3">
-                <Button
-                  variant="outline"
-                  size="sm"
-                  onClick={() => loadScanHistory(Math.max(1, historyPage - 1))}
-                  disabled={historyPage === 1}
-                >
-                  Previous
-                </Button>
+              <>
+                <div className="mt-4 flex items-center justify-between gap-3">
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    onClick={() => loadScanHistory(Math.max(1, historyPage - 1))}
+                    disabled={historyPage === 1}
+                  >
+                    Previous
+                  </Button>
 
-                <span className="text-sm text-muted-foreground">
-                  Page {historyPage} of {historyTotalPages}
-                </span>
+                  <span className="text-sm text-muted-foreground">
+                    Page {historyPage} of {historyTotalPages}
+                  </span>
 
-                <Button
-                  variant="outline"
-                  size="sm"
-                  onClick={() => loadScanHistory(Math.min(historyTotalPages, historyPage + 1))}
-                  disabled={historyPage === historyTotalPages}
-                >
-                  Next
-                </Button>
-              </div>
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    onClick={() => loadScanHistory(Math.min(historyTotalPages, historyPage + 1))}
+                    disabled={historyPage === historyTotalPages}
+                  >
+                    Next
+                  </Button>
+                </div>
+                <nav aria-label="Scan history pages" className="mt-3 flex flex-wrap items-center justify-center gap-2">
+                  {Array.from({ length: historyTotalPages }, (_, index) => index + 1).map((pageNumber) => (
+                    <Button
+                      key={pageNumber}
+                      type="button"
+                      size="sm"
+                      variant={pageNumber === historyPage ? "default" : "outline"}
+                      onClick={() => loadScanHistory(pageNumber)}
+                      aria-current={pageNumber === historyPage ? "page" : undefined}
+                      aria-label={`Go to scan history page ${pageNumber}`}
+                    >
+                      {pageNumber}
+                    </Button>
+                  ))}
+                </nav>
+              </>
             )}
           </Card>
         )}
