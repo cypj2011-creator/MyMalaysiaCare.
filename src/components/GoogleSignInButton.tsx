@@ -92,7 +92,11 @@ const GoogleSignInButton = ({ mode }: GoogleSignInButtonProps) => {
 
   if (!GOOGLE_CLIENT_ID || failed) return null;
 
-  return <div ref={buttonRef} className="flex justify-center w-full" />;
+  return (
+    <div className="flex justify-center w-full py-1">
+      <div ref={buttonRef} className="flex justify-center w-full" style={{ transform: "scale(1.06)", transformOrigin: "center" }} />
+    </div>
+  );
 };
 
 export default GoogleSignInButton;

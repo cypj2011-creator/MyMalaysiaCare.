@@ -239,7 +239,8 @@ const Auth = () => {
           <p className="text-center text-xs text-muted-foreground pt-2">
             No email needed. You can create a full account later.
           </p>
-          <p className="text-center text-xs text-muted-foreground pt-2">
+          <div className="border-t my-4" />
+          <p className="text-center text-xs text-muted-foreground">
             Protected And Secured By Supabase
           </p>
         </CardContent>
