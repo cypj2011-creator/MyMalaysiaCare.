@@ -143,10 +143,10 @@ const Auth = () => {
   };
 
   return (
-    <div className="min-h-screen flex items-start justify-center bg-gradient-to-br from-background via-background to-primary/5 px-4 py-6">
+    <div className="min-h-screen flex items-start justify-center bg-gradient-to-br from-background via-background to-primary/5 px-4 py-3 sm:py-4">
       <Card className="w-full max-w-md animate-scale-in">
-        <CardHeader className="text-center">
-          <div className="flex justify-center mb-4">
+        <CardHeader className="text-center pt-4 pb-4">
+          <div className="flex justify-center mb-3">
             <div className="bg-primary/10 p-3 rounded-full">
               <img src={`${import.meta.env.BASE_URL}logo.png`} alt="MyMalaysiaCare logo" className="w-8 h-8 object-cover rounded-full" />
             </div>
@@ -155,7 +155,9 @@ const Auth = () => {
           <CardDescription>{t("authSubtitle")}</CardDescription>
         </CardHeader>
         <CardContent>
-          <Tabs defaultValue="signin" className="w-full">
+          <GoogleSignInButton />
+
+          <Tabs defaultValue="signup" className="w-full">
             <TabsList className="grid w-full grid-cols-2">
               <TabsTrigger value="signin">{t("signIn")}</TabsTrigger>
               <TabsTrigger value="signup">{t("signUpButton")}</TabsTrigger>
@@ -225,8 +227,6 @@ const Auth = () => {
               </form>
             </TabsContent>
           </Tabs>
-
-          <GoogleSignInButton />
 
           <div className="relative my-6">
             <div className="absolute inset-0 flex items-center">
