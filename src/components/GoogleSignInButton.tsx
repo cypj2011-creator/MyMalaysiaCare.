@@ -7,6 +7,10 @@ import { useToast } from "@/hooks/use-toast";
 // If it is missing, the Google button is simply hidden.
 const GOOGLE_CLIENT_ID = import.meta.env.VITE_GOOGLE_CLIENT_ID as string | undefined;
 
+type GoogleSignInButtonProps = {
+  mode: "signin" | "signup";
+};
+
 declare global {
   interface Window {
     google?: any;
@@ -35,7 +39,7 @@ const loadGoogleScript = () =>
     }
   });
 
-const GoogleSignInButton = () => {
+const GoogleSignInButton = ({ mode }: GoogleSignInButtonProps) => {
   const buttonRef = useRef<HTMLDivElement>(null);
   const { toast } = useToast();
   const [failed, setFailed] = useState(false);
@@ -73,7 +77,7 @@ const GoogleSignInButton = () => {
           type: "standard",
           theme: "outline",
           size: "large",
-          text: "continue_with",
+          text: mode === "signup" ? "signup_with" : "signin_with",
           shape: "rectangular",
           // Google allows 200-400px. Use the full card width on phones, 400px on laptops.
           width: Math.min(400, Math.max(200, Math.floor(buttonRef.current.clientWidth || 300))),
@@ -84,24 +88,11 @@ const GoogleSignInButton = () => {
     return () => {
       cancelled = true;
     };
-  }, [toast]);
+  }, [mode, toast]);
 
   if (!GOOGLE_CLIENT_ID || failed) return null;
 
-  return (
-    <div className="mb-6">
-      <div ref={buttonRef} className="flex justify-center w-full" />
-
-      <div className="relative mt-6">
-        <div className="absolute inset-0 flex items-center">
-          <span className="w-full border-t" />
-        </div>
-        <div className="relative flex justify-center text-xs uppercase">
-          <span className="bg-card px-2 text-muted-foreground">or use email</span>
-        </div>
-      </div>
-    </div>
-  );
+  return <div ref={buttonRef} className="flex justify-center w-full" />;
 };
 
 export default GoogleSignInButton;
