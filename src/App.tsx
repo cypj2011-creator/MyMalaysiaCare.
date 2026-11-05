@@ -89,7 +89,16 @@ const App = () => (
         <ScrollToTop />
         <Header />
         <GuestUpgradeNotice />
-        <main className="pb-24">
+        <main
+          className="pb-24"
+          onClickCapture={(event) => {
+            const button = (event.target as HTMLElement).closest("button");
+            const label = button?.textContent?.trim();
+            if (label === "Previous" || label === "Next") {
+              window.scrollTo({ top: 0, behavior: "smooth" });
+            }
+          }}
+        >
           <Suspense fallback={<AppFallback />}>
             <Routes>
               <Route path="/" element={<Home />} />
