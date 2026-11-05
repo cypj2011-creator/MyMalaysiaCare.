@@ -79,7 +79,7 @@ const GoogleSignInButton = ({ mode }: GoogleSignInButtonProps) => {
           size: "large",
           text: mode === "signup" ? "signup_with" : "signin_with",
           shape: "rectangular",
-          // Google allows 200-400px. Use the full card width on phones, 400px on laptops.
+          // Match the width of the other form controls while keeping the button slightly taller.
           width: Math.min(400, Math.max(200, Math.floor(buttonRef.current.clientWidth || 300))),
         });
       })
@@ -93,8 +93,8 @@ const GoogleSignInButton = ({ mode }: GoogleSignInButtonProps) => {
   if (!GOOGLE_CLIENT_ID || failed) return null;
 
   return (
-    <div className="flex justify-center w-full py-1">
-      <div ref={buttonRef} className="flex justify-center w-full" style={{ transform: "scale(1.06)", transformOrigin: "center" }} />
+    <div className="w-full py-1">
+      <div ref={buttonRef} className="w-full [&>div]:!w-full" style={{ transform: "scaleY(1.06)", transformOrigin: "center" }} />
     </div>
   );
 };
