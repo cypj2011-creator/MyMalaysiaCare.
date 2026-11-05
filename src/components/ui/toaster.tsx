@@ -1,10 +1,27 @@
-import { useRef } from "react";
+import { useEffect, useRef } from "react";
 import { useToast } from "@/hooks/use-toast";
 import { Toast, ToastClose, ToastDescription, ToastProvider, ToastTitle, ToastViewport } from "@/components/ui/toast";
+
+const SWIPE_THRESHOLD = 50;
 
 export function Toaster() {
   const { toasts, dismiss } = useToast();
   const touchStart = useRef(new Map<string, { x: number; y: number }>());
+  const suppressClickUntil = useRef(0);
+
+  useEffect(() => {
+    const dismissToastsOnClick = () => {
+      if (Date.now() < suppressClickUntil.current) return;
+
+      document.querySelectorAll<HTMLElement>("[data-toast-notification='true']").forEach((toast) => {
+        toast.dataset.dismissDirection = "up";
+      });
+      dismiss();
+    };
+
+    document.addEventListener("click", dismissToastsOnClick, true);
+    return () => document.removeEventListener("click", dismissToastsOnClick, true);
+  }, [dismiss]);
 
   return (
     <ToastProvider>
@@ -13,6 +30,8 @@ export function Toaster() {
           <Toast
             key={id}
             {...props}
+            data-toast-notification="true"
+            data-dismiss-direction="up"
             onPointerDown={(event) => {
               if (event.pointerType === "touch") {
                 touchStart.current.set(id, { x: event.clientX, y: event.clientY });
@@ -27,11 +46,14 @@ export function Toaster() {
 
               const deltaX = event.clientX - start.x;
               const deltaY = event.clientY - start.y;
-              const swipeDistance = 50;
+              if (Math.max(Math.abs(deltaX), Math.abs(deltaY)) < SWIPE_THRESHOLD) return;
 
-              if (Math.max(Math.abs(deltaX), Math.abs(deltaY)) >= swipeDistance) {
-                dismiss(id);
-              }
+              const direction = Math.abs(deltaX) > Math.abs(deltaY)
+                ? deltaX < 0 ? "left" : "right"
+                : deltaY < 0 ? "up" : "down";
+              event.currentTarget.dataset.dismissDirection = direction;
+              suppressClickUntil.current = Date.now() + 500;
+              dismiss(id);
             }}
             onPointerCancel={() => touchStart.current.delete(id)}
           >
