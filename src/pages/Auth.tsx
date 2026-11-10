@@ -8,7 +8,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useToast } from "@/hooks/use-toast";
 import { useTranslation } from "@/hooks/useTranslation";
-import GoogleSignInButton from "@/components/GoogleSignInButton";
+import GoogleSignInButton, { OrDivider } from "@/components/GoogleSignInButton";
 import { Leaf, UserRound } from "lucide-react";
 
 const Auth = () => {
@@ -188,9 +188,7 @@ const Auth = () => {
                   {loading ? "Signing in..." : t("signInButton")}
                 </Button>
               </form>
-              <div className="mt-4">
-                <GoogleSignInButton mode="signin" />
-              </div>
+              <GoogleSignInButton mode="signin" />
             </TabsContent>
             <TabsContent value="signup">
               <form onSubmit={handleSignUp} className="space-y-4">
@@ -220,16 +218,16 @@ const Auth = () => {
                   {loading ? "Creating account..." : t("signUpButton")}
                 </Button>
               </form>
-              <div className="mt-4">
-                <GoogleSignInButton mode="signup" />
-              </div>
+              <GoogleSignInButton mode="signup" />
             </TabsContent>
           </Tabs>
+
+          <OrDivider />
 
           <Button
             type="button"
             variant="outline"
-            className="w-full mt-6"
+            className="w-full"
             disabled={loading}
             onClick={handleGuest}
           >
