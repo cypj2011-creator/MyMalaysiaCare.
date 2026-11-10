@@ -39,6 +39,18 @@ const loadGoogleScript = () =>
     }
   });
 
+// A thin line with "or" in the middle:  ------- or -------
+export const OrDivider = () => (
+  <div className="relative my-4">
+    <div className="absolute inset-0 flex items-center">
+      <span className="w-full border-t" />
+    </div>
+    <div className="relative flex justify-center text-xs">
+      <span className="bg-card px-2 text-muted-foreground">or</span>
+    </div>
+  </div>
+);
+
 const GoogleSignInButton = ({ mode }: GoogleSignInButtonProps) => {
   const buttonRef = useRef<HTMLDivElement>(null);
   const { toast } = useToast();
@@ -93,8 +105,11 @@ const GoogleSignInButton = ({ mode }: GoogleSignInButtonProps) => {
   if (!GOOGLE_CLIENT_ID || failed) return null;
 
   return (
-    <div className="w-full py-1">
-      <div ref={buttonRef} className="w-full [&>div]:!w-full" style={{ transform: "scaleY(1.06)", transformOrigin: "center" }} />
+    <div className="w-full">
+      <OrDivider />
+      <div className="w-full py-1">
+        <div ref={buttonRef} className="w-full [&>div]:!w-full" style={{ transform: "scaleY(1.06)", transformOrigin: "center" }} />
+      </div>
     </div>
   );
 };
