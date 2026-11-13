@@ -11,11 +11,10 @@ const ALLOWED_ORIGINS = [
   "http://localhost:8080",
   "http://localhost:5173",
 ];
-const LOVABLE_PREVIEW = /^https:\/\/[a-z0-9-]+\.(lovable\.app|lovableproject\.com)$/;
 
 function getCorsHeaders(req: Request) {
   const origin = req.headers.get("Origin") ?? "";
-  const allowed = ALLOWED_ORIGINS.includes(origin) || LOVABLE_PREVIEW.test(origin);
+  const allowed = ALLOWED_ORIGINS.includes(origin);
   return {
     "Access-Control-Allow-Origin": allowed ? origin : ALLOWED_ORIGINS[0],
     "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type",
